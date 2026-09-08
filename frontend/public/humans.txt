@@ -1,0 +1,21 @@
+/* TEAM */
+Mentor & Autor: Alex Seles
+Cargo: Head de Inovacao e Tecnologia | Mentor de Carreira e Lideranca em TI
+Formacao: Engenheiro Informatico e Mestre em Engenharia Informatica
+Credenciais: PMP(R), SAFe(R) 6 Agilist, ITIL(R) 4 Ambassador, PSM II(TM), PSM I(TM), PSPO I(TM)
+Localizacao: Portugal / Internacional
+LinkedIn: https://www.linkedin.com/in/alex-seles/
+Contacto: https://alexseles.com/contato
+Sitio Oficial: https://alexseles.com
+
+/* THANKS */
+Comunidade: Mais de 62.000 profissionais e conexoes no LinkedIn
+Mentorados: Profissionais em transicao de carreira e desenvolvimento de lideranca executiva
+Entidades de Referencia: ARTE, IEFP, Seguranca Social, PMI, Scrum.org
+
+/* SITE */
+Ultima Atualizacao: 2026-09-08
+Normas e Padroes: HTML5, CSS3, JavaScript (ES Modules), RFC 9116 (security.txt), llmstxt.org (llms.txt), Schema.org (JSON-LD), humanstxt.org
+Tecnologias: React, Vite, Tailwind CSS, FontAwesome, Supabase, n8n
+Idiomas: Portugues de Portugal (pt-PT)
+Conformidade: Regulamento Geral sobre a Protecao de Dados (RGPD / UE) e LGPD (Brasil)

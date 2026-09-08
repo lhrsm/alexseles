@@ -84,3 +84,11 @@ Sitemap: https://alexseles.com/sitemap.xml
 # Formato padrão: https://llmstxt.org/
 # https://alexseles.com/llms.txt
 # https://alexseles.com/llms-full.txt
+
+# Política de Segurança e Divulgação de Vulnerabilidades (RFC 9116)
+# https://alexseles.com/.well-known/security.txt
+# https://alexseles.com/security.txt
+
+# Informações de Autoria e Tecnologias (humanstxt.org)
+# https://alexseles.com/humans.txt
+# https://alexseles.com/human.txt
