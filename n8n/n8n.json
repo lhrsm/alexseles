@@ -1,0 +1,422 @@
+{
+  "name": "Alex Seles • Ecossistema Completo de Mentoria (IA, Agenda, Sheets, Trello & Boas-Vindas)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agendar-google-calendar",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "4dbe0794-5549-4d1f-9a64-106f071536c2",
+      "name": "Webhook Site (Mafalda)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1024,
+        -96
+      ],
+      "webhookId": "agendar-google-calendar"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"status\": \"agendado\",\n  \"mensagem\": \"Sessão agendada com sucesso!\"\n}",
+        "options": {}
+      },
+      "id": "0412050e-62dd-49ea-a813-a49d33917f62",
+      "name": "Responder Confirmação ao Chat",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -544,
+        -304
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Analisa os dados deste candidato a mentoria de carreira em TI para a sessão diagnóstica com Alex Seles:\nNome: {{ $('Webhook Site (Mafalda)').item.json.body.nome }}\nObjetivo: {{ $('Webhook Site (Mafalda)').item.json.body.objetivo }}\nDesafio / Dor: {{ $('Webhook Site (Mafalda)').item.json.body.desafio }}\nTelemóvel: {{ $('Webhook Site (Mafalda)').item.json.body.telefone }}\n\nGera um Dossiê Executivo conciso em Português de Portugal com:\n1. Classificação do Perfil (Júnior, Pleno, Sénior, Transição ou Liderança)\n2. Diagnóstico da Dor Central\n3. 3 Perguntas Estratégicas para o Alex Seles fazer na videochamada\n4. Trilha de Mentoria Recomendada (PMP, Scrum, SAFe, ITIL ou Transição)"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        -656,
+        80
+      ],
+      "id": "747d5791-14fe-424c-826a-79092a949b0c",
+      "name": "IA: Gerar Dossiê Executivo do Candidato",
+      "credentials": {
+        "openAiApi": {
+          "id": "8fQakoH3Xy9IeFSL",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "listId": "6a9d90b02395ca86e00d5eb7",
+        "name": "={{ $json.cardTitle }}",
+        "description": "={{ $json.cardDescription }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.trello",
+      "typeVersion": 1,
+      "position": [
+        544,
+        288
+      ],
+      "id": "57561482-0a7b-4c33-8597-44d08ee42fe3",
+      "name": "Create a card",
+      "credentials": {
+        "trelloApi": {
+          "id": "cioA7IN3DMSyqeVa",
+          "name": "Trello account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Obtém os dados do Webhook com o nome exato do nó (sem o 1)\nconst webhookNode = $('Webhook Site (Mafalda)');\nconst webhookData = (webhookNode.first() && webhookNode.first().json.body) \n  ? webhookNode.first().json.body \n  : (webhookNode.item && webhookNode.item.json.body) \n  ? webhookNode.item.json.body \n  : {};\n// 2. Extrai o Dossiê Executivo da IA (formato LangChain OpenAI v2.1)\nconst aiItem = $input.item.json;\nconst aiOutput = \n  aiItem.output?.[0]?.content?.[0]?.text ||\n  aiItem.message?.content ||\n  aiItem.text ||\n  'Dossiê gerado com sucesso.';\n// 3. Normalização de dados (com blindagem para o Google Sheets não dar #ERROR!)\nconst nome = webhookData.nome || 'Candidato';\nconst email = webhookData.email || 'alexseles40@gmail.com';\nlet rawTelefone = webhookData.telefone || 'Não informado';\n// Se começar com '+', adiciona apóstrofo para o Google Sheets tratar como texto e não dar #ERROR!\nconst telefone = (typeof rawTelefone === 'string' && rawTelefone.startsWith('+'))\n  ? \"'\" + rawTelefone\n  : rawTelefone;\nconst cidade = webhookData.cidade || 'Não informado';\nconst tipoSolicitacao = webhookData.tipoSolicitacao || 'Sessão Diagnóstica';\nconst modulo = webhookData.modulo || 'Sessão Diagnóstica Geral (30 min)';\nconst investimento = webhookData.investimento || (tipoSolicitacao === 'Contratação de Módulo' ? 'Sob Consulta' : 'Sessão Inicial');\nconst horas = webhookData.horas || '30 Minutos';\nconst objetivo = webhookData.objetivo || (tipoSolicitacao === 'Contratação de Módulo' ? `Contratação: ${modulo}` : 'Mentoria Executiva em TI');\nconst desafio = webhookData.desafio || 'Não informado';\nconst slotAgendamento = webhookData.slotAgendamento || (tipoSolicitacao === 'Contratação de Módulo' ? 'A combinar após alinhamento' : 'Sessão Diagnóstica');\nconst canal = webhookData.canal || 'Formulário do Site';\nconst startISO = webhookData.startISO || new Date().toISOString();\nconst endISO = webhookData.endISO || new Date(Date.now() + 30 * 60 * 1000).toISOString();\nconst isModulo = tipoSolicitacao === 'Contratação de Módulo';\nconst calendarSummary = isModulo ? `[CONTRATAÇÃO: ${investimento}] ${nome} • ${modulo}` : `Sessão Diagnóstica: ${nome} com Alex Seles`;\nconst calendarDescription = [\n  `SOLICITAÇÃO: ${tipoSolicitacao.toUpperCase()}`,\n  `MÓDULO / PROGRAMA: ${modulo}`,\n  `INVESTIMENTO: ${investimento}`,\n  `CARGA HORÁRIA: ${horas}`,\n  `CANAL: ${canal}`,\n  `------------------------------------------------------------`,\n  `CANDIDATO: ${nome}`,\n  `CIDADE / PAÍS: ${cidade}`,\n  `OBJETIVO: ${objetivo}`,\n  `MAIOR DESAFIO: ${desafio}`,\n  `TELEMOVEL: ${rawTelefone}`,\n  `E-MAIL: ${email}`,\n  `HORÁRIO / AGENDA: ${slotAgendamento}`,\n  `LOCAL: Google Meet`,\n  ``,\n  `--- DOSSIÊ ESTRATÉGICO GERADO PELA IA (GPT-4o-mini) ---`,\n  aiOutput,\n  ``,\n  `------------------------------------------------------------`,\n  `MENTOR: Alex Seles | alexseles40@gmail.com | +351 912 405 814`\n].join('\\n');\nreturn [{\n  json: {\n    nome,\n    email,\n    telefone,\n    cidade,\n    tipoSolicitacao,\n    modulo,\n    investimento,\n    horas,\n    objetivo,\n    desafio,\n    slotAgendamento,\n    canal,\n    startISO,\n    endISO,\n    aiDossie: aiOutput,\n    calendarSummary,\n    calendarDescription,\n    dataRegisto: new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' })\n  }\n}];"
+      },
+      "id": "5be8553c-ba91-42f6-9579-aa0c1b635438",
+      "name": "Formatar Dados & Dossiê1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "primary",
+          "mode": "list"
+        },
+        "start": "={{ $json.startISO }}",
+        "end": "={{ $json.endISO }}",
+        "additionalFields": {
+          "attendees": "={{ [$json.email, 'alexseles40@gmail.com'] }}",
+          "description": "={{ $json.calendarDescription }}",
+          "location": "Google Meet",
+          "sendUpdates": "all",
+          "summary": "={{ $json.calendarSummary }}"
+        }
+      },
+      "id": "d71a94a7-78df-462a-8c56-eee06710874a",
+      "name": "Google Calendar (Criar Evento & Meet)1",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.2,
+      "position": [
+        16,
+        -16
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m6pv9QRmSAtFaokx",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1w-7VV2jfc-I24JV8KEcPyzAGdUkcIWL0GrsWlOENxQs"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w-7VV2jfc-I24JV8KEcPyzAGdUkcIWL0GrsWlOENxQs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "nome": "=={{ $json.nome }}",
+            "email": "=={{ $json.email }}",
+            "telefone": "=={{ $json.telefone }}",
+            "objetivo": "=={{ $json.objetivo }}",
+            "desafio": "=={{ $json.desafio }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "objetivo",
+              "displayName": "objetivo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "desafio",
+              "displayName": "desafio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "slotAgendamento",
+              "displayName": "slotAgendamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "startISO",
+              "displayName": "startISO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "endISO",
+              "displayName": "endISO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "aiDossie",
+              "displayName": "aiDossie",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "calendarSummary",
+              "displayName": "calendarSummary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "calendarDescription",
+              "displayName": "calendarDescription",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "dataRegisto",
+              "displayName": "dataRegisto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "9cf786c7-3ab9-45b5-b1e5-ec26f666e356",
+      "name": "Google Sheets (Gravar Lead & Dossiê)1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        16,
+        288
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Pfxd369G3ze0eD1e",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let lead;\ntry {\n  lead = $('Formatar Dados & Dossiê1').item.json;\n} catch (e) {\n  lead = $input.item.json;\n}\n\nconst isModulo = (lead.tipoSolicitacao || lead['Tipo Solicitação']) === 'Contratação de Módulo';\nconst nome = lead.nome || lead.Nome || 'Candidato';\nconst modulo = lead.modulo || lead['Módulo / Programa'] || 'Sessão Diagnóstica';\nconst investimento = lead.investimento || lead.Investimento || (isModulo ? 'Sob Consulta' : 'Sem Custo Direto');\nconst horas = lead.horas || lead['Carga Horária'] || '30 Minutos';\nconst objetivo = lead.objetivo || lead.Objetivo || (isModulo ? `Contratação: ${modulo}` : 'Mentoria Executiva em TI');\nconst desafio = lead.desafio || lead.Desafio || 'Não informado';\nconst telefone = lead.telefone || lead.Telemóvel || 'Não informado';\nconst email = lead.email || lead['E-mail'] || 'alexseles40@gmail.com';\nconst cidade = lead.cidade || lead.Cidade || 'Não informado';\nconst slotAgendamento = lead.slotAgendamento || lead['Reunião Agendada'] || 'A combinar';\nconst canal = lead.canal || lead.Canal || 'Formulário do Site';\nconst dataRegisto = lead.dataRegisto || lead.Data || new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' });\nconst aiDossie = lead.aiDossie || lead.Notas || 'Dossiê processado.';\n\nconst cardTitle = isModulo ? `[${investimento}] ${nome} • ${modulo}` : `[Sessão Diagnóstica] ${nome} • ${objetivo}`;\n\nconst cardDescription = [\n  `TIPO DE SOLICITAÇÃO: ${isModulo ? 'CONTRATAÇÃO DE MÓDULO' : 'SESSÃO DIAGNÓSTICA'}`,\n  `MÓDULO / PROGRAMA: ${modulo}`,\n  `INVESTIMENTO PREVISTO: ${investimento}`,\n  `CARGA HORÁRIA: ${horas}`,\n  `CANAL DE ENTRADA: ${canal}`,\n  `--------------------------------------------------`,\n  `DADOS DO MENTORADO:`,\n  `Nome: ${nome}`,\n  `Telemóvel: ${telefone}`,\n  `E-mail: ${email}`,\n  `Cidade / País: ${cidade}`,\n  `Horário / Sessão: ${slotAgendamento}`,\n  `Data de Registo: ${dataRegisto}`,\n  ``,\n  `OBJETIVO REGISTADO:`,\n  objetivo,\n  ``,\n  `SITUAÇÃO / DESAFIO APRESENTADO:`,\n  desafio,\n  ``,\n  `--- DOSSIÊ ESTRATÉGICO GERADO PELA IA ---`,\n  aiDossie,\n  ``,\n  `--- CHECKLIST DO PLANO DE AÇÃO ---`,\n  isModulo ? `[ ] Enviar proposta executiva e contrato do módulo (${investimento})` : `[ ] Realizar Sessão Diagnóstica de 30 min`,\n  `[ ] Validar disponibilidade de agenda e calendário de encontros`,\n  `[ ] Alinhar metas de carreira 3/6/12 meses`,\n  `[ ] Revisão profunda de Perfil LinkedIn ATS e Currículo`,\n  `[ ] Roteiro prático e exercícios do módulo (${modulo})`,\n  `[ ] Simulação de entrevistas executivas e negociação salarial`\n].join('\\n');\n\nreturn [{\n  json: {\n    cardTitle,\n    cardDescription,\n    lead\n  }\n}];"
+      },
+      "id": "65191cca-a8a8-4236-8a0b-abf36af54ede",
+      "name": "Trello: Estruturar Plano de Ação1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "alexseles40@gmail.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.tipoSolicitacao === 'Contratação de Módulo' ? 'Confirmação de Registo: ' + $json.modulo + ' | Alex Seles' : 'Confirmação: Sua Sessão Diagnóstica com Alex Seles (' + $json.slotAgendamento + ')' }}",
+        "html": "=<div style=\"font-family: Arial, sans-serif; color: #163758; max-width: 600px; margin: 0 auto; line-height: 1.6; border: 1px solid #DCE4EC; border-radius: 8px; padding: 24px;\">\n  <div style=\"border-bottom: 2px solid #163758; padding-bottom: 12px; margin-bottom: 20px;\">\n    <h2 style=\"color: #163758; margin: 0; font-size: 20px;\">ALEX SELES • MENTORIA EXECUTIVA EM TI</h2>\n    <p style=\"color: #536773; margin: 4px 0 0 0; font-size: 13px;\">Confirmação de Solicitação & Próximos Passos</p>\n  </div>\n\n  <p>Olá, <strong>{{ $json.nome }}</strong>,</p>\n\n  <p>O seu pedido relativo a <strong>{{ $json.modulo }}</strong> foi registado com sucesso no meu sistema de atendimento.</p>\n\n  <div style=\"background-color: #F8FAFC; border-left: 4px solid #163758; padding: 14px; margin: 18px 0; border-radius: 4px;\">\n    <p style=\"margin: 0 0 6px 0;\"><strong>Programa / Módulo:</strong> {{ $json.modulo }}</p>\n    <p style=\"margin: 0 0 6px 0;\"><strong>Carga Horária:</strong> {{ $json.horas }}</p>\n    <p style=\"margin: 0 0 6px 0;\"><strong>Investimento Previsto:</strong> {{ $json.investimento }}</p>\n    <p style=\"margin: 0 0 6px 0;\"><strong>Horário / Status:</strong> {{ $json.slotAgendamento }}</p>\n    <p style=\"margin: 0;\"><strong>Canal:</strong> {{ $json.canal }}</p>\n  </div>\n\n  <h3 style=\"color: #163758; font-size: 15px; margin-top: 24px;\">Próximos Passos:</h3>\n  <ul style=\"padding-left: 20px; color: #334155; font-size: 14px;\">\n    <li style=\"margin-bottom: 8px;\"><strong>Contacto Direto:</strong> Entrarei em contacto pelo seu WhatsApp / Telefone ou E-mail para alinhar os detalhes da agenda.</li>\n    <li style=\"margin-bottom: 8px;\"><strong>Preparação:</strong> Tenha em mãos as suas dúvidas centrais e o seu currículo / perfil no LinkedIn.</li>\n  </ul>\n\n  <p style=\"font-size: 14px; color: #536773; margin-top: 24px;\">\n    Para antecipar boas práticas, consulte os artigos práticos na <a href=\"https://alexseles.com/central-de-conhecimento\" style=\"color: #163758; font-weight: bold;\">Central de Conhecimento Oficial</a>.\n  </p>\n\n  <p style=\"margin-top: 28px; font-size: 14px;\">\n    Com os melhores cumprimentos,<br>\n    <strong>Alex Seles</strong><br>\n    <span style=\"color: #536773; font-size: 12px;\">Mentor de Carreira e Liderança em TI | PMP®, SAFe®, ITIL®, PSM II™</span><br>\n    <span style=\"color: #536773; font-size: 12px;\">+351 912 405 814 | alexseles40@gmail.com</span>\n  </p>\n</div>",
+        "options": {}
+      },
+      "id": "c8c6ed16-1ca4-48d0-8030-f91d2adb153f",
+      "name": "E-mail: Boas-Vindas & Preparação Pré-Call",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        -16
+      ],
+      "webhookId": "2462a123-322f-41bc-8774-8af6a65af2d1",
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Site (Mafalda)": {
+      "main": [
+        [
+          {
+            "node": "Responder Confirmação ao Chat",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IA: Gerar Dossiê Executivo do Candidato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IA: Gerar Dossiê Executivo do Candidato": {
+      "main": [
+        [
+          {
+            "node": "Formatar Dados & Dossiê1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatar Dados & Dossiê1": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar (Criar Evento & Meet)1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets (Gravar Lead & Dossiê)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar (Criar Evento & Meet)1": {
+      "main": [
+        [
+          {
+            "node": "E-mail: Boas-Vindas & Preparação Pré-Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets (Gravar Lead & Dossiê)1": {
+      "main": [
+        [
+          {
+            "node": "Trello: Estruturar Plano de Ação1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trello: Estruturar Plano de Ação1": {
+      "main": [
+        [
+          {
+            "node": "Create a card",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a card": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "5a8b960b-79a0-4906-99ce-f205f96217d5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e956a5cc0f9589c2bcb603b00cc326bbcc6c83d86c26ce56d21f6dc5c2cbcfdf"
+  },
+  "id": "lkF8T2I0p7KFq0zz",
+  "tags": []
+}

@@ -1,0 +1,65 @@
+# Alex Seles • Mentoria de Carreira & Tecnologia em TI
+
+> Mentoria individual executiva e estratégica de transição de carreira e aceleração profissional para Tecnologia da Informação (TI) com Alex Seles.
+> Engenheiro Informático e Mestre em Engenharia Informática, Head de Inovação & Tecnologia, Embaixador ITIL® 4, PMP®, SAFe® 6 Agilist, PSM II™, PSMI™, PSPOI™.
+> Mais de 20 anos de experiência prática e liderança internacional em software nos setores automóvel, telecomunicações, banca e setor público (ARTE, IEFP, Segurança Social).
+> Rede profissional com mais de 62.000 conexões no LinkedIn, com forte atuação no apoio à empregabilidade e transição segura para TI.
+> Atendimento e mentoria individual 100% online para profissionais em Portugal, no Brasil e internacionalmente.
+
+## Visão Geral do Programa de Mentoria (22 Horas + Bónus)
+
+A mentoria de Alex Seles é um programa executivo individual, estruturado em três fases progressivas, totalizando 22 horas práticas com acompanhamento direto, além de simuladores práticos para certificações internacionais:
+
+1. **Fase 01: Transição Estratégica & Fundamentos Técnicos (8 Horas)**
+   - Módulo 01 (1h): Power Skills: A Tua História Importa — Diagnóstico de perfil, competências transferíveis e valorização da experiência prévia.
+   - Módulo 02 (2h): Fundamentos de Inteligência Artificial (IA) na Gestão de Projetos — IA generativa aplicada ao planeamento, estimativas, requisitos e produtividade executiva.
+   - Módulo 03 (5h): Fundamentos de Programação e Engenharia de Software — UX/UI Design, requisitos técnicos, frontend, backend, bases de dados e controlo de qualidade (QA/Testes).
+
+2. **Fase 02: Governação, Produto & Métodos de Entrega (10 Horas)**
+   - Módulo 04 (3h): Segurança da Informação, Engenharia Social, DPO & RGPD/LGPD — Cibersegurança defensiva, papel do DPO e conformidade legal e regulatória.
+   - Módulo 05 (2h): Design Thinking Aplicado ao Software — Ideação colaborativa, foco no utilizador e resolução ágil de problemas complexos.
+   - Módulo 06 (2h): Metodologias Preditivas (Waterfall) — Escopo/âmbito (WBS/EAP), cronogramas, custos, riscos e entregas corporativas formais.
+   - Módulo 07 (3h): Metodologias Ágeis (Scrum & Kanban) — Cerimónias, papéis ágeis (Scrum Master, Product Owner), fluxo contínuo e liderança adaptativa.
+
+3. **Fase 03: Posicionamento no Mercado — Seja Encontrado por Recrutadores (4 Horas)**
+   - Módulo 08 (2h): Criação de Currículo Otimizado para ATS — Palavras-chave táticas e formatação aprovada por triagens automatizadas por IA.
+   - Módulo 09 (2h): LinkedIn Estratégico & 1ª Oportunidade em Gestão — Posicionamento de marca pessoal, atração passiva de recrutadores e networking executivo.
+
+4. **Etapa de Conclusão / Bónus Internacional**
+   - Simulado exclusivo e comentado para Certificação Internacional Scrum Master (PSM I) e Product Owner (PSPO I) da Scrum.org.
+
+## Perfil do Mentor: Alex Seles
+
+- **Titulação:** Engenheiro Informático e Mestre em Engenharia Informática.
+- **Cargo Atual:** Head de Inovação e Tecnologia.
+- **Experiência:** Mais de 20 anos a liderar projetos de alta complexidade em equipas multifuncionais.
+- **Certificações Oficiais:** PMP® (Project Management Professional), SAFe® 6 Agilist, ITIL® 4 Ambassador, PSM II™ / PSM I™ (Professional Scrum Master), PSPO I™ (Professional Scrum Product Owner).
+- **Entidades de Referência em Portugal:** ARTE (Agência para a Reforma Tecnológica do Estado), IEFP (Instituto do Emprego e Formação Profissional) e Segurança Social.
+- **LinkedIn Oficial:** https://www.linkedin.com/in/alex-seles/ (+62.000 seguidores).
+
+## Matriz de Transição por Área Profissional
+
+- **Advogados & Juristas:** Transição para DPO (Data Protection Officer), Compliance em TI, Governação de Dados ou Tech Law.
+- **Administradores & Gestores:** Transição para Product Owner (PO), Scrum Master, IT Project Manager ou Product Manager.
+- **Professores & Educadores:** Transição para Tech Trainer, Especialista em Metodologias Ágeis, Instructional Designer ou Gestão de Conhecimento em TI.
+- **Contabilistas & Financeiros:** Transição para Especialista em ERP, Analista de Dados Financeiros (BI), FinOps ou IT Financial Controller.
+- **Psicólogos & RH:** Transição para People Analytics, Scrum Master, Agile Coach ou Gestão de Mudança Organizacional (Change Management).
+- **Matemáticos & Estatísticos:** Transição para Engenheiro de Dados, Especialista em Inteligência Artificial / Machine Learning ou Data Scientist.
+- **Engenheiros de Outras Áreas:** Transição para Engenheiro de Software, Tech Lead, Arquiteto de Soluções ou Diretor de Tecnologia.
+
+## Páginas Oficiais e URLs
+
+- [Início](https://alexseles.com/): Apresentação do programa de mentoria, autoridade profissional e agendamento de diagnóstico.
+- [Transição de Carreira para TI](https://alexseles.com/transicao-de-carreira): Guia estratégico com caminhos específicos de transição conforme a área de origem.
+- [Fase 01: Transição Estratégica & Fundamentos Técnicos](https://alexseles.com/transicao-estrategica-fundamentos-tecnicos): Detalhes dos Módulos 1, 2 e 3 (Power Skills, IA na Gestão e Engenharia de Software).
+- [Fase 02: Governação, Produto & Métodos de Entrega](https://alexseles.com/governanca-produto-metodos-entrega): Detalhes dos Módulos 4, 5, 6 e 7 (Segurança/DPO, Design Thinking, Waterfall e Scrum/Kanban).
+- [Fase 03: Posicionamento no Mercado & ATS](https://alexseles.com/linkedin-marca-pessoal-ats): Otimização de perfil no LinkedIn e criação de currículos calibrados para sistemas ATS.
+- [Central de Conhecimento](https://alexseles.com/central-de-conhecimento): Artigos técnicos, reflexões de carreira e orientações estratégicas.
+- [Contacto & Agendamento](https://alexseles.com/contato): Formulário de diagnóstico de carreira e ligação direta via WhatsApp (+55 11 95287-0828).
+- [Política de Privacidade](https://alexseles.com/politica-de-privacidade): Termos de proteção de dados segundo o RGPD (UE) e LGPD (Brasil).
+- [Termos de Utilização](https://alexseles.com/termos-de-uso): Regras e condições de utilização da plataforma e mentoria.
+
+## Artigos Oficiais na Central de Conhecimento
+
+- [Descubra o Sentido da Vida e Potencialize sua Carreira em TI](https://alexseles.com/central-de-conhecimento/descubra-o-sentido-da-vida-e-potencialize-sua-carreira-em-ti): Análise da perspetiva de Viktor Frankl aplicada à tecnologia, alertando para os riscos do apego ao cargo e enfatizando a importância do equilíbrio, certificações e crescimento contínuo.
+- [Superando Desafios no Caminho para uma Carreira em TI](https://alexseles.com/central-de-conhecimento/superando-desafios-no-caminho-para-uma-carreira-em-ti): Estratégias práticas para superar a falta de experiência prévia, o medo de recomeçar do zero e a barreira do inglês na busca por vagas internacionais e cargos de gestão.

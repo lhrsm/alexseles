@@ -1,0 +1,160 @@
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: #FFFFFF;
+    color: #163758;
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Antonio', 'Arial Narrow', sans-serif;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+}
+
+/* Sober Tech Design System Utilities - Inspired by Google & Windows */
+.eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1557B0; /* High-Contrast Accessible Sober Tech Blue (WCAG AA 6.9:1) */
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.eyebrow-dark {
+  color: #60A5FA; /* Sober Light Blue on dark background */
+}
+
+.section-title {
+  font-family: 'Antonio', 'Arial Narrow', sans-serif;
+  font-size: 2.5rem;
+  line-height: 1.15;
+  font-weight: 700;
+  color: #163758;
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 3.25rem;
+  }
+}
+
+.section-title-dark {
+  color: #FFFFFF;
+}
+
+/* Site Buttons - Sober Tech Blue */
+.btn-copper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #1A73E8; /* Sober Tech Blue */
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 14px -2px rgba(26, 115, 232, 0.3);
+}
+
+.btn-copper:hover {
+  background-color: #1557B0;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -2px rgba(26, 115, 232, 0.4);
+}
+
+.btn-navy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #163758;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-navy:hover {
+  background-color: #0E1620;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #CCD4DA;
+  color: #163758;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-outline:hover {
+  background-color: #F8FAFC;
+  border-color: #1A73E8;
+  color: #1A73E8;
+}
+
+/* Interactive Card in Sober Tech Style */
+.content-card {
+  background: #FFFFFF;
+  border: 1px solid #CCD4DA;
+  border-radius: 8px;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content-card:hover {
+  border-color: #1A73E8;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -10px rgba(26, 115, 232, 0.12);
+}
+
+/* Step Item */
+.step-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+.step-number {
+  font-family: 'Antonio', 'Arial Narrow', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #60A5FA; /* Sober Tech Blue */
+  line-height: 1;
+}
+
+/* Accessibility focus */
+:focus-visible {
+  outline: 3px solid #1A73E8;
+  outline-offset: 2px;
+}

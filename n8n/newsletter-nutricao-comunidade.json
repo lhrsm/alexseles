@@ -1,0 +1,147 @@
+{
+  "name": "Alex Seles • Nutrição de Comunidade & Newsletter Semanal",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtHour": 9,
+              "triggerAtMinute": 0,
+              "triggerAtDay": 1
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-weekly",
+      "name": "Disparo Semanal (Segundas 09:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -600,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://olpxtxcreseibkiwvlnc.supabase.co/rest/v1/artigos?select=*&order=created_at.desc&limit=1",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "sb_publishable_jG-WP0m35Db9WvRzuCsCBQ_uTJ6oAE9"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer sb_publishable_jG-WP0m35Db9WvRzuCsCBQ_uTJ6oAE9"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-get-latest-article",
+      "name": "Obter Artigo Recente da Central de Conhecimento",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -360,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "complete",
+        "model": "gpt-4o-mini",
+        "prompt": {
+          "messages": [
+            {
+              "role": "system",
+              "content": "Tu és o Ghostwriter e Estrategista Executivo de Alex Seles (Top 7 Favikon em Inovação e Tecnologia, Mentor de Carreira em TI). Transforma o artigo técnico numa 'Pílula Executiva de Carreira' em Português de Portugal culto, engajadora, concisa e de alto valor prático para profissionais de TI."
+            },
+            {
+              "role": "user",
+              "content": "=Título do Artigo: {{ $json.titulo || $json.title }}\nResumo: {{ $json.descricao_meta || $json.metaDescription || $json.conteudo }}\n\nGera uma newsletter curta (máximo 3 parágrafos) com:\n1. O 'Insight da Semana' para líderes e profissionais em TI;\n2. 1 Ação Prática para aplicar na carreira ainda hoje;\n3. Convite para ler a análise completa na Central de Conhecimento em https://alexseles.com/central-de-conhecimento."
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "id": "node-ai-newsletter",
+      "name": "IA: Redigir Pílula Executiva Semanal",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        -120,
+        200
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "8fQakoH3Xy9IeFSL",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "alexseles40@gmail.com",
+        "toEmail": "alexseles40@gmail.com",
+        "subject": "=Pílula de Liderança & Carreira em TI • Alex Seles",
+        "emailFormat": "html",
+        "html": "=<div style=\"font-family: Arial, sans-serif; color: #163758; max-width: 600px; margin: 0 auto; line-height: 1.6; border: 1px solid #DCE4EC; border-radius: 8px; padding: 24px;\">\n  <div style=\"border-bottom: 2px solid #163758; padding-bottom: 12px; margin-bottom: 20px;\">\n    <h2 style=\"color: #163758; margin: 0; font-size: 20px;\">ALEX SELES • COMUNIDADE & MENTORIA EM TI</h2>\n    <p style=\"color: #536773; margin: 4px 0 0 0; font-size: 13px;\">Pílula Executiva Semanal de Liderança e Carreira</p>\n  </div>\n\n  <div style=\"color: #334155; font-size: 14px;\">\n    {{ $input.item.json.message?.content || $input.item.json.text }}\n  </div>\n\n  <hr style=\"border: none; border-top: 1px solid #E2E8F0; margin: 24px 0;\">\n  \n  <p style=\"font-size: 12px; color: #64748B;\">\n    Enviado pela Comunidade Oficial de Mentoria de Alex Seles.<br>\n    Central de Conhecimento: <a href=\"https://alexseles.com/central-de-conhecimento\" style=\"color: #163758;\">alexseles.com/central-de-conhecimento</a>\n  </p>\n</div>",
+        "options": {}
+      },
+      "id": "node-send-newsletter-preview",
+      "name": "Enviar Newsletter (Revisão / Mentorados)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        120,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "Disparo Semanal (Segundas 09:00)": {
+      "main": [
+        [
+          {
+            "node": "Obter Artigo Recente da Central de Conhecimento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter Artigo Recente da Central de Conhecimento": {
+      "main": [
+        [
+          {
+            "node": "IA: Redigir Pílula Executiva Semanal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IA: Redigir Pílula Executiva Semanal": {
+      "main": [
+        [
+          {
+            "node": "Enviar Newsletter (Revisão / Mentorados)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

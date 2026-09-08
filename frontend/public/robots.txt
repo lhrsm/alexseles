@@ -1,0 +1,86 @@
+User-agent: *
+Allow: /
+Allow: /transicao-de-carreira
+Allow: /transicao-estrategica-fundamentos-tecnicos
+Allow: /governanca-produto-metodos-entrega
+Allow: /linkedin-marca-pessoal-ats
+Allow: /central-de-conhecimento
+Allow: /central-de-conhecimento/
+Allow: /contato
+Allow: /politica-de-privacidade
+Allow: /termos-de-uso
+Allow: /assets/
+Disallow: /backoffice
+Disallow: /admin
+Disallow: /login
+Disallow: /dashboard
+
+# Motores de Pesquisa Oficiais
+User-agent: Googlebot
+Allow: /
+Disallow: /backoffice
+Disallow: /admin
+Disallow: /login
+Disallow: /dashboard
+
+User-agent: Googlebot-Image
+Allow: /assets/
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Disallow: /backoffice
+Disallow: /admin
+Disallow: /login
+Disallow: /dashboard
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Rastreadores de IA Generativa & Motores de Resposta (GEO / AIO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+# Sitemap Oficial do Site
+Sitemap: https://alexseles.com/sitemap.xml
+
+# Arquivos de Padronização para Grandes Modelos de Linguagem (LLMs)
+# Formato padrão: https://llmstxt.org/
+# https://alexseles.com/llms.txt
+# https://alexseles.com/llms-full.txt

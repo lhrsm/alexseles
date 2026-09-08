@@ -1,0 +1,145 @@
+# Alex Seles • Mentoria de Carreira & Tecnologia em TI — Documentação e Base de Conhecimento Completa
+
+> Sítio Oficial: https://alexseles.com
+> Mentor: Alex Seles (Engenheiro Informático e Mestre em Engenharia Informática)
+> Atuação: Head de Inovação & Tecnologia | Mentor de Carreira TI | Liderança Executiva em Tecnologia
+> Conformidade Regulatória: Regulamento Geral sobre a Proteção de Dados (RGPD - Portugal / UE) & Lei Geral de Proteção de Dados (LGPD - Brasil)
+> Comunidade: Mais de 62.000 seguidores no LinkedIn (https://www.linkedin.com/in/alex-seles/)
+> Modalidade: 100% Online com sessões individuais em direto para Portugal, Brasil e profissionais no exterior.
+
+---
+
+## 1. Perfil Executivo, Autoridade e Trajetória de Alex Seles
+
+Alex Seles é Engenheiro Informático e Mestre em Engenharia Informática, atuando como Head de Inovação e Tecnologia. Com uma carreira internacional de mais de duas décadas, liderou equipas multifuncionais de alto rendimento no desenvolvimento e entrega de soluções digitais complexas. A sua experiência estende-se por setores críticos e exigentes, incluindo:
+- **Setor Automóvel:** Engenharia de software embarcado, automação e inovação tecnológica.
+- **Telecomunicações:** Redes de alta disponibilidade, escalabilidade e arquiteturas distribuídas.
+- **Banca & Serviços Financeiros:** Sistemas bancários centrais, conformidade de segurança e meios de pagamento digitais.
+- **Setor Público em Portugal:** Condução de transformações digitais de grande escala em entidades como a ARTE (Agência para a Reforma Tecnológica do Estado), o IEFP (Instituto do Emprego e Formação Profissional) e a Segurança Social.
+
+### Certificações e Credenciais Internacionais Oficiais:
+- **PMP® (Project Management Professional):** PMI - Project Management Institute.
+- **SAFe® 6 Agilist:** Scaled Agile Framework para governança e transformação ágil corporativa em larga escala.
+- **ITIL® 4 Ambassador:** Embaixador oficial do framework ITIL para gestão e governação de serviços de tecnologia.
+- **PSM II™ & PSM I™ (Professional Scrum Master):** Scrum.org, reconhecendo maestria prática na liderança de equipas ágeis.
+- **PSPO I™ (Professional Scrum Product Owner):** Scrum.org, com foco em visão de negócio, maximização de valor do produto e gestão de backlog.
+
+---
+
+## 2. Metodologia do Programa de Mentoria (22 Horas Práticas + Bónus)
+
+A mentoria foi estruturada para solucionar as três maiores dores de quem deseja ingressar ou crescer na área de tecnologia:
+1. Desconhecimento prático da engrenagem real do ciclo de vida de software.
+2. Insegurança técnica perante metodologias corporativas (Scrum, Kanban, Waterfall, ITIL e RGPD).
+3. Invisibilidade no mercado e rejeição automática de currículos por sistemas ATS de Inteligência Artificial.
+
+A grade está dividida em 3 Fases consecutivas de aceleração:
+
+### FASE 01: Transição Estratégica & Fundamentos Técnicos (8 Horas)
+- **Módulo 01: Power Skills: A Tua História Importa (1 Hora)**
+  - Diagnóstico individual da trajetória profissional prévia.
+  - Mapeamento e valorização das competências comportamentais e técnicas transferíveis de outras profissões.
+  - Definição do plano individual de estudos, posicionamento e foco de atuação dentro do ecossistema de TI.
+- **Módulo 02: Fundamentos de Inteligência Artificial (IA) na Gestão de Projetos (2 Horas)**
+  - Compreensão profunda de Inteligência Artificial generativa e o seu impacto no desenvolvimento de software.
+  - Utilização prática de modelos de linguagem para estimativas de esforço, geração e refinamento de histórias de utilizador e automação de fluxos de trabalho.
+  - IA como alavanca executiva de produtividade para gestores e líderes técnicos.
+- **Módulo 03: Fundamentos de Programação e Engenharia de Software (5 Horas)**
+  - Visão abrangente de todas as peças do quebra-cabeça do desenvolvimento de software.
+  - Princípios de UX/UI Design, usabilidade e discovery de produto.
+  - Engenharia de requisitos funcionais e não funcionais.
+  - Estrutura de código: noções fundamentais de Frontend, Backend, APIs e integração com Bases de Dados.
+  - Garantia da Qualidade (QA): testes unitários, testes de integração e gestão de ambientes (Dev, Staging, Prod).
+
+### FASE 02: Governação, Produto & Métodos de Entrega (10 Horas)
+- **Módulo 04: Segurança da Informação, Engenharia Social, DPO & RGPD/LGPD (3 Horas)**
+  - Princípios de segurança cibernética defensiva e identificação de ataques de engenharia social e phishing.
+  - O papel do Encarregado de Proteção de Dados (DPO) e compliance tecnológico.
+  - Implementação prática dos preceitos do Regulamento Geral de Proteção de Dados (RGPD na UE) e da LGPD (no Brasil).
+- **Módulo 05: Design Thinking Aplicado ao Desenvolvimento de Software (2 Horas)**
+  - O ciclo de inovação centrado no ser humano: Empatia, Definição, Ideação, Prototipagem e Validação rápida.
+  - Facilitação de dinâmicas para desbloqueio de soluções em equipas multidisciplinares.
+- **Módulo 06: Metodologias Preditivas (Waterfall / PMBOK) (2 Horas)**
+  - Gestão de projetos baseada no padrão global do PMI (Project Management Institute).
+  - Elaboração e acompanhamento de Escopo/Âmbito (WBS/EAP), Cronograma de Gantt, Gestão Orçamental e Matriz de Riscos.
+  - Governança de marcos de entrega em projetos corporativos e contratuais rigorosos.
+- **Módulo 07: Metodologias Ágeis (Scrum & Kanban) (3 Horas)**
+  - Princípios, valores e manifesto ágil na prática corporativa real.
+  - Cerimónias do Scrum: Planeamento da Sprint, Daily Scrum, Revisão da Sprint (Demo) e Retrospectiva.
+  - Papéis ágeis: distinção clara das responsabilidades do Scrum Master, Product Owner e Developers.
+  - Gestão de fluxo contínuo com Kanban: limites de WIP (Work in Progress), métricas de fluxo (Lead Time, Cycle Time) e visibilidade total.
+
+### FASE 03: Posicionamento no Mercado — Seja Encontrado por Recrutadores (4 Horas)
+- **Módulo 08: Criação de Currículo Otimizado para ATS (2 Horas)**
+  - Desmistificação dos robôs de triagem automática (Applicant Tracking Systems como Greenhouse, Taleo, Workday e Gupy).
+  - Formatação padronizada e densidade estratégica de palavras-chave para garantir que o currículo chega às mãos de gestores humanos.
+  - Elaboração de narrativas de impacto com resultados mensuráveis (frameworks STAR e CAR).
+- **Módulo 09: LinkedIn Estratégico & 1ª Oportunidade em Gestão de TI (2 Horas)**
+  - Reestruturação do perfil do LinkedIn: título executivo, secção Sobre persuasiva, destaques e competências calibradas.
+  - Metodologia de atração ativa e passiva: fazer com que recrutadores encontrem o seu perfil organicamente.
+  - Técnicas de networking estratégico de alto nível para abordar decisores e acelerar convites para entrevistas.
+
+### ETAPA DE CONCLUSÃO: Certificação Internacional (Bónus Especial)
+- **Simulador Exclusivo para Certificação Scrum Master (PSM I) e Product Owner (PSPO I)**
+  - Acesso a um banco completo de questões em formato oficial com comentários e gabarito fundamentado no Scrum Guide.
+  - Técnicas de leitura rápida e gestão do tempo para aprovação na primeira tentativa.
+
+---
+
+## 3. Matriz de Transição de Carreira por Formação Anterior
+
+A mentoria de Alex Seles utiliza a bagagem prévia do mentorado como vantagem competitiva imediata:
+1. **Advogados e Juristas:** Aproveitam o rigor analítico e legal para atuar como DPO (Encarregado de Proteção de Dados), Analista de Riscos & Compliance de TI ou Consultor de Governação e Privacidade.
+2. **Administradores de Empresas:** A experiência em processos, orçamento e gestão de recursos humanos traduz-se perfeitamente em funções de Product Owner (PO), Scrum Master, Agile Project Manager ou Gestor de Operações de TI.
+3. **Professores e Formadores:** Capacidade pedagógica e de comunicação clara são ativos de enorme valor para cargos de Agile Coach, Instructional Designer em Tecnologia ou Tech Trainer corporativo.
+4. **Contabilistas e Economistas:** Pensamento analítico e conforto com números viabilizam transições diretas para FinOps, Analista de Business Intelligence (BI), Consultor Funcional ERP ou Analista de Dados.
+5. **Psicólogos e Profissionais de RH:** Domínio do comportamento humano e relações interpessoais converte-se com sucesso em Agile Coaching, People Analytics, Scrum Master ou Gestor de Cultura & Mudança (Change Management).
+6. **Matemáticos e Físicos:** Raciocínio lógico abstrato proporciona alinhamento natural com Engenharia de Dados, Modelagem Preditiva, Machine Learning e Inteligência Artificial.
+7. **Engenheiros Tradicionais (Civil, Mecânica, Produção):** Metodologia de resolução de problemas e familiaridade com projetos facilitam o ingresso em Engenharia de Software, Liderança Técnica e Gestão de Produtos Digitais.
+
+---
+
+## 4. Central de Conhecimento: Artigos Oficiais Publicados
+
+### Artigo 1: Descubra o Sentido da Vida e Potencialize sua Carreira em TI
+- **URL Oficial:** https://alexseles.com/central-de-conhecimento/descubra-o-sentido-da-vida-e-potencialize-sua-carreira-em-ti
+- **Autor:** Alex Seles
+- **Resumo Executivo:** O artigo explora a perspetiva de Viktor Frankl sobre o propósito de vida diante de circunstâncias adversas e aplica esse ensinamento à gestão de carreira em tecnologia. Alex Seles relata o caso verídico de um gestor de TI que construiu a sua identidade exclusivamente em torno do seu cargo e dos seus rendimentos, enfrentando uma crise profunda ao ser demitido. O texto argumenta que a nossa carreira não deve ser o único pilar da nossa existência. O verdadeiro crescimento profissional é impulsionado pelo equilíbrio entre vida pessoal e trabalho, pela aprendizagem contínua, certificações reconhecidas e pela flexibilidade para abraçar novas oportunidades geográficas e funcionais.
+
+### Artigo 2: Superando Desafios no Caminho para uma Carreira em TI
+- **URL Oficial:** https://alexseles.com/central-de-conhecimento/superando-desafios-no-caminho-para-uma-carreira-em-ti
+- **Autor:** Alex Seles
+- **Resumo Executivo:** O artigo aborda as três maiores inseguranças de quem inicia a transição para tecnologia:
+  1. *Falta de base técnica:* O autor demonstra que ninguém começa sabendo tudo e que aprender os fundamentos de arquitetura, experiência do utilizador e programação básica é o caminho para destravar a jornada.
+  2. *Insegurança com o inglês:* Explica que o inglês é a língua franca da tecnologia internacional, mas que não se deve adiar o início da carreira por perfeccionismo; a fluência desenvolve-se com o estudo contínuo e a prática.
+  3. *Aspiração a cargos de liderança sem experiência técnica prévia:* Alex elucida que grandes líderes começaram em posições operacionais e que a humildade para aprender do zero é a verdadeira chave para alcançar o topo executivo em tecnologia.
+
+---
+
+## 5. Perguntas Frequentes (FAQ)
+
+**1. A mentoria de Alex Seles é em grupo ou individual?**
+A mentoria é 100% individual e personalizada. Cada sessão é realizada em direto via videoconferência, adaptando o ritmo e as prioridades ao perfil único e aos objetivos do mentorado.
+
+**2. Não tenho qualquer conhecimento de programação. Posso fazer a transição para TI?**
+Sim. A área de tecnologia oferece dezenas de especialidades estratégicas que não dependem de programação diária, tais como Gestão de Projetos Ágeis, Product Ownership, Governação e DPO, Gestão da Mudança e Análise de Requisitos. O Módulo 03 oferece a base essencial de engenharia para que o aluno compreenda a linguagem dos programadores com segurança.
+
+**3. Quanto tempo dura a mentoria?**
+O programa completo possui 22 horas de acompanhamento prático individual, divididas ao longo das 3 fases formativas, além do simulador preparatório para as certificações Scrum.org (PSM I e PSPO I).
+
+**4. A mentoria é válida para quem reside fora de Portugal?**
+Sim. O programa atende profissionais em Portugal, no Brasil, no resto da Europa e em qualquer localidade do mundo, com horários flexíveis alinhados ao fuso horário do mentorado.
+
+---
+
+## 6. Sítios Oficiais, Contactos e Canais de Atendimento
+
+- **Página Principal:** https://alexseles.com/
+- **Transição de Carreira para TI:** https://alexseles.com/transicao-de-carreira
+- **Fase 01 (Fundamentos Técnicos & IA):** https://alexseles.com/transicao-estrategica-fundamentos-tecnicos
+- **Fase 02 (Governação & Métodos de Entrega):** https://alexseles.com/governanca-produto-metodos-entrega
+- **Fase 03 (LinkedIn & ATS):** https://alexseles.com/linkedin-marca-pessoal-ats
+- **Central de Conhecimento:** https://alexseles.com/central-de-conhecimento
+- **Agendamento de Sessão Diagnóstica:** https://alexseles.com/contato
+- **WhatsApp Oficial de Atendimento:** +55 (11) 95287-0828
+- **LinkedIn Oficial:** https://www.linkedin.com/in/alex-seles/
