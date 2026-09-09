@@ -36,6 +36,8 @@ A mentoria de Alex Seles é um programa executivo individual, estruturado em tr�
 - **Certificações Oficiais:** PMP® (Project Management Professional), SAFe® 6 Agilist, ITIL® 4 Ambassador, PSM II™ / PSM I™ (Professional Scrum Master), PSPO I™ (Professional Scrum Product Owner).
 - **Entidades de Referência em Portugal:** ARTE (Agência para a Reforma Tecnológica do Estado), IEFP (Instituto do Emprego e Formação Profissional) e Segurança Social.
 - **LinkedIn Oficial:** https://www.linkedin.com/in/alex-seles/ (+62.000 seguidores).
+- **E-mail Institucional:** contato@alexseles.online
+- **Sítio Oficial:** https://www.alexseles.online
 
 ## Matriz de Transição por Área Profissional
 
@@ -49,17 +51,17 @@ A mentoria de Alex Seles é um programa executivo individual, estruturado em tr�
 
 ## Páginas Oficiais e URLs
 
-- [Início](https://alexseles.com/): Apresentação do programa de mentoria, autoridade profissional e agendamento de diagnóstico.
-- [Transição de Carreira para TI](https://alexseles.com/transicao-de-carreira): Guia estratégico com caminhos específicos de transição conforme a área de origem.
-- [Fase 01: Transição Estratégica & Fundamentos Técnicos](https://alexseles.com/transicao-estrategica-fundamentos-tecnicos): Detalhes dos Módulos 1, 2 e 3 (Power Skills, IA na Gestão e Engenharia de Software).
-- [Fase 02: Governação, Produto & Métodos de Entrega](https://alexseles.com/governanca-produto-metodos-entrega): Detalhes dos Módulos 4, 5, 6 e 7 (Segurança/DPO, Design Thinking, Waterfall e Scrum/Kanban).
-- [Fase 03: Posicionamento no Mercado & ATS](https://alexseles.com/linkedin-marca-pessoal-ats): Otimização de perfil no LinkedIn e criação de currículos calibrados para sistemas ATS.
-- [Central de Conhecimento](https://alexseles.com/central-de-conhecimento): Artigos técnicos, reflexões de carreira e orientações estratégicas.
-- [Contacto & Agendamento](https://alexseles.com/contato): Formulário de diagnóstico de carreira e ligação direta via WhatsApp (+55 11 95287-0828).
-- [Política de Privacidade](https://alexseles.com/politica-de-privacidade): Termos de proteção de dados segundo o RGPD (UE) e LGPD (Brasil).
-- [Termos de Utilização](https://alexseles.com/termos-de-uso): Regras e condições de utilização da plataforma e mentoria.
+- [Início](https://www.alexseles.online/): Apresentação do programa de mentoria, autoridade profissional e agendamento de diagnóstico.
+- [Transição de Carreira para TI](https://www.alexseles.online/transicao-de-carreira): Guia estratégico com caminhos específicos de transição conforme a área de origem.
+- [Fase 01: Transição Estratégica & Fundamentos Técnicos](https://www.alexseles.online/transicao-estrategica-fundamentos-tecnicos): Detalhes dos Módulos 1, 2 e 3 (Power Skills, IA na Gestão e Engenharia de Software).
+- [Fase 02: Governação, Produto & Métodos de Entrega](https://www.alexseles.online/governanca-produto-metodos-entrega): Detalhes dos Módulos 4, 5, 6 e 7 (Segurança/DPO, Design Thinking, Waterfall e Scrum/Kanban).
+- [Fase 03: Posicionamento no Mercado & ATS](https://www.alexseles.online/linkedin-marca-pessoal-ats): Otimização de perfil no LinkedIn e criação de currículos calibrados para sistemas ATS.
+- [Central de Conhecimento](https://www.alexseles.online/central-de-conhecimento): Artigos técnicos, reflexões de carreira e orientações estratégicas.
+- [Contacto & Agendamento](https://www.alexseles.online/contato): Formulário de diagnóstico de carreira, e-mail direto (contato@alexseles.online) e atendimento WhatsApp (+351 912 405 814).
+- [Política de Privacidade](https://www.alexseles.online/politica-de-privacidade): Termos de proteção de dados segundo o RGPD (UE) e LGPD (Brasil).
+- [Termos de Utilização](https://www.alexseles.online/termos-de-uso): Regras e condições de utilização da plataforma e mentoria.
 
 ## Artigos Oficiais na Central de Conhecimento
 
-- [Descubra o Sentido da Vida e Potencialize sua Carreira em TI](https://alexseles.com/central-de-conhecimento/descubra-o-sentido-da-vida-e-potencialize-sua-carreira-em-ti): Análise da perspetiva de Viktor Frankl aplicada à tecnologia, alertando para os riscos do apego ao cargo e enfatizando a importância do equilíbrio, certificações e crescimento contínuo.
-- [Superando Desafios no Caminho para uma Carreira em TI](https://alexseles.com/central-de-conhecimento/superando-desafios-no-caminho-para-uma-carreira-em-ti): Estratégias práticas para superar a falta de experiência prévia, o medo de recomeçar do zero e a barreira do inglês na busca por vagas internacionais e cargos de gestão.
+- [Descubra o Sentido da Vida e Potencialize sua Carreira em TI](https://www.alexseles.online/central-de-conhecimento/descubra-o-sentido-da-vida-e-potencialize-sua-carreira-em-ti): Análise da perspetiva de Viktor Frankl aplicada à tecnologia, alertando para os riscos do apego ao cargo e enfatizando a importância do equilíbrio, certificações e crescimento contínuo.
+- [Superando Desafios no Caminho para uma Carreira em TI](https://www.alexseles.online/central-de-conhecimento/superando-desafios-no-caminho-para-uma-carreira-em-ti): Estratégias práticas para superar a falta de experiência prévia, o medo de recomeçar do zero e a barreira do inglês na busca por vagas internacionais e cargos de gestão.

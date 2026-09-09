@@ -134,12 +134,13 @@ Sim. O programa atende profissionais em Portugal, no Brasil, no resto da Europa 
 
 ## 6. Sítios Oficiais, Contactos e Canais de Atendimento
 
-- **Página Principal:** https://alexseles.com/
-- **Transição de Carreira para TI:** https://alexseles.com/transicao-de-carreira
-- **Fase 01 (Fundamentos Técnicos & IA):** https://alexseles.com/transicao-estrategica-fundamentos-tecnicos
-- **Fase 02 (Governação & Métodos de Entrega):** https://alexseles.com/governanca-produto-metodos-entrega
-- **Fase 03 (LinkedIn & ATS):** https://alexseles.com/linkedin-marca-pessoal-ats
-- **Central de Conhecimento:** https://alexseles.com/central-de-conhecimento
-- **Agendamento de Sessão Diagnóstica:** https://alexseles.com/contato
-- **WhatsApp Oficial de Atendimento:** +55 (11) 95287-0828
+- **Página Principal:** https://www.alexseles.online/
+- **Transição de Carreira para TI:** https://www.alexseles.online/transicao-de-carreira
+- **Fase 01 (Fundamentos Técnicos & IA):** https://www.alexseles.online/transicao-estrategica-fundamentos-tecnicos
+- **Fase 02 (Governação & Métodos de Entrega):** https://www.alexseles.online/governanca-produto-metodos-entrega
+- **Fase 03 (LinkedIn & ATS):** https://www.alexseles.online/linkedin-marca-pessoal-ats
+- **Central de Conhecimento:** https://www.alexseles.online/central-de-conhecimento
+- **Agendamento de Sessão Diagnóstica:** https://www.alexseles.online/contato
+- **E-mail Institucional:** contato@alexseles.online
+- **WhatsApp Oficial de Atendimento:** +351 912 405 814
 - **LinkedIn Oficial:** https://www.linkedin.com/in/alex-seles/

@@ -16,7 +16,7 @@ export const MetaTags = ({
   description,
   keywords,
   canonicalPath = '',
-  image = 'https://alexseles.com/assets/alexseles.png',
+  image = 'https://www.alexseles.online/assets/alexseles.png',
   type = 'website',
   noIndex = false
 }) => {
@@ -49,7 +49,7 @@ export const MetaTags = ({
 
     // 5. Images
     if (image) {
-      const fullImgUrl = image.startsWith('http') ? image : `https://alexseles.com${image.startsWith('/') ? '' : '/'}${image}`;
+      const fullImgUrl = image.startsWith('http') ? image : `https://www.alexseles.online${image.startsWith('/') ? '' : '/'}${image}`;
       setOrUpdateMeta('property', 'og:image', fullImgUrl);
       setOrUpdateMeta('name', 'twitter:image', fullImgUrl);
       setOrUpdateMeta('name', 'twitter:card', 'summary_large_image');
@@ -65,7 +65,7 @@ export const MetaTags = ({
     }
 
     // 7. Canonical & Open Graph URL
-    const baseUrl = 'https://alexseles.com';
+    const baseUrl = 'https://www.alexseles.online';
     const cleanPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
     const fullCanonicalUrl = `${baseUrl}${cleanPath === '/' ? '' : cleanPath}`;
 

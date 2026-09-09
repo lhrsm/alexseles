@@ -6,11 +6,12 @@ export const TechMentorshipJsonLd = () => {
     "@graph": [
       {
         "@type": "Person",
-        "@id": "https://alexseles.com/#alexseles",
+        "@id": "https://www.alexseles.online/#alexseles",
         "name": "Alex Seles",
         "jobTitle": "Head de Inovação e Tecnologia | Mentor de Carreira e Liderança em TI",
-        "url": "https://alexseles.com/",
-        "image": "https://alexseles.com/assets/alexseles.png",
+        "url": "https://www.alexseles.online/",
+        "email": "contato@alexseles.online",
+        "image": "https://www.alexseles.online/assets/alexseles.png",
         "sameAs": [
           "https://www.linkedin.com/in/alex-seles/"
         ],
@@ -78,16 +79,17 @@ export const TechMentorshipJsonLd = () => {
       },
       {
         "@type": "ProfessionalService",
-        "@id": "https://alexseles.com/#organization",
+        "@id": "https://www.alexseles.online/#organization",
         "name": "Alex Seles - Mentoria de Carreira e Tecnologia em TI",
-        "url": "https://alexseles.com/",
-        "logo": "https://alexseles.com/assets/logo.png",
-        "image": "https://alexseles.com/assets/alexseles.png",
+        "url": "https://www.alexseles.online/",
+        "email": "contato@alexseles.online",
+        "logo": "https://www.alexseles.online/assets/logo.png",
+        "image": "https://www.alexseles.online/assets/alexseles.png",
         "description": "Mentoria individual de carreira em tecnologia, liderança ágil, inteligência artificial na gestão de projetos e transição profissional executiva com Alex Seles.",
-        "telephone": "+351-912-405-814",
+        "telephone": "+351 912 405 814",
         "areaServed": ["Portugal", "Brasil", "Internacional"],
         "founder": {
-          "@id": "https://alexseles.com/#alexseles"
+          "@id": "https://www.alexseles.online/#alexseles"
         },
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
@@ -100,7 +102,7 @@ export const TechMentorshipJsonLd = () => {
                 "name": "Percurso Prático de Mentoria em TI (22 Horas + Bónus)",
                 "description": "Formação executiva de 22 horas estruturada em 3 fases cobrindo Power Skills, Inteligência Artificial na Gestão de Projetos, Engenharia de Software, Governação/DPO, Metodologias Ágeis, Posicionamento no Mercado e Simulador Scrum/PO.",
                 "provider": {
-                  "@id": "https://alexseles.com/#alexseles"
+                  "@id": "https://www.alexseles.online/#alexseles"
                 },
                 "educationalCredentialAwarded": "Preparação para certificações internacionais (PSM I, PSPO I)"
               }
@@ -150,20 +152,20 @@ export const ArticleJsonLd = ({ article }) => {
   if (!article) return null;
 
   const imageUrl = article.image
-    ? (article.image.startsWith('http') ? article.image : `https://alexseles.com${article.image.startsWith('/') ? '' : '/'}${article.image}`)
-    : 'https://alexseles.com/assets/alexseles.png';
+    ? (article.image.startsWith('http') ? article.image : `https://www.alexseles.online${article.image.startsWith('/') ? '' : '/'}${article.image}`)
+    : 'https://www.alexseles.online/assets/alexseles.png';
 
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "Article",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://alexseles.com/central-de-conhecimento/${article.slug}`
+      "@id": `https://www.alexseles.online/central-de-conhecimento/${article.slug}`
     },
     "headline": article.h1 || article.title,
     "description": article.metaDescription,
     "image": [imageUrl],
-    "url": `https://alexseles.com/central-de-conhecimento/${article.slug}`,
+    "url": `https://www.alexseles.online/central-de-conhecimento/${article.slug}`,
     "datePublished": article.publishedAt || '2026-09-07',
     "dateModified": article.publishedAt || '2026-09-07',
     "inLanguage": "pt-PT",
@@ -171,16 +173,16 @@ export const ArticleJsonLd = ({ article }) => {
       "@type": "Person",
       "name": "Alex Seles",
       "jobTitle": "Head de Inovação & Tecnologia | Mentor de Carreira TI",
-      "url": "https://alexseles.com/",
+      "url": "https://www.alexseles.online/",
       "sameAs": "https://www.linkedin.com/in/alex-seles/"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Alex Seles - Carreira & TI",
-      "url": "https://alexseles.com/",
+      "url": "https://www.alexseles.online/",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://alexseles.com/favicon-32x32.png"
+        "url": "https://www.alexseles.online/favicon-32x32.png"
       }
     },
     "keywords": article.keywords ? (Array.isArray(article.keywords) ? article.keywords.join(", ") : article.keywords) : ""

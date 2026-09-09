@@ -7,11 +7,47 @@ import DOMPurify from 'dompurify';
 
 export const BlogPost = () => {
   const { slug } = useParams();
-  const article = getArticleBySlug(slug);
+  const rawArticle = getArticleBySlug(slug);
 
-  if (!article) {
+  if (!rawArticle) {
     return <Navigate to="/central-de-conhecimento" replace />;
   }
+
+  const rawSections = Array.isArray(rawArticle.sections) && rawArticle.sections.length > 0
+    ? rawArticle.sections
+    : [
+        {
+          subtitle: 'Visão Geral e Contexto Estratégico',
+          paragraphs: [rawArticle.content || rawArticle.metaDescription || '']
+        }
+      ];
+
+  const sections = rawSections.map((s, idx) => ({
+    subtitle: s.subtitle || s.title || `Tópico ${idx + 1}`,
+    paragraphs: Array.isArray(s.paragraphs)
+      ? s.paragraphs
+      : (typeof s.content === 'string' ? s.content.split('\n').filter(Boolean) : [s.paragraphs || s.content || ''])
+  }));
+
+  const h2Subtitles = Array.isArray(rawArticle.h2Subtitles) && rawArticle.h2Subtitles.length > 0
+    ? rawArticle.h2Subtitles
+    : sections.map((s) => s.subtitle).filter(Boolean);
+
+  const keywords = Array.isArray(rawArticle.keywords) && rawArticle.keywords.length > 0
+    ? rawArticle.keywords
+    : (typeof rawArticle.keywords === 'string'
+        ? rawArticle.keywords.split(',').map((k) => k.trim()).filter(Boolean)
+        : [rawArticle.category || 'Carreira & TI', 'Mentoria', 'Tecnologia']);
+
+  const article = {
+    ...rawArticle,
+    title: rawArticle.title || rawArticle.h1 || 'Artigo de Mentoria',
+    h1: rawArticle.h1 || rawArticle.title || 'Artigo de Mentoria',
+    sections,
+    h2Subtitles,
+    keywords,
+    readingTime: rawArticle.readingTime || '5 min de leitura'
+  };
 
   const allArticles = getAllArticles();
   const relatedArticles = allArticles
@@ -76,56 +112,79 @@ export const BlogPost = () => {
             )}
 
             {/* Lead */}
-            <div className="p-5 bg-[#F3F5F7] rounded border-l-4 border-[#1A73E8] text-[#536773] text-sm sm:text-base leading-relaxed font-sans">
-              {article.metaDescription}
-            </div>
+            {article.metaDescription && (
+              <div className="p-5 bg-[#F3F5F7] rounded border-l-4 border-[#1A73E8] text-[#536773] text-sm sm:text-base leading-relaxed font-sans">
+                {article.metaDescription}
+              </div>
+            )}
 
             {/* Sumário */}
-            <div className="p-6 bg-[#F3F5F7] rounded border border-[#CCD4DA]">
-              <h2 className="font-sans text-xs font-bold uppercase tracking-wider text-[#1A73E8] mb-3">
-                Tópicos abordados neste artigo:
-              </h2>
-              <ul className="space-y-2 text-xs sm:text-sm text-[#163758]">
-                {article.h2Subtitles.map((sub, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-[#1A73E8] font-mono" aria-hidden="true">→</span>
-                    <a href={`#secao-${idx}`} className="hover:text-[#1A73E8] hover:underline transition-colors">
-                      {sub}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {h2Subtitles.length > 0 && (
+              <div className="p-6 bg-[#F3F5F7] rounded border border-[#CCD4DA]">
+                <h2 className="font-sans text-xs font-bold uppercase tracking-wider text-[#1A73E8] mb-3">
+                  Tópicos abordados neste artigo:
+                </h2>
+                <ul className="space-y-2 text-xs sm:text-sm text-[#163758]">
+                  {h2Subtitles.map((sub, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="text-[#1A73E8] font-mono" aria-hidden="true">→</span>
+                      <a href={`#secao-${idx}`} className="hover:text-[#1A73E8] hover:underline transition-colors">
+                        {sub}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Seções de Texto */}
             <div className="space-y-8 text-sm sm:text-base text-[#536773] leading-relaxed font-sans">
-              {article.sections.map((sec, idx) => (
-                <section key={idx} id={`secao-${idx}`} className="scroll-mt-24 space-y-3 pt-4 border-t border-[#CCD4DA]/40">
-                  <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#163758]">
-                    {idx + 1}. {sec.subtitle}
-                  </h2>
-                  {sec.paragraphs.map((p, pIdx) => (
-                    <p key={pIdx} className="leading-relaxed">
-                      {DOMPurify.sanitize(p)}
-                    </p>
-                  ))}
-                </section>
-              ))}
+              {sections.map((sec, idx) => {
+                const paragraphs = Array.isArray(sec.paragraphs)
+                  ? sec.paragraphs
+                  : (typeof sec.content === 'string' ? sec.content.split('\n').filter(Boolean) : [sec.paragraphs || sec.content || '']);
+                return (
+                  <section key={idx} id={`secao-${idx}`} className="scroll-mt-24 space-y-3 pt-4 border-t border-[#CCD4DA]/40">
+                    <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#163758]">
+                      {idx + 1}. {sec.subtitle}
+                    </h2>
+                    {paragraphs.map((p, pIdx) => (
+                      <p key={pIdx} className="leading-relaxed">
+                        {DOMPurify.sanitize(p)}
+                      </p>
+                    ))}
+                  </section>
+                );
+              })}
             </div>
 
-            {/* Tags */}
-            <div className="pt-6 border-t border-[#CCD4DA]">
-              <div className="flex flex-wrap gap-2">
-                {article.keywords.map((kw, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 rounded bg-[#F3F5F7] border border-[#CCD4DA] text-xs text-[#536773]"
-                  >
-                    #{kw}
-                  </span>
-                ))}
+            {/* Dica Prática */}
+            {article.practicalTip && (
+              <div className="p-6 bg-blue-50/60 rounded border border-blue-200 space-y-2">
+                <span className="font-sans text-xs font-bold uppercase tracking-wider text-[#1A73E8]">
+                  Orientação Prática de Alex Seles:
+                </span>
+                <p className="text-sm text-[#163758] leading-relaxed italic">
+                  "{article.practicalTip}"
+                </p>
               </div>
-            </div>
+            )}
+
+            {/* Tags */}
+            {keywords.length > 0 && (
+              <div className="pt-6 border-t border-[#CCD4DA]">
+                <div className="flex flex-wrap gap-2">
+                  {keywords.map((kw, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 rounded bg-[#F3F5F7] border border-[#CCD4DA] text-xs text-[#536773]"
+                    >
+                      #{kw}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Autor */}
             <div className="p-6 bg-[#F3F5F7] rounded border border-[#CCD4DA] flex items-center gap-4">

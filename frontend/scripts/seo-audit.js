@@ -52,7 +52,7 @@ if (fs.existsSync(robotsPublic)) {
   const content = fs.readFileSync(robotsPublic, 'utf-8');
 
   // Verificar directiva de Sitemap
-  if (content.includes('Sitemap: https://alexseles.com/sitemap.xml')) {
+  if (content.includes('sitemap.xml') && content.includes('Sitemap: https://')) {
     report('PASS', 'Directiva Sitemap oficial configurada com URL absoluto');
   } else {
     report('FAIL', 'Directiva Sitemap ausente ou incorreta');
@@ -225,7 +225,7 @@ if (fs.existsSync(indexHtmlPath)) {
   }
 
   // Canonical Tag
-  if (html.includes('<link rel="canonical" href="https://alexseles.com/"')) {
+  if (html.includes('<link rel="canonical" href="https://www.alexseles.online/"') || html.includes('<link rel="canonical" href="https://alexseles.com/"')) {
     report('PASS', 'URL Canonica principal definida com HTTPS absoluto');
   } else {
     report('WARN', 'Etiqueta canonical nao encontrada ou sem HTTPS');

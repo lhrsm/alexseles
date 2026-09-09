@@ -143,14 +143,124 @@ export const articlesData = [
         ]
       }
     ]
+  },
+  {
+    id: 'artigo-7134-migrando-de-carreira-em-software-dicas-para-um-sucesso-estrategico',
+    number: 3,
+    title: 'Migrando de Carreira em Software: Dicas para um Sucesso Estratégico!',
+    h1: 'Migrando de Carreira em Software: Dicas para um Sucesso Estratégico!',
+    slug: 'artigo-7134-migrando-de-carreira-em-software-dicas-para-um-sucesso-estrategico',
+    image: null,
+    category: 'Carreira & TI',
+    categorySlug: 'carreira-ti',
+    metaDescription: 'Dicas práticas e estratégicas para profissionais que desejam migrar para o desenvolvimento de software e tecnologia com segurança, método e aceleração por mentoria.',
+    keywords: [
+      'Migração de Carreira',
+      'Engenharia de Software',
+      'Desenvolvimento de Software',
+      'Transição para TI',
+      'Mentoria de Carreira',
+      'Alex Seles',
+      'Carreira em Tecnologia'
+    ],
+    h2Subtitles: [
+      'O cenário da transição para o desenvolvimento de software',
+      'Identificação e valorização de competências transferíveis',
+      'Construção de uma base técnica sólida e projetos no GitHub',
+      'Mentoria especializada, networking e posicionamento no LinkedIn'
+    ],
+    wordCount: '520 palavras',
+    readingTime: '5 min de leitura',
+    publishedAt: '2026-09-08',
+    author: {
+      name: 'Alex Seles',
+      role: 'Head de Inovação & Tecnologia | Mentor de Carreira TI',
+      certifications: 'PMP®, SAFe® 6 Agilist, ITIL® 4, Mestre em Eng. Informática'
+    },
+    sections: [
+      {
+        subtitle: 'O cenário da transição para o desenvolvimento de software',
+        paragraphs: [
+          'A transição de carreira para a engenharia e desenvolvimento de software é uma das decisões mais recompensadoras da atualidade, mas exige um planeamento minucioso, resiliência e clareza sobre os objetivos a médio e longo prazo.',
+          'Com a constante evolução da inteligência artificial e a procura contínua por software confiável, as empresas não procuram apenas quem escreve código, mas profissionais capazes de resolver problemas reais de negócio com arquitetura limpa e visão crítica.'
+        ]
+      },
+      {
+        subtitle: 'Identificação e valorização de competências transferíveis',
+        paragraphs: [
+          'Muitos profissionais sentem a síndrome do impostor ao recomeçar, ignorando que as suas experiências anteriores em áreas como finanças, gestão, atendimento, engenharia ou educação constituem uma enorme vantagem competitiva.',
+          'Capacidade de comunicação, pensamento analítico, negociação de requisitos e trabalho colaborativo sob métodos ágeis (Scrum, Kanban) são qualidades raras em iniciantes e colocam o profissional em transição num patamar diferenciado perante os recrutadores.'
+        ]
+      },
+      {
+        subtitle: 'Construção de uma base técnica sólida e projetos no GitHub',
+        paragraphs: [
+          'O maior erro de quem migra para software é tentar aprender dez tecnologias ao mesmo tempo. A chave do sucesso consiste em selecionar uma base sólida — como o ecossistema JavaScript/TypeScript, Python ou Java —, compreendendo lógica profunda, estruturas de dados, consumo de APIs e controlo de versão com Git.',
+          'Em vez de criar apenas projetos genéricos de tutoriais, desenvolva soluções que resolvam necessidades autênticas do dia a dia e documente o processo com READMEs detalhados no seu repositório GitHub.'
+        ]
+      },
+      {
+        subtitle: 'Mentoria especializada, networking e posicionamento no LinkedIn',
+        paragraphs: [
+          'Ter uma marca pessoal bem calibrada no LinkedIn e participar ativamente em comunidades técnicas encurta significativamente o tempo até à primeira oportunidade. Apresente a sua história de transição com consistência e foco nos resultados.',
+          'Contar com o acompanhamento de um mentor experiente ajuda a calibrar o currículo para sistemas ATS, direcionar esforços para certificações relevantes e evitar os erros mais comuns na jornada rumo a cargos de destaque em tecnologia.'
+        ]
+      }
+    ],
+    practicalTip: 'Foque em dominar os fundamentos antes de se perder em frameworks da moda. Participe ativamente em comunidades e busque mentorias para acelerar a sua maturidade profissional.'
   }
 ];
+
+export const normalizeArticle = (art) => {
+  if (!art) return null;
+  const rawSections = Array.isArray(art.sections) && art.sections.length > 0
+    ? art.sections
+    : [
+        {
+          subtitle: 'Visão Geral e Contexto Estratégico',
+          paragraphs: [art.content || art.metaDescription || '']
+        }
+      ];
+
+  const sections = rawSections.map((s, idx) => ({
+    subtitle: s.subtitle || s.title || `Tópico ${idx + 1}`,
+    paragraphs: Array.isArray(s.paragraphs)
+      ? s.paragraphs
+      : (typeof s.content === 'string' ? s.content.split('\n').filter(Boolean) : [s.paragraphs || s.content || ''])
+  }));
+
+  const h2Subtitles = Array.isArray(art.h2Subtitles) && art.h2Subtitles.length > 0
+    ? art.h2Subtitles
+    : sections.map((s) => s.subtitle).filter(Boolean);
+
+  const keywords = Array.isArray(art.keywords) && art.keywords.length > 0
+    ? art.keywords
+    : (typeof art.keywords === 'string'
+        ? art.keywords.split(',').map((k) => k.trim()).filter(Boolean)
+        : [art.category || 'Carreira & TI', 'Mentoria', 'Tecnologia']);
+
+  return {
+    ...art,
+    title: art.title || art.h1 || 'Artigo de Mentoria',
+    h1: art.h1 || art.title || 'Artigo de Mentoria',
+    category: art.category || 'Carreira & TI',
+    categorySlug: art.categorySlug || 'carreira-ti',
+    metaDescription: art.metaDescription || art.summary || 'Artigo e orientação profissional de Alex Seles.',
+    readingTime: art.readingTime || '5 min de leitura',
+    sections,
+    h2Subtitles: h2Subtitles.length > 0 ? h2Subtitles : ['Visão Geral e Contexto Estratégico'],
+    keywords
+  };
+};
 
 export const getCustomArticles = () => {
   try {
     if (typeof window !== 'undefined' && window.localStorage) {
       const saved = localStorage.getItem('mc_custom_articles');
-      return saved ? JSON.parse(saved) : [];
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed.map(normalizeArticle) : [];
+      }
     }
   } catch (e) {
     // fallback
@@ -175,7 +285,9 @@ export const getAllArticles = () => {
   const deletedIds = getDeletedArticleIds();
   const customIds = new Set(custom.map((c) => c.id));
   const activeCustom = custom.filter((c) => !deletedIds.includes(c.id));
-  const activeBuiltIn = articlesData.filter((a) => !customIds.has(a.id) && !deletedIds.includes(a.id));
+  const activeBuiltIn = articlesData
+    .map(normalizeArticle)
+    .filter((a) => !customIds.has(a.id) && !deletedIds.includes(a.id));
   return [...activeCustom, ...activeBuiltIn];
 };
 

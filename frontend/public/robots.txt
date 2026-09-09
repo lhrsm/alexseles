@@ -78,17 +78,17 @@ User-agent: meta-externalagent
 Allow: /
 
 # Sitemap Oficial do Site
-Sitemap: https://alexseles.com/sitemap.xml
+Sitemap: https://www.alexseles.online/sitemap.xml
 
 # Arquivos de Padronização para Grandes Modelos de Linguagem (LLMs)
 # Formato padrão: https://llmstxt.org/
-# https://alexseles.com/llms.txt
-# https://alexseles.com/llms-full.txt
+# https://www.alexseles.online/llms.txt
+# https://www.alexseles.online/llms-full.txt
 
 # Política de Segurança e Divulgação de Vulnerabilidades (RFC 9116)
-# https://alexseles.com/.well-known/security.txt
-# https://alexseles.com/security.txt
+# https://www.alexseles.online/.well-known/security.txt
+# https://www.alexseles.online/security.txt
 
 # Informações de Autoria e Tecnologias (humanstxt.org)
-# https://alexseles.com/humans.txt
-# https://alexseles.com/human.txt
+# https://www.alexseles.online/humans.txt
+# https://www.alexseles.online/human.txt

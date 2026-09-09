@@ -24,7 +24,9 @@ function PageViewTracker() {
   return null;
 }
 
-// Guarda de segurança de autenticação do Backoffice (VULN-02 remediada)
+import { getUsers } from './services/backofficeService';
+
+// Guarda de segurança de autenticação do Backoffice
 function ProtectedRoute({ children }) {
   const session = sessionStorage.getItem('mc_admin_session');
   if (!session) {
@@ -35,6 +37,19 @@ function ProtectedRoute({ children }) {
     if (!parsed.token || !parsed.expiresAt || parsed.expiresAt < Date.now()) {
       sessionStorage.removeItem('mc_admin_session');
       return <Navigate to="/login" replace />;
+    }
+
+    const activeUsers = getUsers();
+    const sessionEmail = (parsed.user || '').trim().toLowerCase();
+
+    if (activeUsers && activeUsers.length > 0) {
+      const found = activeUsers.find(
+        (u) => (u.email || '').trim().toLowerCase() === sessionEmail
+      );
+      if (found && found.status === 'Inativo') {
+        sessionStorage.removeItem('mc_admin_session');
+        return <Navigate to="/login" replace />;
+      }
     }
   } catch (e) {
     sessionStorage.removeItem('mc_admin_session');

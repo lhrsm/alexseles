@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MetaTags } from '../components/seo/MetaTags';
 import { supabase } from '../lib/supabase';
-
-// Hashes criptográficos unidirecionais para redundância local (SHA-256)
-const AUTH_HASHES = [
-  '53b8c393d55e9f20d846a06793c54b8c1e0f1f55da0465cb9359f65e81be7531', // Senha oficial do cliente (+7U.hhrTjnrv&hD)
-  'c8b8dabf8bc5a075fd46b7bde70727e87be7d0e09617c2a9ea6a1782d45331ff', // Senha anterior
-  'c9c0d8eca0c4096606f905a65116997d12a17bd07c53002c48b6c6030c8146df', // Senha padrão
-];
+import { getUsers, fetchSupabaseUsers } from '../services/backofficeService';
 
 async function computeSHA256(str) {
   const encoder = new TextEncoder();
@@ -68,17 +62,30 @@ export const Login = () => {
             expiresAt = rpcRes.expires_at || expiresAt;
           }
         } catch (serverErr) {
-          console.warn('Servidor Supabase indisponível, avaliando fallback...', serverErr);
+          console.warn('Servidor Supabase indisponível, avaliando utilizadores locais...', serverErr);
         }
       }
 
-      // 2. Validação direta pelo .env ou fallback criptográfico SHA-256
+      // 2. Validação estrita com Utilizadores Registados no Sistema (getUsers)
       if (!authSuccessful) {
-        const inputHash = await computeSHA256(senhaInput);
-        const envPassword = import.meta.env.VITE_ADMIN_PASSWORD;
-        if (AUTH_HASHES.includes(inputHash) || (envPassword && senhaInput === envPassword)) {
-          authSuccessful = true;
-          sessionToken = `mc_sec_fallback_${Date.now()}`;
+        const registeredUsers = getUsers();
+        const matchedUser = registeredUsers.find(
+          (u) => (u.email || '').trim().toLowerCase() === emailInput.toLowerCase()
+        );
+
+        if (matchedUser && matchedUser.status !== 'Inativo') {
+          const inputHash = await computeSHA256(senhaInput);
+          const userHash = matchedUser.senha_hash || (matchedUser.senha ? await computeSHA256(matchedUser.senha) : null);
+
+          const isPasswordValid = 
+            (matchedUser.senha && senhaInput === matchedUser.senha) ||
+            (userHash && inputHash === userHash) ||
+            (matchedUser.senha && inputHash === matchedUser.senha);
+
+          if (isPasswordValid) {
+            authSuccessful = true;
+            sessionToken = `mc_sec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+          }
         }
       }
 
@@ -86,6 +93,9 @@ export const Login = () => {
         // Limpa tentativas após sucesso
         localStorage.removeItem('mc_login_attempts');
         localStorage.removeItem('mc_login_lock');
+
+        // Atualiza a cache de utilizadores no armazenamento local
+        fetchSupabaseUsers().catch(() => {});
 
         sessionStorage.setItem('mc_admin_session', JSON.stringify({
           user: emailInput,

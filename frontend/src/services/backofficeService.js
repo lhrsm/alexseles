@@ -2,6 +2,18 @@
 // Alex Seles • Mentoria de Carreira & TI
 import { supabase } from '../lib/supabase';
 
+export const computeSHA256 = async (str) => {
+  if (!str) return '';
+  if (typeof crypto !== 'undefined' && crypto.subtle) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+  return str;
+};
+
 const STORAGE_KEYS = {
   ARTICLES: 'mc_custom_articles',
   USERS: 'mc_users',
@@ -9,12 +21,13 @@ const STORAGE_KEYS = {
   CONTACTS: 'mc_contacts',
 };
 
-// Usuário padrão do sistema
+// Utilizador padrão do sistema
 const DEFAULT_USERS = [
   {
     id: 'user-admin',
     nome: 'Alex Seles',
-    email: import.meta.env.VITE_ADMIN_USER || 'alexseles40@gmail.com',
+    email: import.meta.env.VITE_ADMIN_USER || 'contato@alexseles.online',
+    senha: import.meta.env.VITE_ADMIN_PASSWORD || '+7U.hhrTjnrv&hD',
     perfil: 'Head de Inovação & Mentoria',
     status: 'Ativo',
     dataCadastro: new Date().toLocaleDateString('pt-BR')
@@ -31,7 +44,7 @@ const DEFAULT_METRICS = {
 
 const DEFAULT_CONTACTS = [];
 
-// --- GESTÃO DE USUÁRIOS ---
+// --- GESTÃO DE UTILIZADORES (SINCRONIZAÇÃO TOTAL COM SUPABASE ADMIN_USERS) ---
 export const getUsers = () => {
   try {
     const data = localStorage.getItem(STORAGE_KEYS.USERS);
@@ -41,23 +54,145 @@ export const getUsers = () => {
   }
 };
 
-export const saveUser = (user) => {
+export const fetchSupabaseUsers = async () => {
+  if (!supabase) return getUsers();
+  try {
+    const { data, error } = await supabase
+      .from('admin_users')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (!error && Array.isArray(data) && data.length > 0) {
+      const mapped = data.map((u) => ({
+        id: u.id,
+        nome: u.nome || 'Administrador',
+        email: u.email,
+        senha_hash: u.senha_hash,
+        perfil: u.perfil || 'Administrador',
+        status: u.status || 'Ativo',
+        dataCadastro: u.created_at ? new Date(u.created_at).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR')
+      }));
+
+      localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(mapped));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('mc_users_updated'));
+      }
+      return mapped;
+    }
+  } catch (err) {
+    console.warn('Fallback para utilizadores locais:', err);
+  }
+  return getUsers();
+};
+
+export const saveUser = async (user) => {
   const users = getUsers();
-  const newUser = {
-    ...user,
-    id: `user-${Date.now()}`,
-    dataCadastro: new Date().toLocaleDateString('pt-BR'),
-    status: user.status || 'Ativo'
-  };
-  const updated = [newUser, ...users];
+  const trimmedEmail = (user.email || '').trim().toLowerCase();
+  const rawSenha = (user.senha || '').trim();
+  const senhaHash = rawSenha ? await computeSHA256(rawSenha) : user.senha_hash;
+
+  // 1. Grava / Atualiza no Supabase (tabela admin_users)
+  if (supabase) {
+    try {
+      const { data: existing } = await supabase
+        .from('admin_users')
+        .select('id, email')
+        .ilike('email', trimmedEmail);
+
+      if (existing && existing.length > 0) {
+        const updatePayload = {
+          nome: user.nome,
+          perfil: user.perfil || 'Administrador',
+          status: user.status || 'Ativo'
+        };
+        if (senhaHash) {
+          updatePayload.senha_hash = senhaHash;
+        }
+        await supabase
+          .from('admin_users')
+          .update(updatePayload)
+          .eq('id', existing[0].id);
+      } else {
+        await supabase
+          .from('admin_users')
+          .insert([{
+            nome: user.nome,
+            email: (user.email || '').trim(),
+            senha_hash: senhaHash,
+            perfil: user.perfil || 'Administrador',
+            status: user.status || 'Ativo'
+          }]);
+      }
+    } catch (err) {
+      console.warn('Erro ao persistir utilizador no Supabase:', err);
+    }
+  }
+
+  // 2. Grava no cache local
+  const existingIndex = users.findIndex(
+    (u) => (u.email || '').trim().toLowerCase() === trimmedEmail
+  );
+
+  let updated;
+  if (existingIndex >= 0) {
+    updated = [...users];
+    updated[existingIndex] = {
+      ...updated[existingIndex],
+      ...user,
+      email: (user.email || '').trim(),
+      senha: rawSenha || updated[existingIndex].senha,
+      senha_hash: senhaHash || updated[existingIndex].senha_hash,
+      status: user.status || 'Ativo'
+    };
+  } else {
+    const newUser = {
+      ...user,
+      email: (user.email || '').trim(),
+      senha: rawSenha,
+      senha_hash: senhaHash,
+      id: user.id || `user-${Date.now()}`,
+      dataCadastro: new Date().toLocaleDateString('pt-BR'),
+      status: user.status || 'Ativo'
+    };
+    updated = [newUser, ...users];
+  }
+
   localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(updated));
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('mc_users_updated'));
+  }
   return updated;
 };
 
-export const deleteUser = (userId) => {
+export const deleteUser = async (userId) => {
   const users = getUsers();
-  const filtered = users.filter((u) => u.id !== userId);
+  const userToDelete = users.find((u) => u.id === userId);
+
+  // 1. Remove do Supabase
+  if (supabase && userToDelete) {
+    try {
+      if (userId && !userId.toString().startsWith('user-')) {
+        await supabase.from('admin_users').delete().eq('id', userId);
+      }
+      if (userToDelete.email) {
+        await supabase.from('admin_users').delete().ilike('email', userToDelete.email.trim());
+      }
+    } catch (err) {
+      console.warn('Erro ao remover utilizador do Supabase:', err);
+    }
+  }
+
+  // 2. Remove do cache local
+  const filtered = users.filter((u) => {
+    if (u.id === userId) return false;
+    if (userToDelete?.email && (u.email || '').trim().toLowerCase() === userToDelete.email.trim().toLowerCase()) return false;
+    return true;
+  });
+
   localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(filtered));
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('mc_users_updated'));
+  }
   return filtered;
 };
 
@@ -179,11 +314,56 @@ export const addContact = async (contact) => {
   return updated;
 };
 
-// --- GESTÃO DO ACERVO DE ORIENTAÇÕES (COM SUPABASE) ---
+// --- GESTÃO E NORMALIZAÇÃO DO ACERVO DE ARTIGOS ---
+export const normalizeCustomArticle = (art) => {
+  if (!art) return null;
+  const rawSections = Array.isArray(art.sections) && art.sections.length > 0
+    ? art.sections
+    : [
+        {
+          subtitle: 'Visão Geral e Contexto Estratégico',
+          paragraphs: [art.content || art.metaDescription || '']
+        }
+      ];
+
+  const sections = rawSections.map((s, idx) => ({
+    subtitle: s.subtitle || s.title || `Tópico ${idx + 1}`,
+    paragraphs: Array.isArray(s.paragraphs)
+      ? s.paragraphs
+      : (typeof s.content === 'string' ? s.content.split('\n').filter(Boolean) : [s.paragraphs || s.content || ''])
+  }));
+
+  const h2Subtitles = Array.isArray(art.h2Subtitles) && art.h2Subtitles.length > 0
+    ? art.h2Subtitles
+    : sections.map((s) => s.subtitle).filter(Boolean);
+
+  const keywords = Array.isArray(art.keywords) && art.keywords.length > 0
+    ? art.keywords
+    : (typeof art.keywords === 'string'
+        ? art.keywords.split(',').map((k) => k.trim()).filter(Boolean)
+        : [art.category || 'Carreira & TI', 'Mentoria', 'Tecnologia']);
+
+  return {
+    ...art,
+    title: art.title || art.h1 || 'Artigo de Mentoria',
+    h1: art.h1 || art.title || 'Artigo de Mentoria',
+    category: art.category || 'Carreira & TI',
+    categorySlug: art.categorySlug || 'carreira-ti',
+    metaDescription: art.metaDescription || art.summary || 'Artigo e orientação profissional de Alex Seles.',
+    readingTime: art.readingTime || '5 min de leitura',
+    practicalTip: art.practicalTip || 'Para transformar seu plano de carreira em resultados consistentes, estabeleça metas claras e conte com orientação especializada.',
+    sections,
+    h2Subtitles: h2Subtitles.length > 0 ? h2Subtitles : ['Visão Geral e Contexto Estratégico'],
+    keywords
+  };
+};
+
 export const getCustomArticles = () => {
   try {
     const data = localStorage.getItem(STORAGE_KEYS.ARTICLES);
-    return data ? JSON.parse(data) : [];
+    if (!data) return [];
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) ? parsed.map(normalizeCustomArticle) : [];
   } catch (e) {
     return [];
   }
@@ -199,26 +379,45 @@ export const fetchSupabaseArticles = async () => {
       .order('created_at', { ascending: false });
 
     if (!error && Array.isArray(data) && data.length > 0) {
-      const mapped = data.map((item, idx) => ({
-        id: item.id,
-        number: 40 + idx + 1,
-        title: item.title,
-        h1: item.title,
-        slug: item.slug,
-        category: item.category,
-        categorySlug: item.category_slug,
-        metaDescription: item.meta_description,
-        readingTime: item.reading_time,
-        publishedAt: new Date(item.created_at).toISOString().split('T')[0],
-        isCustom: true,
-        author: {
-          name: 'Alex Seles',
-          role: 'Head de Inovação & Tecnologia | Embaixador ITIL'
-        },
-        image: item.image || item.image_url || null,
-        sections: item.sections || [],
-        practicalTip: item.practical_tip
-      }));
+      const mapped = data.map((item, idx) => {
+        const rawSections = Array.isArray(item.sections) ? item.sections : [];
+        const sections = rawSections.map((s, sIdx) => ({
+          subtitle: s.subtitle || s.title || `Tópico ${sIdx + 1}`,
+          paragraphs: Array.isArray(s.paragraphs)
+            ? s.paragraphs
+            : (typeof s.content === 'string' ? s.content.split('\n').filter(Boolean) : [s.paragraphs || s.content || ''])
+        }));
+        const h2Subtitles = sections.map((s) => s.subtitle).filter(Boolean);
+        const image = (Array.isArray(rawSections) && rawSections[0] && rawSections[0].image) || item.image || null;
+
+        return {
+          id: item.id,
+          number: 40 + idx + 1,
+          title: item.title,
+          h1: item.title,
+          slug: item.slug,
+          category: item.category || 'Carreira & TI',
+          categorySlug: item.category_slug || 'carreira-ti',
+          metaDescription: item.meta_description || 'Artigo e orientação profissional desenvolvida por Alex Seles.',
+          readingTime: item.reading_time || '5 min de leitura',
+          publishedAt: new Date(item.created_at).toISOString().split('T')[0],
+          isCustom: true,
+          author: {
+            name: 'Alex Seles',
+            role: 'Head de Inovação & Tecnologia | Embaixador ITIL'
+          },
+          image: image,
+          h2Subtitles: h2Subtitles.length > 0 ? h2Subtitles : ['Visão Geral e Contexto Estratégico'],
+          sections: sections.length > 0 ? sections : [
+            {
+              subtitle: 'Visão Geral e Contexto Estratégico',
+              paragraphs: [item.meta_description || 'Conteúdo do artigo de mentoria.']
+            }
+          ],
+          keywords: [item.category || 'Carreira & TI', 'Tecnologia', 'Mentoria', 'Alex Seles'],
+          practicalTip: item.practical_tip || 'Para transformar seu plano de carreira em resultados consistentes, estabeleça metas claras e conte com orientação especializada.'
+        };
+      });
 
       localStorage.setItem(STORAGE_KEYS.ARTICLES, JSON.stringify(mapped));
       if (typeof window !== 'undefined') {
@@ -245,6 +444,28 @@ export const saveCustomArticle = async (articleData) => {
 
   const slug = `artigo-${Date.now().toString().slice(-4)}-${baseSlug}`;
 
+  const rawSections = Array.isArray(articleData.sections) && articleData.sections.length > 0
+    ? articleData.sections
+    : [
+        {
+          subtitle: 'Visão Geral e Contexto Estratégico',
+          paragraphs: [articleData.content || 'Conteúdo do artigo de mentoria.']
+        }
+      ];
+
+  const sections = rawSections.map((s, idx) => ({
+    subtitle: s.subtitle || s.title || `Tópico ${idx + 1}`,
+    paragraphs: Array.isArray(s.paragraphs)
+      ? s.paragraphs
+      : (typeof s.content === 'string' ? s.content.split('\n').filter(Boolean) : [s.paragraphs || s.content || ''])
+  }));
+
+  if (articleData.image && sections.length > 0) {
+    sections[0].image = articleData.image;
+  }
+
+  const h2Subtitles = sections.map((s) => s.subtitle).filter(Boolean);
+
   const newArticle = {
     id: `custom-art-${Date.now()}`,
     number: 40 + articles.length + 1,
@@ -255,7 +476,8 @@ export const saveCustomArticle = async (articleData) => {
     category: articleData.category || 'Carreira & TI',
     categorySlug: articleData.categorySlug || 'carreira-ti',
     metaDescription: articleData.metaDescription || articleData.summary || 'Artigo e orientação profissional desenvolvida por Alex Seles.',
-    keywords: articleData.keywords || [articleData.category, 'carreira', 'alex seles'],
+    keywords: Array.isArray(articleData.keywords) ? articleData.keywords : [articleData.category || 'Carreira & TI', 'carreira', 'alex seles'],
+    h2Subtitles: h2Subtitles.length > 0 ? h2Subtitles : ['Visão Geral e Contexto Estratégico'],
     readingTime: articleData.readingTime || '5 min de leitura',
     publishedAt: new Date().toISOString().split('T')[0],
     isCustom: true,
@@ -263,22 +485,16 @@ export const saveCustomArticle = async (articleData) => {
       name: 'Alex Seles',
       role: 'Head de Inovação & Tecnologia'
     },
-    sections: articleData.sections || [
-      {
-        subtitle: 'Visão Geral e Contexto Estratégico',
-        paragraphs: [articleData.content || 'Conteúdo do artigo de mentoria.']
-      }
-    ],
+    sections: sections,
     practicalTip: articleData.practicalTip || 'Para transformar seu plano de carreira em resultados consistentes, estabeleça metas claras e conte com orientação especializada.'
   };
 
-  // 1. Grava no Supabase
+  // 1. Grava no Supabase (omitindo a coluna "image" que não existe no esquema da tabela "artigos")
   if (supabase) {
     try {
       await supabase.from('artigos').insert([{
         title: newArticle.title,
         slug: newArticle.slug,
-        image: newArticle.image,
         category: newArticle.category,
         category_slug: newArticle.categorySlug,
         reading_time: newArticle.readingTime,
@@ -309,23 +525,38 @@ export const updateCustomArticle = async (articleId, articleData) => {
 
   let updatedArticle;
   if (existingIdx >= 0) {
+    const rawSections = Array.isArray(articleData.sections) ? articleData.sections : custom[existingIdx].sections;
+    const sections = (rawSections || []).map((s, idx) => ({
+      subtitle: s.subtitle || s.title || `Tópico ${idx + 1}`,
+      paragraphs: Array.isArray(s.paragraphs)
+        ? s.paragraphs
+        : (typeof s.content === 'string' ? s.content.split('\n').filter(Boolean) : [s.paragraphs || s.content || ''])
+    }));
+
+    if (articleData.image && sections.length > 0) {
+      sections[0].image = articleData.image;
+    }
+
+    const h2Subtitles = sections.map((s) => s.subtitle).filter(Boolean);
+
     updatedArticle = {
       ...custom[existingIdx],
       ...articleData,
       h1: articleData.title || custom[existingIdx].h1,
       image: articleData.image !== undefined ? articleData.image : custom[existingIdx].image,
+      sections,
+      h2Subtitles: h2Subtitles.length > 0 ? h2Subtitles : ['Visão Geral e Contexto Estratégico'],
       updatedAt: new Date().toISOString().split('T')[0]
     };
     custom[existingIdx] = updatedArticle;
   } else {
-    // Sobrescrever artigo padrão da base
-    updatedArticle = {
+    updatedArticle = normalizeCustomArticle({
       ...articleData,
       id: articleId,
       h1: articleData.title,
       image: articleData.image || null,
       updatedAt: new Date().toISOString().split('T')[0]
-    };
+    });
     custom.unshift(updatedArticle);
   }
 
@@ -336,7 +567,6 @@ export const updateCustomArticle = async (articleId, articleData) => {
       await supabase.from('artigos').upsert([{
         title: updatedArticle.title,
         slug: updatedArticle.slug,
-        image: updatedArticle.image,
         category: updatedArticle.category,
         category_slug: updatedArticle.categorySlug,
         reading_time: updatedArticle.readingTime,
@@ -344,7 +574,7 @@ export const updateCustomArticle = async (articleId, articleData) => {
         practical_tip: updatedArticle.practicalTip,
         sections: updatedArticle.sections,
         status: 'Publicado'
-      }]);
+      }], { onConflict: 'slug' });
     } catch (err) {
       console.warn('Erro ao atualizar artigo no Supabase:', err);
     }
@@ -358,19 +588,25 @@ export const updateCustomArticle = async (articleId, articleData) => {
 };
 
 export const deleteCustomArticle = async (articleId) => {
+  const articles = getCustomArticles();
+  const articleToDelete = articles.find((a) => a.id === articleId);
+
   if (supabase) {
     try {
-      await supabase.from('artigos').delete().eq('id', articleId);
+      if (articleId && !articleId.toString().startsWith('custom-art-')) {
+        await supabase.from('artigos').delete().eq('id', articleId);
+      }
+      if (articleToDelete?.slug) {
+        await supabase.from('artigos').delete().eq('slug', articleToDelete.slug);
+      }
     } catch (err) {
-      console.warn('Erro ao deletar no Supabase:', err);
+      console.warn('Erro ao eliminar no Supabase:', err);
     }
   }
 
-  const articles = getCustomArticles();
-  const filtered = articles.filter((a) => a.id !== articleId);
+  const filtered = articles.filter((a) => a.id !== articleId && (!articleToDelete?.slug || a.slug !== articleToDelete.slug));
   localStorage.setItem(STORAGE_KEYS.ARTICLES, JSON.stringify(filtered));
 
-  // Registar na lista de excluídos para ocultar também se for artigo nativo
   try {
     const deleted = JSON.parse(localStorage.getItem('mc_deleted_articles') || '[]');
     if (!deleted.includes(articleId)) {

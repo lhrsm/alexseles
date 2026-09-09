@@ -6,7 +6,7 @@
 
   <!-- Página Principal / Home -->
   <url>
-    <loc>https://alexseles.com/</loc>
+    <loc>https://www.alexseles.online/</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -14,7 +14,7 @@
 
   <!-- Transição de Carreira para TI -->
   <url>
-    <loc>https://alexseles.com/transicao-de-carreira</loc>
+    <loc>https://www.alexseles.online/transicao-de-carreira</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -22,7 +22,7 @@
 
   <!-- Fase 01: Transição Estratégica & Fundamentos Técnicos -->
   <url>
-    <loc>https://alexseles.com/transicao-estrategica-fundamentos-tecnicos</loc>
+    <loc>https://www.alexseles.online/transicao-estrategica-fundamentos-tecnicos</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -30,7 +30,7 @@
 
   <!-- Fase 02: Governação, Produto & Métodos de Entrega -->
   <url>
-    <loc>https://alexseles.com/governanca-produto-metodos-entrega</loc>
+    <loc>https://www.alexseles.online/governanca-produto-metodos-entrega</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -38,7 +38,7 @@
 
   <!-- Fase 03: Posicionamento no Mercado & ATS -->
   <url>
-    <loc>https://alexseles.com/linkedin-marca-pessoal-ats</loc>
+    <loc>https://www.alexseles.online/linkedin-marca-pessoal-ats</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -46,7 +46,7 @@
 
   <!-- Central de Conhecimento / Artigos -->
   <url>
-    <loc>https://alexseles.com/central-de-conhecimento</loc>
+    <loc>https://www.alexseles.online/central-de-conhecimento</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
@@ -54,7 +54,7 @@
 
   <!-- Artigo: Descubra o Sentido da Vida e Potencialize sua Carreira em TI -->
   <url>
-    <loc>https://alexseles.com/central-de-conhecimento/descubra-o-sentido-da-vida-e-potencialize-sua-carreira-em-ti</loc>
+    <loc>https://www.alexseles.online/central-de-conhecimento/descubra-o-sentido-da-vida-e-potencialize-sua-carreira-em-ti</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -62,7 +62,7 @@
 
   <!-- Artigo: Superando Desafios no Caminho para uma Carreira em TI -->
   <url>
-    <loc>https://alexseles.com/central-de-conhecimento/superando-desafios-no-caminho-para-uma-carreira-em-ti</loc>
+    <loc>https://www.alexseles.online/central-de-conhecimento/superando-desafios-no-caminho-para-uma-carreira-em-ti</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -70,7 +70,7 @@
 
   <!-- Contacto & Diagnóstico de Carreira -->
   <url>
-    <loc>https://alexseles.com/contato</loc>
+    <loc>https://www.alexseles.online/contato</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -78,7 +78,7 @@
 
   <!-- Política de Privacidade (Conformidade RGPD/LGPD) -->
   <url>
-    <loc>https://alexseles.com/politica-de-privacidade</loc>
+    <loc>https://www.alexseles.online/politica-de-privacidade</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -86,7 +86,7 @@
 
   <!-- Termos de Utilização -->
   <url>
-    <loc>https://alexseles.com/termos-de-uso</loc>
+    <loc>https://www.alexseles.online/termos-de-uso</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

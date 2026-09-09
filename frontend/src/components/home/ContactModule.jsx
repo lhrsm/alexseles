@@ -310,8 +310,8 @@ export const ContactModule = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-white">E-mail Profissional</h4>
-                    <a href="mailto:alexseles40@gmail.com" className="text-[#1A73E8] hover:underline mt-0.5 block">
-                      alexseles40@gmail.com
+                    <a href="mailto:contato@alexseles.online" className="text-[#1A73E8] hover:underline mt-0.5 block">
+                      contato@alexseles.online
                     </a>
                   </div>
                 </div>

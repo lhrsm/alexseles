@@ -5,8 +5,8 @@ Formacao: Engenheiro Informatico e Mestre em Engenharia Informatica
 Credenciais: PMP(R), SAFe(R) 6 Agilist, ITIL(R) 4 Ambassador, PSM II(TM), PSM I(TM), PSPO I(TM)
 Localizacao: Portugal / Internacional
 LinkedIn: https://www.linkedin.com/in/alex-seles/
-Contacto: https://alexseles.com/contato
-Sitio Oficial: https://alexseles.com
+Contacto: mailto:contato@alexseles.online | https://www.alexseles.online/contato
+Sitio Oficial: https://www.alexseles.online
 
 /* THANKS */
 Comunidade: Mais de 62.000 profissionais e conexoes no LinkedIn

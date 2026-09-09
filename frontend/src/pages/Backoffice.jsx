@@ -13,7 +13,8 @@ import {
   updateCustomArticle,
   deleteCustomArticle,
   fetchSupabaseContacts,
-  fetchSupabaseArticles
+  fetchSupabaseArticles,
+  fetchSupabaseUsers
 } from '../services/backofficeService';
 import { getAllArticles } from '../data/articlesData';
 import { 
@@ -30,43 +31,6 @@ export const Backoffice = () => {
   const [metrics, setMetrics] = useState(getMetrics());
   const [contacts, setContacts] = useState(getContacts());
   const [analytics, setAnalytics] = useState(getAnalytics());
-
-  useEffect(() => {
-    // Sincronização inicial do Supabase
-    fetchSupabaseContacts().then((data) => {
-      if (data) {
-        setContacts(data);
-        setMetrics(getMetrics());
-      }
-    });
-
-    fetchSupabaseArticles().then((data) => {
-      if (data) {
-        setCustomArticles(data);
-        setMetrics(getMetrics());
-      }
-    });
-
-    const handleContacts = () => {
-      setContacts(getContacts());
-      setMetrics(getMetrics());
-    };
-    const handleArticles = () => {
-      setCustomArticles(getCustomArticles());
-      setMetrics(getMetrics());
-    };
-    const handleAnalytics = () => setAnalytics(getAnalytics());
-
-    window.addEventListener('mc_contacts_updated', handleContacts);
-    window.addEventListener('mc_articles_updated', handleArticles);
-    window.addEventListener('mc_analytics_updated', handleAnalytics);
-
-    return () => {
-      window.removeEventListener('mc_contacts_updated', handleContacts);
-      window.removeEventListener('mc_articles_updated', handleArticles);
-      window.removeEventListener('mc_analytics_updated', handleAnalytics);
-    };
-  }, []);
 
   // Estados de Usuários
   const [users, setUsers] = useState(getUsers());
@@ -107,6 +71,54 @@ export const Backoffice = () => {
   const [previewMode, setPreviewMode] = useState(false);
 
   useEffect(() => {
+    // Sincronização inicial do Supabase
+    fetchSupabaseContacts().then((data) => {
+      if (data) {
+        setContacts(data);
+        setMetrics(getMetrics());
+      }
+    });
+
+    fetchSupabaseArticles().then((data) => {
+      if (data) {
+        setCustomArticles(data);
+        setMetrics(getMetrics());
+      }
+    });
+
+    fetchSupabaseUsers().then((data) => {
+      if (data) {
+        setUsers(data);
+      }
+    });
+
+    const handleContacts = () => {
+      setContacts(getContacts());
+      setMetrics(getMetrics());
+    };
+    const handleArticles = () => {
+      setCustomArticles(getCustomArticles());
+      setMetrics(getMetrics());
+    };
+    const handleUsers = () => {
+      setUsers(getUsers());
+    };
+    const handleAnalytics = () => setAnalytics(getAnalytics());
+
+    window.addEventListener('mc_contacts_updated', handleContacts);
+    window.addEventListener('mc_articles_updated', handleArticles);
+    window.addEventListener('mc_users_updated', handleUsers);
+    window.addEventListener('mc_analytics_updated', handleAnalytics);
+
+    return () => {
+      window.removeEventListener('mc_contacts_updated', handleContacts);
+      window.removeEventListener('mc_articles_updated', handleArticles);
+      window.removeEventListener('mc_users_updated', handleUsers);
+      window.removeEventListener('mc_analytics_updated', handleAnalytics);
+    };
+  }, []);
+
+  useEffect(() => {
     const refreshData = () => {
       setMetrics(getMetrics());
       setContacts(getContacts());
@@ -120,25 +132,46 @@ export const Backoffice = () => {
   }, []);
 
   // Manipuladores de Usuários
-  const handleAddUser = (e) => {
+  const handleAddUser = async (e) => {
     e.preventDefault();
     if (!newUser.nome || !newUser.email || !newUser.senha) return;
-    const updated = saveUser(newUser);
-    setUsers(updated);
-    setUserSuccessMsg(`Usuário ${newUser.nome} cadastrado com sucesso!`);
-    setNewUser({
-      nome: '',
-      email: '',
-      senha: '',
-      perfil: 'Administrador'
-    });
-    setTimeout(() => setUserSuccessMsg(null), 4000);
+    try {
+      const updated = await saveUser(newUser);
+      setUsers(updated);
+      setUserSuccessMsg(`Utilizador ${newUser.nome} gravado com sucesso no Supabase e no sistema!`);
+      setNewUser({
+        nome: '',
+        email: '',
+        senha: '',
+        perfil: 'Administrador'
+      });
+      setTimeout(() => setUserSuccessMsg(null), 4000);
+    } catch (err) {
+      console.error('Erro ao gravar utilizador:', err);
+    }
   };
 
-  const handleDeleteUser = (userId) => {
-    if (window.confirm('Tem certeza que deseja remover este usuário do sistema?')) {
-      const updated = deleteUser(userId);
-      setUsers(updated);
+  const handleDeleteUser = async (userId) => {
+    if (window.confirm('Tem a certeza de que deseja remover este utilizador do sistema e do banco de dados?')) {
+      const userToDelete = users.find((u) => u.id === userId);
+      try {
+        const updated = await deleteUser(userId);
+        setUsers(updated);
+
+        // Se o utilizador atual estiver a excluir a sua própria conta ativa, encerra a sessão imediatamente
+        const sessionStr = sessionStorage.getItem('mc_admin_session');
+        if (sessionStr && userToDelete) {
+          try {
+            const sessionObj = JSON.parse(sessionStr);
+            if ((sessionObj.user || '').trim().toLowerCase() === (userToDelete.email || '').trim().toLowerCase()) {
+              sessionStorage.removeItem('mc_admin_session');
+              navigate('/login');
+            }
+          } catch (e) {}
+        }
+      } catch (err) {
+        console.error('Erro ao eliminar utilizador:', err);
+      }
     }
   };
 
@@ -1470,15 +1503,30 @@ export const Backoffice = () => {
                           {u.status}
                         </span>
 
-                        {u.id !== 'user-1' && (
-                          <button
-                            onClick={() => handleDeleteUser(u.id)}
-                            className="text-xs text-red-600 hover:text-red-800 font-semibold"
-                            title="Excluir este usuário"
-                          >
-                            Excluir
-                          </button>
-                        )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setNewUser({
+                              nome: u.nome,
+                              email: u.email,
+                              senha: '',
+                              perfil: u.perfil || 'Administrador'
+                            });
+                          }}
+                          className="text-xs text-[#1A73E8] hover:underline font-semibold"
+                          title="Carregar para alterar senha ou perfil"
+                        >
+                          Editar / Senha
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteUser(u.id)}
+                          className="text-xs text-red-600 hover:text-red-800 font-semibold"
+                          title="Excluir este utilizador"
+                        >
+                          Excluir
+                        </button>
                       </div>
                     </div>
                   ))}
