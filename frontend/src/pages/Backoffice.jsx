@@ -31,6 +31,8 @@ export const Backoffice = () => {
   const [metrics, setMetrics] = useState(getMetrics());
   const [contacts, setContacts] = useState(getContacts());
   const [analytics, setAnalytics] = useState(getAnalytics());
+  const [leadsPage, setLeadsPage] = useState(1);
+  const [leadsPerPage, setLeadsPerPage] = useState(10);
 
   // Estados de Usuários
   const [users, setUsers] = useState(getUsers());
@@ -396,6 +398,14 @@ export const Backoffice = () => {
     link.click();
     document.body.removeChild(link);
   };
+
+  // Calculos de Paginacao de Leads
+  const totalLeads = contacts.length;
+  const totalLeadsPages = Math.max(1, Math.ceil(totalLeads / leadsPerPage));
+  const validLeadsPage = Math.min(Math.max(1, leadsPage), totalLeadsPages);
+  const leadsStartIndex = (validLeadsPage - 1) * leadsPerPage;
+  const leadsEndIndex = Math.min(leadsStartIndex + leadsPerPage, totalLeads);
+  const paginatedContacts = contacts.slice(leadsStartIndex, leadsEndIndex);
 
   return (
     <div className="min-h-screen bg-[#F3F5F7] text-[#163758] flex flex-col font-sans">
@@ -791,7 +801,8 @@ export const Backoffice = () => {
                     </p>
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
+                  <>
+                    <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs border-collapse">
                       <thead>
                         <tr className="bg-[#F8FAFC] border-b border-[#CCD4DA] text-[#163758] font-bold uppercase tracking-wider text-[11px]">
@@ -805,7 +816,7 @@ export const Backoffice = () => {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[#CCD4DA]/60">
-                        {contacts.map((c) => (
+                        {paginatedContacts.map((c) => (
                           <tr key={c.id} className="hover:bg-slate-50 transition-colors">
                             <td className="py-3 px-4">
                               {c.tipo?.includes('whatsapp') ? (
@@ -878,7 +889,103 @@ export const Backoffice = () => {
                       </tbody>
                     </table>
                   </div>
-                )}
+
+                  {/* Controles de Paginacao */}
+                  <div className="mt-4 pt-4 border-t border-[#CCD4DA]/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#536773]">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span>
+                        A mostrar <strong className="text-[#163758]">{totalLeads > 0 ? leadsStartIndex + 1 : 0}</strong> a <strong className="text-[#163758]">{leadsEndIndex}</strong> de <strong className="text-[#163758]">{totalLeads}</strong> registos
+                      </span>
+                      <div className="flex items-center gap-1.5 ml-0 sm:ml-2">
+                        <label htmlFor="leadsPerPageSelect" className="text-[11px] text-[#536773]">
+                          Por página:
+                        </label>
+                        <select
+                          id="leadsPerPageSelect"
+                          value={leadsPerPage}
+                          onChange={(e) => {
+                            setLeadsPerPage(Number(e.target.value));
+                            setLeadsPage(1);
+                          }}
+                          className="bg-white border border-[#CCD4DA] text-[#163758] text-xs rounded px-2 py-1 focus:outline-none focus:border-[#1A73E8]"
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={20}>20</option>
+                          <option value={50}>50</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {totalLeadsPages > 1 && (
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setLeadsPage((prev) => Math.max(1, prev - 1))}
+                          disabled={validLeadsPage === 1}
+                          className="px-2.5 py-1.5 rounded border border-[#CCD4DA] text-[#163758] hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-medium flex items-center gap-1"
+                          title="Página anterior"
+                        >
+                          <i className="fa-solid fa-chevron-left text-[10px]" aria-hidden="true"></i>
+                          <span className="hidden sm:inline">Anterior</span>
+                        </button>
+
+                        <div className="flex items-center gap-1">
+                          {(() => {
+                            const pages = [];
+                            if (totalLeadsPages <= 5) {
+                              for (let i = 1; i <= totalLeadsPages; i++) pages.push(i);
+                            } else {
+                              pages.push(1);
+                              if (validLeadsPage > 3) pages.push('ellipsis-prev');
+                              const start = Math.max(2, validLeadsPage - 1);
+                              const end = Math.min(totalLeadsPages - 1, validLeadsPage + 1);
+                              for (let i = start; i <= end; i++) pages.push(i);
+                              if (validLeadsPage < totalLeadsPages - 2) pages.push('ellipsis-next');
+                              pages.push(totalLeadsPages);
+                            }
+                            return pages.map((p, idx) => {
+                              if (typeof p === 'string') {
+                                return (
+                                  <span key={`ellipsis-${idx}`} className="px-1.5 py-1 text-slate-400 select-none">
+                                    ...
+                                  </span>
+                                );
+                              }
+                              const isActive = p === validLeadsPage;
+                              return (
+                                <button
+                                  key={p}
+                                  type="button"
+                                  onClick={() => setLeadsPage(p)}
+                                  className={`min-w-[32px] h-8 px-2 rounded font-semibold text-xs transition-colors ${
+                                    isActive
+                                      ? 'bg-[#163758] text-white border border-[#163758]'
+                                      : 'border border-[#CCD4DA] text-[#163758] hover:bg-slate-100 bg-white'
+                                  }`}
+                                >
+                                  {p}
+                                </button>
+                              );
+                            });
+                          })()}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setLeadsPage((prev) => Math.min(totalLeadsPages, prev + 1))}
+                          disabled={validLeadsPage === totalLeadsPages}
+                          className="px-2.5 py-1.5 rounded border border-[#CCD4DA] text-[#163758] hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-medium flex items-center gap-1"
+                          title="Página seguinte"
+                        >
+                          <span className="hidden sm:inline">Seguinte</span>
+                          <i className="fa-solid fa-chevron-right text-[10px]" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
               </div>
             </div>
           )}
