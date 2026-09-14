@@ -213,10 +213,10 @@ export const BlogPost = () => {
                 Agende uma sessão diagnóstica com Alex Seles e acelere a sua evolução em tecnologia, metodologias ágeis e liderança.
               </p>
               <Link
-                to="/contato?tipo=sessao"
+                to="/contato"
                 className="btn-copper w-full justify-center"
               >
-                <span>Vamos Conversar?</span>
+                <span>Falar com Alex Seles</span>
                 <span>→</span>
               </Link>
             </div>

@@ -106,7 +106,7 @@ export const Parcerias = () => {
         {/* Formulário de Contato para Parcerias */}
         <div className="max-w-3xl mx-auto bg-[#F8FAFC] border border-[#CCD4DA] rounded-lg p-8 sm:p-12 shadow-sm">
           <div className="text-center mb-8">
-            <span className="eyebrow">Vamos conversar?</span>
+            <span className="eyebrow">Parcerias Institucionais</span>
             <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#163758]">
               Proponha uma parceria profissional
             </h2>

@@ -124,14 +124,11 @@ export const Footer = () => {
               Atendimento
             </h3>
             <div className="space-y-2 text-sm text-slate-400">
-              <Link to="/contato?tipo=sessao" className="block hover:text-white transition-colors">
-                Vamos Conversar?
-              </Link>
-              <Link to="/contato?tipo=sessao" className="block hover:text-white transition-colors">
-                Sessão Diagnóstica de Carreira
+              <Link to="/contato" className="block hover:text-white transition-colors">
+                Contacto Institucional
               </Link>
               <p className="text-xs text-slate-500 pt-1">
-                Sessões remotas individuais e corporativas com acompanhamento contínuo.
+                Orientação executiva individual e corporativa com acompanhamento contínuo.
               </p>
             </div>
           </div>

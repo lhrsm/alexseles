@@ -82,7 +82,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
                 className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all transform active:scale-95"
               >
                 <i className="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i>
-                <span>Agendar no WhatsApp com a Liderança</span>
+                <span>Conversar com Alex Seles no WhatsApp</span>
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </a>
             )}
@@ -96,12 +96,12 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
                 {copied ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-emerald-600" aria-hidden="true" />
-                    <span className="text-emerald-700">Link copiado!</span>
+                    <span className="text-emerald-700">Ligação copiada!</span>
                   </>
                 ) : (
                   <>
                     <Copy className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>Copiar link do agendamento</span>
+                    <span>Copiar ligação do WhatsApp</span>
                   </>
                 )}
               </button>
@@ -134,20 +134,16 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
           {/* Destaque da Triagem */}
           <div className="max-w-lg mx-auto bg-slate-50 border border-slate-200 rounded-xl p-4 text-left">
             <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              Próximos Passos do Diagnóstico
+              Próximos Passos
             </h4>
-            <ul className="space-y-2 text-xs text-slate-600">
+            <ul className="space-y-1.5 text-xs text-slate-600">
               <li className="flex items-start gap-2">
-                <span className="font-bold text-blue-600">1.</span>
-                <span>
-                  Revisão minuciosa do seu histórico profissional, pretensão e mercados de interesse por um mentor executivo.
-                </span>
+                <span className="font-bold text-blue-600">•</span>
+                <span>Análise individual do seu perfil e experiência por Alex Seles.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="font-bold text-blue-600">2.</span>
-                <span>
-                  Envio de diagnóstico preliminar com opções de enquadramento diretamente para o WhatsApp indicado ({formData.phone || 'registado'}).
-                </span>
+                <span className="font-bold text-blue-600">•</span>
+                <span>Contacto direto pelo WhatsApp ({formData.phone || 'indicado'}) em até 48 horas úteis.</span>
               </li>
             </ul>
           </div>

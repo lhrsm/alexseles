@@ -3,183 +3,56 @@ import mafaldaImg from '../../assets/mafalda.png';
 import whatsappLightBg from '../../assets/whatsapp-doodle-light.svg';
 import { addContact } from '../../services/backofficeService';
 
-// Gera slots de 30 minutos disponíveis exclusivamente nas janelas oficiais de Alex Seles (hora de Lisboa):
-// - Segundas, Quartas e Sextas: das 18:00 às 22:00
-// - Sábados: das 10:00 às 12:00
-const generateAvailableSlots = () => {
-  const bookedSlots = (() => {
-    try {
-      return JSON.parse(localStorage.getItem('mc_scheduled_calendar_slots') || '[]');
-    } catch (e) {
-      return [];
-    }
-  })();
+// Blindagem Defensiva Anti-Hacker e Deteção de Ameaças / Injeção
+const detectSecurityThreat = (text) => {
+  if (!text) return false;
+  // Limite de overflow contra buffer e bombardeio de caracteres
+  if (text.length > 500) return true;
 
-  const slots = [];
-  const now = new Date();
-  
-  // Começa a partir de amanhã
-  let currentDay = new Date(now);
-  currentDay.setDate(currentDay.getDate() + 1);
+  // Deteção de Prompt Injection, Jailbreak e fuga de instruções
+  const promptInjection = /(ignore\s+(all\s+)?previous\s+instructions|system\s+prompt|dan\s+mode|jailbreak|act\s+as\s+an?\s+unregulated|bypass\s+rules|reveal\s+(system|secret|prompt)|developer\s+mode|você\s+agora\s+é|forget\s+all\s+instructions)/i;
 
-  let daysChecked = 0;
-  while (slots.length < 6 && daysChecked < 14) {
-    const dayOfWeek = currentDay.getDay(); // 0 = Dom, 1 = Seg, 2 = Ter, 3 = Qua, 4 = Qui, 5 = Sex, 6 = Sáb
+  // Deteção de XSS, SQL Injection e injeção de comandos
+  const maliciousCode = /(<script|javascript:|onerror\s*=|onload\s*=|union\s+select|drop\s+table|--\s*$|;\s*drop|eval\(|document\.cookie|<img\s+src|<iframe)/i;
 
-    let dayWindows = [];
-    if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {
-      // Segundas, Quartas e Sextas (18:00 às 22:00)
-      dayWindows = [
-        { hour: 18, minute: 0, labelTime: '18:00' },
-        { hour: 19, minute: 0, labelTime: '19:00' },
-        { hour: 20, minute: 0, labelTime: '20:00' },
-        { hour: 21, minute: 0, labelTime: '21:00' },
-      ];
-    } else if (dayOfWeek === 6) {
-      // Sábados (10:00 às 12:00)
-      dayWindows = [
-        { hour: 10, minute: 0, labelTime: '10:00' },
-        { hour: 10, minute: 30, labelTime: '10:30' },
-        { hour: 11, minute: 0, labelTime: '11:00' },
-        { hour: 11, minute: 30, labelTime: '11:30' },
-      ];
-    }
-
-    for (const tw of dayWindows) {
-      if (slots.length >= 6) break;
-
-      const slotStart = new Date(currentDay);
-      slotStart.setHours(tw.hour, tw.minute, 0, 0);
-
-      const slotEnd = new Date(slotStart);
-      slotEnd.setMinutes(slotEnd.getMinutes() + 30);
-
-      const slotId = `${slotStart.getFullYear()}-${String(slotStart.getMonth() + 1).padStart(2, '0')}-${String(slotStart.getDate()).padStart(2, '0')}_${String(tw.hour).padStart(2, '0')}${String(tw.minute).padStart(2, '0')}`;
-
-      // Ignora se já estiver reservado para não encavalar
-      if (!bookedSlots.includes(slotId)) {
-        const dayName = slotStart.toLocaleDateString('pt-PT', { weekday: 'short' });
-        const capitalizedDay = dayName.charAt(0).toUpperCase() + dayName.slice(1).replace('.', '');
-        const dayMonth = slotStart.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' }).replace('.', '');
-
-        slots.push({
-          id: slotId,
-          display: `${capitalizedDay}, ${dayMonth} às ${tw.labelTime}`,
-          fullLabel: `${capitalizedDay}, ${dayMonth} de ${slotStart.getFullYear()} às ${tw.labelTime} (Horário de Lisboa)`,
-          startDate: slotStart,
-          endDate: slotEnd,
-        });
-      }
-    }
-
-    currentDay.setDate(currentDay.getDate() + 1);
-    daysChecked++;
-  }
-
-  return slots;
+  return promptInjection.test(text) || maliciousCode.test(text);
 };
 
-// Formata data no padrão do Google Calendar (YYYYMMDDTHHmmss)
-const formatGCalDate = (d) => {
-  const pad = (n) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
-};
-
-// Constrói o link oficial do Google Calendar com participantes automáticos (Alex Seles e Candidato)
-const buildGoogleCalendarUrl = (lead, slot) => {
-  const title = `Sessão Diagnóstica de Mentoria • Alex Seles & ${lead.nome || 'Candidato'}`;
-  const details = [
-    `Sessão Diagnóstica Individual de 30 minutos com Alex Seles.`,
-    ``,
-    `CANDIDATO: ${lead.nome || 'Não informado'}`,
-    `OBJETIVO: ${lead.objetivo || 'Não especificado'}`,
-    `MAIOR DESAFIO: ${lead.desafio || 'Não especificado'}`,
-    `TELEMOVEL: ${lead.telefone || 'Não informado'}`,
-    `E-MAIL: ${lead.email || 'Não informado'}`,
-    `HORÁRIO: ${slot.fullLabel}`,
-    ``,
-    `LOCAL: Reunião online via Google Meet (o link direto será enviado por e-mail antes da sessão).`,
-    ``,
-    `Alex Seles | Head de Inovação & Mentoria de Carreira em TI`,
-    `alexseles40@gmail.com`
-  ].join('\n');
-
-  const location = 'Google Meet (Link enviado por e-mail)';
-  const startStr = formatGCalDate(slot.startDate);
-  const endStr = formatGCalDate(slot.endDate);
-
-  // Adiciona Alex Seles e o candidato como convidados formais no evento do Google Calendar
-  const attendees = ['alexseles40@gmail.com', lead.email].filter(Boolean).join(',');
-
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startStr}/${endStr}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&add=${encodeURIComponent(attendees)}&ctz=Europe/Lisbon`;
-};
-
-// Gera e descarrega o ficheiro .ics de convite oficial
-const downloadICSFile = (lead, slot) => {
-  const pad = (n) => String(n).padStart(2, '0');
-  const formatICSDate = (d) => {
-    return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
-  };
-
-  const startStr = formatICSDate(slot.startDate);
-  const endStr = formatICSDate(slot.endDate);
-  const nowStr = formatICSDate(new Date());
-
-  const icsLines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Alex Seles//Mentoria Executiva//PT',
-    'CALSCALE:GREGORIAN',
-    'METHOD:REQUEST',
-    'BEGIN:VEVENT',
-    `UID:diag-${Date.now()}@alexseles.com`,
-    `DTSTAMP:${nowStr}`,
-    `DTSTART:${startStr}`,
-    `DTEND:${endStr}`,
-    `SUMMARY:Sessão Diagnóstica de Mentoria: ${lead.nome || 'Candidato'} com Alex Seles`,
-    `DESCRIPTION:Sessão Diagnóstica Individual de 30 minutos com Alex Seles.\\n\\nCandidato: ${lead.nome || 'Não informado'}\\nObjetivo: ${lead.objetivo || 'Não especificado'}\\nDesafio: ${lead.desafio || 'Não especificado'}\\nTelemóvel: ${lead.telefone || 'Não informado'}\\nE-mail: ${lead.email || 'Não informado'}\\n\\nReunião online via Google Meet.`,
-    `LOCATION:Google Meet (Link por e-mail)`,
-    `ORGANIZER;CN=Alex Seles:mailto:alexseles40@gmail.com`,
-    `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=Alex Seles:mailto:alexseles40@gmail.com`,
-    `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=${lead.nome || 'Candidato'}:mailto:${lead.email || 'alexseles40@gmail.com'}`,
-    'STATUS:CONFIRMED',
-    'SEQUENCE:0',
-    'BEGIN:VALARM',
-    'TRIGGER:-PT15M',
-    'ACTION:DISPLAY',
-    'DESCRIPTION:Lembrete de Sessão Diagnóstica com Alex Seles',
-    'END:VALARM',
-    'END:VEVENT',
-    'END:VCALENDAR'
-  ];
-
-  const blob = new Blob([icsLines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
-  const url = window.URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', `sessao-diagnostica-${lead.nome ? lead.nome.toLowerCase().replace(/\s+/g, '-') : 'alex-seles'}.ics`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  window.URL.revokeObjectURL(url);
+// Higienização de strings contra caracteres de controle e tags
+const sanitizeText = (str) => {
+  if (!str) return '';
+  return str.replace(/[<>]/g, '').trim();
 };
 
 export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  // Passos: 0: Init, 1: Nome, 2: Objetivo, 3: Desafio, 4: Telefone, 5: E-mail, 6: Slot, 7: Finalizado
+  
+  // Passos do SPIN Selling:
+  // 0: Init
+  // 1: Nome
+  // 2: S - Situação (Cargo atual / Anos de experiência)
+  // 3: P - Problema (Maior obstáculo de carreira)
+  // 4: I - Implicação (Tempo travado / Impacto salarial)
+  // 5: N - Necessidade & Decisão Comercial (Investimento vs Curioso/Gratuito)
+  // 6: Contacto WhatsApp
+  // 7: LinkedIn & E-mail
+  // 8: Concluído
   const [step, setStep] = useState(0);
+
   const [leadData, setLeadData] = useState({
     nome: '',
-    objetivo: '',
+    cargo: '',
+    experiencia: '',
     desafio: '',
+    implicacao: '',
+    momentoComercial: '',
     telefone: '',
+    linkedin: '',
     email: '',
-    slotAgendamento: '',
-    calendarUrl: '',
   });
-  const [availableSlots, setAvailableSlots] = useState([]);
+
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -190,7 +63,7 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isTyping, availableSlots]);
+  }, [messages, isTyping]);
 
   // Foco no input ao abrir
   useEffect(() => {
@@ -201,7 +74,7 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  // Mensagem inicial de boas-vindas ao abrir o chat pela primeira vez
+  // Mensagem inicial de boas-vindas (Tom executivo e direto)
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       setIsTyping(true);
@@ -211,62 +84,106 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           {
             id: 'm-1',
             sender: 'bot',
-            text: 'Olá! Sou a Mafalda Silva, consultora de admissão da mentoria de Alex Seles. Bem-vindo(a) ao canal direto de mentoria executiva e carreira em TI.',
+            text: 'Olá! Sou a Mafalda Silva, consultora de triagem executiva da mentoria de Alex Seles.',
             time: timeNow,
           }
         ]);
 
-        // Segunda mensagem a pedir o nome
         const timer2 = setTimeout(() => {
           setMessages((prev) => [
             ...prev,
             {
               id: 'm-2',
               sender: 'bot',
-              text: 'Para percebermos se o método prático de Alex Seles se encaixa no seu momento, qual é o seu primeiro nome?',
+              text: 'Para avaliarmos o seu enquadramento e reposicionamento internacional, qual é o seu primeiro nome?',
               time: new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
             }
           ]);
           setIsTyping(false);
           setStep(1); // Aguarda Nome
-        }, 1200);
+        }, 1000);
 
         return () => clearTimeout(timer2);
-      }, 1000);
+      }, 800);
 
       return () => clearTimeout(timer1);
     }
   }, [isOpen]);
 
-  // Disparo de e-mail ao concluir o agendamento completo
-  const dispatchBriefingEmail = async (completedData, allMessages) => {
+  // Disparo centralizado para Trello (n8n), Google Sheets / Excel no Drive, FormSubmit e Supabase
+  const dispatchLeadSubmission = async (completedData, allMessages) => {
+    const cleanNome = sanitizeText(completedData.nome) || 'Candidato Triagem';
+    const cleanCargo = sanitizeText(completedData.cargo) || 'Profissional TI';
+    const cleanDesafio = sanitizeText(completedData.desafio) || 'Não informado';
+    const cleanImplicacao = sanitizeText(completedData.implicacao) || 'Não informado';
+    const cleanComercial = sanitizeText(completedData.momentoComercial) || 'Preparado para investir';
+    const cleanTelefone = sanitizeText(completedData.telefone) || 'Não informado';
+    const cleanEmail = sanitizeText(completedData.email) || 'Não informado';
+    const cleanLinkedin = sanitizeText(completedData.linkedin) || 'Não informado';
+
+    // 1. Gravação no Supabase e Backoffice
     try {
-      // 1. Registo no Backoffice local e Supabase
-      addContact({
+      await addContact({
         tipo: 'whatsapp_web',
-        nome: completedData.nome || 'Visitante Web WhatsApp',
-        contato: `${completedData.telefone || 'Sem telefone'} | ${completedData.email || 'Sem e-mail'}`,
-        origem: `Chat Mafalda • ${completedData.objetivo || 'Diagnóstico'}`,
-        mensagem: `[AGENDAMENTO GOOGLE CALENDAR]: ${completedData.slotAgendamento || 'A definir'}\n[LINK CALENDAR]: ${completedData.calendarUrl || 'N/A'}\n[OBJETIVO]: ${completedData.objetivo || 'N/A'}\n[DESAFIO/DOR]: ${completedData.desafio || 'N/A'}\n\n[TRANSCRIÇÃO]:\n${allMessages.map(m => `${m.sender.toUpperCase()} (${m.time}): ${m.text}`).join('\n')}`,
+        nome: cleanNome.slice(0, 100),
+        contato: `${cleanEmail.slice(0, 80)} • ${cleanTelefone.slice(0, 30)}`,
+        origem: `Chat Mafalda • SPIN Selling (${cleanCargo})`,
+        modulo: `Mentoria Executiva (${cleanCargo})`,
+        investimento: cleanComercial,
+        horas: 'Diagnóstico de Carreira',
+        tipoSolicitacao: 'Pré-Qualificação de Carreira',
+        mensagem: `[SPIN SELLING - PRÉ-QUALIFICAÇÃO EXECUTIVA]\nNome: ${cleanNome}\nCargo: ${cleanCargo}\nExperiência: ${completedData.experiencia || 'TI'}\nProblema/Desafio: ${cleanDesafio}\nImplicação: ${cleanImplicacao}\nDecisão Comercial: ${cleanComercial}\nLinkedIn: ${cleanLinkedin}\nWhatsApp: ${cleanTelefone}\nE-mail: ${cleanEmail}\n\n[TRANSCRIÇÃO CHAT]:\n${allMessages.map(m => `${m.sender.toUpperCase()} (${m.time}): ${m.text}`).join('\n')}`,
         status: 'Novo'
       });
     } catch (e) {
-      console.warn('Erro ao registar no Backoffice:', e);
+      console.warn('Registo local no Backoffice efetuado:', e);
     }
 
+    // 2. Disparo para o Webhook n8n (Criação de Cartão no Trello com Checklist do Plano de Ação & Registo em Google Sheets / Excel no Drive)
     try {
-      // 2. Disparo formatado via FormSubmit diretamente para alexseles40@gmail.com
+      const n8nWebhookUrl = import.meta.env.VITE_N8N_CALENDAR_WEBHOOK_URL || 'https://n8n.srv1469659.hstgr.cloud/webhook/agendar-google-calendar';
+      await fetch(n8nWebhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          nome: cleanNome,
+          email: cleanEmail,
+          telefone: cleanTelefone,
+          cidade: 'Não informado',
+          tipoSolicitacao: 'Pré-Qualificação de Carreira',
+          modulo: `Mentoria Executiva • ${cleanCargo}`,
+          investimento: cleanComercial,
+          horas: 'Diagnóstico de Carreira',
+          objetivo: `Plano de Ação: SPIN Selling (${cleanCargo})`,
+          desafio: `${cleanDesafio} | Implicação: ${cleanImplicacao}`,
+          slotAgendamento: 'Sessão Diagnóstica (A agendar)',
+          startISO: new Date().toISOString(),
+          endISO: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+          canal: 'Chat Mafalda (SPIN Selling)'
+        })
+      });
+    } catch (n8nErr) {
+      console.warn('n8n indisponível:', n8nErr);
+    }
+
+    // 3. Disparo de e-mail via FormSubmit diretamente para o mentor
+    try {
       const payload = {
-        'Nome do Candidato': completedData.nome,
-        'Objetivo Principal': completedData.objetivo,
-        'Maior Desafio / Dor': completedData.desafio,
-        'Telemóvel (WhatsApp)': completedData.telefone,
-        'E-mail (Contingência e Confirmação)': completedData.email,
-        'Sessão Diagnóstica Agendada': completedData.slotAgendamento || 'A definir',
-        'Link do Google Calendar': completedData.calendarUrl || 'Não gerado',
-        'Canal de Origem': 'Chat Interativo Mafalda Silva (WhatsApp Web)',
-        'Data e Hora do Registo': new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' }),
-        '_subject': `Novo Agendamento via Mafalda: ${completedData.nome} (${completedData.slotAgendamento || completedData.objetivo})`,
+        'Nome do Candidato': cleanNome,
+        'Cargo e Área': cleanCargo,
+        'Tempo de Experiência': completedData.experiencia || 'Não informado',
+        'Maior Desafio / Dor': cleanDesafio,
+        'Impacto / Implicação': cleanImplicacao,
+        'Momento Comercial & Investimento': cleanComercial,
+        'Telemóvel (WhatsApp)': cleanTelefone,
+        'LinkedIn': cleanLinkedin,
+        'E-mail': cleanEmail,
+        'Canal de Origem': 'Chat Mafalda (SPIN Selling • Pré-Qualificação)',
+        'Data e Hora': new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' }),
+        '_subject': `Nova Pré-Qualificação Chat Mafalda: ${cleanNome} (${cleanCargo})`,
         '_template': 'table',
         '_captcha': 'false'
       };
@@ -280,97 +197,36 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
         body: JSON.stringify(payload)
       });
     } catch (err) {
-      console.warn('Erro ao enviar e-mail via FormSubmit:', err);
+      console.warn('Erro no FormSubmit:', err);
     }
-
-    try {
-      // 3. Disparo em tempo real para o n8n (Criação automática no Google Calendar & Envio do Convite com Google Meet)
-      const n8nWebhookUrl = import.meta.env.VITE_N8N_CALENDAR_WEBHOOK_URL || 'https://n8n.srv1469659.hstgr.cloud/webhook/agendar-google-calendar';
-      await fetch(n8nWebhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          nome: completedData.nome,
-          email: completedData.email,
-          telefone: completedData.telefone,
-          objetivo: completedData.objetivo,
-          desafio: completedData.desafio,
-          slotAgendamento: completedData.slotAgendamento,
-          startISO: completedData.startISO,
-          endISO: completedData.endISO
-        })
-      });
-    } catch (n8nErr) {
-      console.warn('n8n indisponível ou aguardando credencial (fallback mantido):', n8nErr);
-    }
-  };
-
-  // Trata a seleção de um slot de agendamento específico (garantindo que não encavale)
-  const handleSelectSlot = (chosenSlot) => {
-    // 1. Bloqueia o slot no localStorage para nunca encavalar
-    try {
-      const booked = JSON.parse(localStorage.getItem('mc_scheduled_calendar_slots') || '[]');
-      if (!booked.includes(chosenSlot.id)) {
-        localStorage.setItem('mc_scheduled_calendar_slots', JSON.stringify([...booked, chosenSlot.id]));
-      }
-    } catch (e) {
-      console.warn('Erro ao gravar slot no localStorage:', e);
-    }
-
-    const timeNow = new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
-
-    // 2. Mensagem do utilizador a confirmar o slot
-    const userMsg = {
-      id: `u-${Date.now()}`,
-      sender: 'user',
-      text: chosenSlot.display,
-      time: timeNow,
-    };
-
-    const gcalUrl = buildGoogleCalendarUrl(leadData, chosenSlot);
-    const updatedLead = {
-      ...leadData,
-      slotAgendamento: chosenSlot.fullLabel,
-      calendarUrl: gcalUrl,
-      startISO: chosenSlot.startDate.toISOString(),
-      endISO: chosenSlot.endDate.toISOString(),
-    };
-
-    setLeadData(updatedLead);
-    setAvailableSlots([]);
-
-    const updatedMessages = [...messages, userMsg];
-    setMessages(updatedMessages);
-    setIsTyping(true);
-
-    setTimeout(() => {
-      const botResponse = `Sessão Diagnóstica agendada com sucesso para ${chosenSlot.fullLabel}!\n\nEnviei os detalhes da sua situação diretamente ao Alex Seles e acabámos de enviar o convite formal da sessão para o seu e-mail:\n• ${updatedLead.email}\n\nPor favor, verifique a sua caixa de entrada. O e-mail contém o link direto da videochamada (Google Meet) e o botão para confirmar a sua presença com 1 clique.`;
-
-      const finalBotMsg = {
-        id: `b-${Date.now()}`,
-        sender: 'bot',
-        text: botResponse,
-        inviteEmailSentTo: updatedLead.email,
-        time: new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
-      };
-
-      setMessages((prev) => [...prev, finalBotMsg]);
-      setIsTyping(false);
-      setStep(7); // Finalizado
-
-      // Dispara o e-mail completo com todos os dados recolhidos
-      dispatchBriefingEmail(updatedLead, [...updatedMessages, finalBotMsg]);
-    }, 1200);
   };
 
   // Processa as respostas do utilizador
   const handleSend = (customText = null) => {
-    const textToSend = (customText || inputText).trim();
-    if (!textToSend) return;
+    const rawText = (customText || inputText).trim();
+    if (!rawText) return;
 
+    // Blindagem Anti-Hacker
+    if (detectSecurityThreat(rawText)) {
+      const timeNow = new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+      const userSecurityMsg = {
+        id: `u-${Date.now()}`,
+        sender: 'user',
+        text: rawText.slice(0, 80) + '...',
+        time: timeNow,
+      };
+      const botDefenseMsg = {
+        id: `b-${Date.now()}`,
+        sender: 'bot',
+        text: 'Aviso de Segurança: Entrada inválida ou potencialmente maliciosa detetada pelo sistema de conformidade. Por favor, utilize informações profissionais válidas para dar seguimento à triagem executiva.',
+        time: timeNow,
+      };
+      setMessages((prev) => [...prev, userSecurityMsg, botDefenseMsg]);
+      setInputText('');
+      return;
+    }
+
+    const textToSend = sanitizeText(rawText);
     const timeNow = new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
     const userMsg = {
       id: `u-${Date.now()}`,
@@ -384,71 +240,91 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
     setInputText('');
     setIsTyping(true);
 
-    // Lógica conversacional do bot
     setTimeout(() => {
       let botResponse = '';
       let nextStep = step;
       let updatedLead = { ...leadData };
       const lower = textToSend.toLowerCase();
 
-      // Dúvidas frequentes intercaladas
+      // Intercalações informativas sóbrias
       if (lower.includes('quem é o alex') || lower.includes('quem e alex') || lower.includes('sobre o alex')) {
-        botResponse = 'Alex Seles é Engenheiro Informático, Mestre e mentor internacional com mais de 20 anos de experiência. Possui as certificações PMP®, SAFe® 6, ITIL® 4 e PSM II™, atuando na aceleração e transição de carreira para tecnologia.';
-        nextStep = step; // Mantém o passo atual
+        botResponse = 'Alex Seles é Engenheiro Informático com mais de 20 anos de experiência internacional e certificações executivas (PMP®, SAFe®, ITIL®, PSM II™), mentorando líderes e especialistas de TI em reposicionamento.';
+        nextStep = step;
       } else if (lower.includes('quanto custa') || lower.includes('qual o preço') || lower.includes('valor')) {
-        botResponse = 'A mentoria é individual e personalizada. O investimento depende das metas desenhadas para si. Por isso, Alex realiza uma Sessão Diagnóstica de 30 min com candidatos selecionados. Vamos prosseguir com o seu agendamento?';
+        botResponse = 'A mentoria é individual e personalizada. O investimento depende do diagnóstico das suas metas. Vamos concluir a sua qualificação para verificar se há vaga disponível no seu perfil?';
         nextStep = step;
       } else if (step === 1) {
-        // Recebeu Nome
+        // Recebeu Nome -> Pergunta Situação (Cargo & Experiência)
         const cleanName = textToSend.replace(/^(eu sou o|meu nome é|sou o|sou a|eu sou a)\s*/i, '').trim();
         updatedLead.nome = cleanName;
         setLeadData(updatedLead);
-        botResponse = `Prazer, ${cleanName}! Em que área atua atualmente e qual o seu grande objetivo em tecnologia ou liderança?`;
-        nextStep = 2;
+        botResponse = `Prazer, ${cleanName}! Qual é o seu cargo atual ou área de atuação, e quantos anos de experiência tem no mercado?`;
+        nextStep = 2; // Aguarda Situação
       } else if (step === 2) {
-        // Recebeu Objetivo
-        updatedLead.objetivo = textToSend;
+        // Recebeu Situação -> Pergunta Problema (Maior Desafio)
+        updatedLead.cargo = textToSend;
+        updatedLead.experiencia = textToSend;
         setLeadData(updatedLead);
-        botResponse = 'Excelente meta. E o que tem sido o seu maior obstáculo ou dor para atingir esse patamar hoje? (Ex: currículo sem resposta por robôs ATS, falta de direção prática, transição insegura...)';
-        nextStep = 3;
+        botResponse = 'Entendido. E qual tem sido o seu principal obstáculo ou dor para atingir o seu próximo patamar profissional ou internacional?';
+        nextStep = 3; // Aguarda Problema
       } else if (step === 3) {
-        // Recebeu Desafio / Dor -> Solicita Telemóvel
+        // Recebeu Problema -> Pergunta Implicação
         updatedLead.desafio = textToSend;
         setLeadData(updatedLead);
-        botResponse = `Compreendo perfeitamente, ${updatedLead.nome || 'caro colega'}. Esse é precisamente o ponto crítico que o método de Alex Seles destrava com acompanhamento prático individual.\n\nPara alinharmos a sua Sessão Diagnóstica de 30 minutos com o Alex Seles, qual é o seu número de telemóvel com WhatsApp (com indicativo do país, ex.: +351)?`;
-        nextStep = 4;
+        botResponse = `Compreendo, ${updatedLead.nome || 'caro colega'}. E há quanto tempo tem enfrentado essa dificuldade sozinho, e qual o impacto disso na sua renda e evolução de carreira?`;
+        nextStep = 4; // Aguarda Implicação
       } else if (step === 4) {
-        // Recebeu Telemóvel -> Solicita E-mail de contingência
+        // Recebeu Implicação -> Pergunta Necessidade & Decisão Comercial (Filtro Anti-Curiosos)
+        updatedLead.implicacao = textToSend;
+        setLeadData(updatedLead);
+        botResponse = 'Para destravar esse patamar com o método individual de Alex Seles, as vagas são limitadas e exigem dedicação mútua. Qual é a sua disponibilidade de investimento hoje?';
+        nextStep = 5; // Aguarda Momento Comercial
+      } else if (step === 5) {
+        // Recebeu Momento Comercial: Triagem de Curiosos
+        updatedLead.momentoComercial = textToSend;
+        setLeadData(updatedLead);
+
+        const isCurious =
+          lower.includes('gratuito') ||
+          lower.includes('grátis') ||
+          lower.includes('gratis') ||
+          lower.includes('apenas') ||
+          lower.includes('sem dinheiro') ||
+          lower.includes('não quero pagar') ||
+          lower.includes('nao quero pagar') ||
+          lower.includes('livre');
+
+        if (isCurious) {
+          // Curioso / Sem disponibilidade financeira -> Direcionar respeitosamente para a Central de Conhecimento
+          botResponse = `Compreendo perfeitamente, ${updatedLead.nome || 'caro colega'}.\n\nA mentoria de Alex Seles é um programa executivo individual e com investimento dedicado.\n\nPara o seu momento atual, recomendo consultar os artigos e guias práticos gratuitos na nossa Central de Conhecimento oficial:\n• https://www.alexseles.online/central-de-conhecimento\n\nDesejo-lhe muito sucesso na sua trajetória profissional!`;
+          nextStep = 8; // Encerra educadamente sem agendar nem poluir agenda/Trello
+        } else {
+          // Perfil qualificado para mentoria -> Solicita WhatsApp
+          botResponse = `Perfeito, ${updatedLead.nome || 'caro colega'}. O seu perfil enquadra-se nos critérios para análise direta com Alex Seles.\n\nQual é o seu número de telemóvel com WhatsApp (com indicativo do país, ex.: +351 ou +55)?`;
+          nextStep = 6; // Aguarda WhatsApp
+        }
+      } else if (step === 6) {
+        // Recebeu WhatsApp -> Solicita LinkedIn e E-mail
         updatedLead.telefone = textToSend;
         setLeadData(updatedLead);
-        botResponse = `Muito obrigada! E qual é o seu melhor e-mail? É essencial caso haja algum dígito trocado no número de telemóvel, para garantir que não perde o contacto e também para o envio do convite formal da sessão.`;
-        nextStep = 5;
-      } else if (step === 5) {
-        // Recebeu E-mail -> Apresenta slots disponíveis no Google Calendar sem sobreposição
-        updatedLead.email = textToSend;
+        botResponse = 'Excelente. Por fim, qual é o seu e-mail e o link do seu perfil no LinkedIn para envio do diagnóstico?';
+        nextStep = 7; // Aguarda LinkedIn e E-mail
+      } else if (step === 7) {
+        // Recebeu LinkedIn e E-mail -> Conclui qualificação e dispara integrações
+        const emailMatch = textToSend.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+        updatedLead.email = emailMatch ? emailMatch[0] : textToSend;
+        updatedLead.linkedin = textToSend;
         setLeadData(updatedLead);
 
-        const slots = generateAvailableSlots();
-        setAvailableSlots(slots);
+        botResponse = `Tudo registado com sucesso, ${updatedLead.nome || 'caro colega'}!\n\nA sua pré-qualificação executiva foi enviada diretamente para Alex Seles. As suas informações serão avaliadas e entraremos em contacto consigo pelo WhatsApp em até 48 horas úteis.\n\nObrigada pelo seu tempo e confiança!`;
+        nextStep = 8; // Concluído
 
-        botResponse = `Perfeito, ${updatedLead.nome || 'caro colega'}! Para que os horários não encavalem na agenda do Alex Seles e assegurarmos a sua vaga exclusiva, selecione abaixo um dos horários disponíveis para a sua Sessão Diagnóstica de 30 minutos:`;
-        nextStep = 6;
-      } else if (step === 6) {
-        // Se o utilizador digitou texto em vez de clicar num chip de slot
-        const slots = generateAvailableSlots();
-        const chosenSlot = slots[0] || {
-          id: `custom-${Date.now()}`,
-          display: 'Horário sugerido',
-          fullLabel: `${textToSend} (A confirmar com Alex Seles)`,
-          startDate: new Date(),
-          endDate: new Date(Date.now() + 30 * 60 * 1000)
-        };
-        handleSelectSlot(chosenSlot);
-        return;
+        // Dispara integrações (Trello via n8n, Google Sheets no Drive, FormSubmit e Supabase)
+        dispatchLeadSubmission(updatedLead, [...updatedMessages, { id: `b-${Date.now()}`, sender: 'bot', text: botResponse, time: timeNow }]);
       } else {
-        // Passo 7 ou mensagens subsequentes
-        botResponse = 'Informação adicional registada com sucesso! O Alex Seles terá este apontamento em consideração antes da sessão diagnóstica. Desejamos-lhe um excelente dia!';
-        nextStep = 7;
+        // Passo 8 ou mensagens subsequentes
+        botResponse = 'As suas informações já se encontram em análise. Alex Seles entrará em contacto direto consigo pelo WhatsApp indicado em breve. Desejamos-lhe um excelente dia!';
+        nextStep = 8;
       }
 
       setStep(nextStep);
@@ -462,7 +338,7 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           time: new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
         }
       ]);
-    }, 1200);
+    }, 1000);
   };
 
   const handleKeyDown = (e) => {
@@ -477,15 +353,17 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
       case 1:
         return 'Escreva o seu primeiro nome...';
       case 2:
-        return 'Escreva ou selecione o seu objetivo...';
+        return 'Ex: Desenvolvedor Sênior (8 anos)...';
       case 3:
-        return 'Escreva ou selecione o seu maior desafio...';
+        return 'Selecione ou descreva o seu maior desafio...';
       case 4:
-        return 'Ex: +351 912 345 678 (WhatsApp)...';
+        return 'Descreva o impacto ou selecione acima...';
       case 5:
-        return 'Ex: seu.nome@email.com (E-mail)...';
+        return 'Selecione a sua opção acima...';
       case 6:
-        return 'Selecione um horário acima ou escreva...';
+        return 'Ex: +351 912 345 678 (WhatsApp)...';
+      case 7:
+        return 'Ex: linkedin.com/in/perfil e seu e-mail...';
       default:
         return 'Escrever mensagem...';
     }
@@ -497,7 +375,7 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
     <div 
       className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[95vw] sm:w-[410px] h-[610px] max-h-[88vh] bg-[#EFEAE2] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-[#D1D7DB] animate-in fade-in slide-in-from-bottom-5 duration-200 font-sans"
       role="dialog"
-      aria-label="Chat Mafalda Silva - Atendente Virtual"
+      aria-label="Chat Mafalda Silva - Triagem Executiva"
     >
       {/* Cabeçalho Oficial Estilo WhatsApp Web (Tema Claro) */}
       <div className="bg-[#F0F2F5] text-[#111B21] px-4 py-2.5 flex items-center justify-between border-b border-[#E9EDEF] shadow-xs select-none shrink-0">
@@ -523,38 +401,14 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
               {isTyping ? (
                 <span className="text-[#008069] font-medium animate-pulse">a escrever...</span>
               ) : (
-                'Atendente Virtual'
+                'Triagem Executiva • Alex Seles'
               )}
             </p>
           </div>
         </div>
 
-        {/* Ações do Cabeçalho (Idênticas ao Screenshot) */}
+        {/* Ações do Cabeçalho */}
         <div className="flex items-center gap-1 text-[#54656F]">
-          <button
-            type="button"
-            className="p-2 hover:bg-black/5 rounded-full transition-colors focus:outline-none"
-            title="Chamada de vídeo"
-            aria-label="Chamada de vídeo"
-          >
-            <i className="fa-solid fa-video text-[15px]"></i>
-          </button>
-          <button
-            type="button"
-            className="p-2 hover:bg-black/5 rounded-full transition-colors focus:outline-none"
-            title="Chamada de voz"
-            aria-label="Chamada de voz"
-          >
-            <i className="fa-solid fa-phone text-[14px]"></i>
-          </button>
-          <button
-            type="button"
-            className="p-2 hover:bg-black/5 rounded-full transition-colors focus:outline-none"
-            title="Pesquisar na conversa"
-            aria-label="Pesquisar"
-          >
-            <i className="fa-solid fa-magnifying-glass text-[15px]"></i>
-          </button>
           <button
             onClick={onClose}
             className="p-2 hover:bg-black/5 rounded-full transition-colors focus:outline-none ml-0.5"
@@ -566,7 +420,7 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      {/* Corpo da Conversa com Fundo Bege Autêntico do WhatsApp */}
+      {/* Corpo da Conversa com Fundo do WhatsApp */}
       <div 
         className="flex-1 overflow-y-auto p-3.5 space-y-2.5 relative"
         style={{
@@ -583,11 +437,11 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           </span>
         </div>
 
-        {/* Caixa Amarela de Encriptação & Segurança (Idêntica ao Screenshot) */}
+        {/* Caixa de Conformidade & Confidencialidade */}
         <div className="flex justify-center my-1.5">
-          <div className="bg-[#FFEECD] border border-[#FFE082]/40 text-[#54656F] text-[11.5px] leading-relaxed text-center px-4 py-2 rounded-lg max-w-[94%] shadow-xs flex items-center justify-center gap-1.5 select-none">
+          <div className="bg-[#FFEECD] border border-[#FFE082]/40 text-[#54656F] text-[11px] leading-relaxed text-center px-4 py-2 rounded-lg max-w-[94%] shadow-xs flex items-center justify-center gap-1.5 select-none">
             <i className="fa-solid fa-lock text-[10px] text-[#54656F] shrink-0"></i>
-            <span>As mensagens e as chamadas são encriptadas ponto a ponto. Só as pessoas nesta conversa as podem ler, ouvir ou partilhar.</span>
+            <span>Canal confidencial de pré-qualificação profissional com proteção de dados (RGPD).</span>
           </div>
         </div>
 
@@ -606,21 +460,6 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
             >
               <p className="whitespace-pre-line">{m.text}</p>
               
-              {/* Confirmação de Envio do Convite por E-mail */}
-              {m.inviteEmailSentTo && (
-                <div className="mt-3 pt-2.5 border-t border-slate-200/60">
-                  <div className="bg-[#F0FDF4] border border-[#BBF7D0] text-[#166534] rounded-lg p-3 text-xs flex items-start gap-2.5 shadow-2xs">
-                    <i className="fa-solid fa-envelope-circle-check text-base text-[#16A34A] shrink-0 mt-0.5" aria-hidden="true"></i>
-                    <div>
-                      <span className="font-bold text-[#15803D] block">Convite oficial enviado por e-mail</span>
-                      <p className="text-[11.5px] text-[#166534] mt-0.5 leading-snug">
-                        O link exclusivo do Google Meet e os detalhes da sessão foram encaminhados para <strong>{m.inviteEmailSentTo}</strong>.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               <div className="flex items-center justify-end gap-1 mt-1 text-[11px] text-[#667781] select-none">
                 <span>{m.time}</span>
                 {m.sender === 'user' && (
@@ -631,7 +470,7 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           </div>
         ))}
 
-        {/* Indicador de "A escrever..." com 3 pontinhos animados */}
+        {/* Indicador de Digitação */}
         {isTyping && (
           <div className="flex items-start">
             <div className="bg-white text-[#111B21] rounded-lg rounded-tl-none px-4 py-3 shadow-xs border border-black/5 flex items-center gap-1.5">
@@ -642,10 +481,15 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           </div>
         )}
 
-        {/* Chips de Resposta Rápida: Passo 2 (Objetivo) */}
+        {/* Chips de Resposta Rápida: Passo 2 (Situação / Cargo) */}
         {!isTyping && step === 2 && (
           <div className="flex flex-wrap gap-1.5 pt-1">
-            {['Transição para TI', 'Scrum Master / PO', 'Liderança & Gestão Ágil', 'Preparar Certificação PMP/ITIL'].map((chip) => (
+            {[
+              'Engenharia / Dev (+5 anos)',
+              'Gestão de Projetos / Scrum',
+              'Transição para TI',
+              'Liderança Executiva de TI'
+            ].map((chip) => (
               <button
                 key={chip}
                 onClick={() => handleSend(chip)}
@@ -657,10 +501,15 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           </div>
         )}
 
-        {/* Chips de Resposta Rápida: Passo 3 (Maior Desafio) */}
+        {/* Chips de Resposta Rápida: Passo 3 (Problema / Desafio) */}
         {!isTyping && step === 3 && (
           <div className="flex flex-wrap gap-1.5 pt-1">
-            {['Currículo rejeitado por robôs ATS', 'LinkedIn sem visibilidade', 'Insegurança para mudar de área', 'Estagnação de cargo/salário'].map((chip) => (
+            {[
+              'Currículo barrado por robôs ATS',
+              'Falta de propostas internacionais',
+              'Transição de área sem direção',
+              'Salário estagnado no mercado'
+            ].map((chip) => (
               <button
                 key={chip}
                 onClick={() => handleSend(chip)}
@@ -672,49 +521,53 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           </div>
         )}
 
-        {/* Slots de Agendamento no Google Calendar: Passo 6 (Horários sem encavalamento) */}
-        {!isTyping && step === 6 && availableSlots.length > 0 && (
-          <div className="pt-2 space-y-2">
-            <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#54656F] px-1 select-none">
-              <i className="fa-regular fa-clock text-[#00A884]"></i>
-              <span>Selecione um horário disponível (30 min):</span>
-            </div>
-            <div className="grid grid-cols-1 gap-1.5">
-              {availableSlots.map((s) => (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => handleSelectSlot(s)}
-                  className="text-left text-xs bg-white hover:bg-[#D9FDD3] text-[#111B21] border border-[#D1D7DB] hover:border-[#00A884] rounded-lg px-3.5 py-2.5 transition-all shadow-xs font-medium flex items-center justify-between group"
-                >
-                  <span className="flex items-center gap-2">
-                    <i className="fa-regular fa-calendar-check text-[#00A884] text-sm"></i>
-                    <span>{s.display}</span>
-                  </span>
-                  <span className="text-[10px] text-[#667781] group-hover:text-[#008069] flex items-center gap-1 font-semibold">
-                    <span>Confirmar</span>
-                    <i className="fa-solid fa-chevron-right text-[9px]"></i>
-                  </span>
-                </button>
-              ))}
-            </div>
+        {/* Chips de Resposta Rápida: Passo 4 (Implicação) */}
+        {!isTyping && step === 4 && (
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {[
+              'Mais de 6 meses sem evolução',
+              'Tentando há 1 ano sozinho',
+              'Iniciando agora a busca'
+            ].map((chip) => (
+              <button
+                key={chip}
+                onClick={() => handleSend(chip)}
+                className="text-xs bg-white hover:bg-[#D9FDD3] text-[#111B21] border border-[#D1D7DB] hover:border-[#25D366] rounded-full px-3 py-1.5 transition-all shadow-xs font-medium"
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Chips de Resposta Rápida: Passo 5 (Momento Comercial & Filtro Anti-Curiosos) */}
+        {!isTyping && step === 5 && (
+          <div className="flex flex-col gap-1.5 pt-1">
+            {[
+              'Preparado para investir na mentoria',
+              'Quero conhecer formatos e condições',
+              'Apenas conteúdos gratuitos no momento'
+            ].map((chip) => (
+              <button
+                key={chip}
+                onClick={() => handleSend(chip)}
+                className={`text-xs text-left px-3.5 py-2 rounded-xl transition-all shadow-xs font-medium border ${
+                  chip.includes('conteúdos gratuitos')
+                    ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'
+                    : 'bg-white hover:bg-[#D9FDD3] text-[#111B21] border-[#D1D7DB] hover:border-[#00A884]'
+                }`}
+              >
+                {chip}
+              </button>
+            ))}
           </div>
         )}
 
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Barra Inferior de Entrada de Texto (Idêntica ao Screenshot) */}
+      {/* Barra Inferior de Entrada de Texto */}
       <div className="bg-[#F0F2F5] px-3 py-2 flex items-center gap-2 border-t border-[#E9EDEF] shrink-0">
-        <button
-          type="button"
-          className="text-[#54656F] hover:text-[#111B21] p-1.5 transition-colors focus:outline-none"
-          title="Anexar"
-          aria-label="Anexar"
-        >
-          <i className="fa-solid fa-plus text-lg"></i>
-        </button>
-
         <input
           ref={inputRef}
           type="text"
@@ -722,14 +575,16 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={getInputPlaceholder()}
-          className="flex-1 bg-white text-[#111B21] placeholder-[#8696A0] text-sm px-4 py-2.5 rounded-lg border border-transparent focus:outline-none focus:ring-1 focus:ring-[#00A884] shadow-xs"
+          disabled={step === 8}
+          className="flex-1 bg-white text-[#111B21] placeholder-[#8696A0] text-sm px-4 py-2.5 rounded-lg border border-transparent focus:outline-none focus:ring-1 focus:ring-[#00A884] shadow-xs disabled:opacity-50"
         />
 
         {inputText.trim() ? (
           <button
             type="button"
             onClick={() => handleSend()}
-            className="w-9 h-9 rounded-full bg-[#00A884] hover:bg-[#008069] text-white flex items-center justify-center transition-transform hover:scale-105 active:scale-95 shrink-0 focus:outline-none shadow-xs"
+            disabled={step === 8}
+            className="w-9 h-9 rounded-full bg-[#00A884] hover:bg-[#008069] text-white flex items-center justify-center transition-transform hover:scale-105 active:scale-95 shrink-0 focus:outline-none shadow-xs disabled:opacity-50"
             title="Enviar mensagem"
             aria-label="Enviar"
           >
@@ -739,11 +594,12 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           <button
             type="button"
             onClick={() => handleSend('Olá')}
-            className="text-[#54656F] hover:text-[#111B21] p-1.5 transition-colors focus:outline-none shrink-0"
-            title="Mensagem de voz"
-            aria-label="Mensagem de voz"
+            disabled={step === 8}
+            className="text-[#54656F] hover:text-[#111B21] p-1.5 transition-colors focus:outline-none shrink-0 disabled:opacity-50"
+            title="Iniciar"
+            aria-label="Iniciar"
           >
-            <i className="fa-solid fa-microphone text-lg"></i>
+            <i className="fa-solid fa-paper-plane text-base"></i>
           </button>
         )}
       </div>

@@ -28,17 +28,8 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
   errors
 }) => {
   return (
-    <div className="space-y-6">
-      <div className="border-b border-slate-100 pb-3">
-        <h3 className="text-base sm:text-lg font-bold text-slate-900">
-          Dados Pessoais e Canais Diretos
-        </h3>
-        <p className="text-xs text-slate-500 mt-0.5">
-          As informações são tratadas sob estrito sigilo executivo.
-        </p>
-      </div>
-
-      {/* Campo Honeypot Oculto (Segurança Defensiva Anti-Bot / Anti-Spam) */}
+    <div className="space-y-4">
+      {/* Campo Honeypot Oculto (Anti-Bot) */}
       <div
         style={{
           position: 'absolute',
@@ -63,16 +54,16 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Nome Completo */}
         <div className="sm:col-span-2">
           <label
             htmlFor="fullName"
-            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
+            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
           >
             Nome Completo <span className="text-red-500">*</span>
           </label>
-          <div className="relative rounded-lg shadow-sm">
+          <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
               <User className="w-4 h-4" aria-hidden="true" />
             </div>
@@ -80,12 +71,12 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               type="text"
               id="fullName"
               name="fullName"
-              placeholder="Ex: Carlos Eduardo de Oliveira"
+              placeholder="O seu nome completo"
               value={formData.fullName}
               onChange={(e) => updateFormData({ fullName: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2.5 bg-white border ${
-                errors.fullName ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors`}
+              className={`w-full pl-9 pr-3 py-2 bg-white border ${
+                errors.fullName ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
@@ -98,11 +89,11 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
         <div>
           <label
             htmlFor="email"
-            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
+            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
           >
-            E-mail Corporativo ou Pessoal <span className="text-red-500">*</span>
+            E-mail <span className="text-red-500">*</span>
           </label>
-          <div className="relative rounded-lg shadow-sm">
+          <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
               <Mail className="w-4 h-4" aria-hidden="true" />
             </div>
@@ -110,12 +101,12 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               type="email"
               id="email"
               name="email"
-              placeholder="seu.email@empresa.com"
+              placeholder="seu.email@exemplo.com"
               value={formData.email}
               onChange={(e) => updateFormData({ email: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2.5 bg-white border ${
-                errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors`}
+              className={`w-full pl-9 pr-3 py-2 bg-white border ${
+                errors.email ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
@@ -124,15 +115,15 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
           )}
         </div>
 
-        {/* WhatsApp com DDI */}
+        {/* WhatsApp */}
         <div>
           <label
             htmlFor="phone"
-            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
+            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
           >
-            WhatsApp com DDI <span className="text-red-500">*</span>
+            WhatsApp (com DDI) <span className="text-red-500">*</span>
           </label>
-          <div className="relative rounded-lg shadow-sm">
+          <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
               <Phone className="w-4 h-4" aria-hidden="true" />
             </div>
@@ -140,18 +131,15 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               type="tel"
               id="phone"
               name="phone"
-              placeholder="+351 912 345 678 ou +55 11 98765-4321"
+              placeholder="+351 912 345 678 ou +55 11 99999-9999"
               value={formData.phone}
               onChange={(e) => updateFormData({ phone: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2.5 bg-white border ${
-                errors.phone ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors`}
+              className={`w-full pl-9 pr-3 py-2 bg-white border ${
+                errors.phone ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
-          <span className="text-[11px] text-slate-400 mt-1 block">
-            Inclua o indicativo internacional (+351, +55, etc.).
-          </span>
           {errors.phone && (
             <p className="mt-1 text-xs text-red-600 font-medium">{errors.phone}</p>
           )}
@@ -161,11 +149,11 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
         <div>
           <label
             htmlFor="linkedinUrl"
-            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
+            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
           >
-            Link do Perfil no LinkedIn <span className="text-red-500">*</span>
+            LinkedIn <span className="text-red-500">*</span>
           </label>
-          <div className="relative rounded-lg shadow-sm">
+          <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0A66C2]">
               <i className="fa-brands fa-linkedin text-sm" aria-hidden="true"></i>
             </div>
@@ -173,12 +161,12 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               type="url"
               id="linkedinUrl"
               name="linkedinUrl"
-              placeholder="https://www.linkedin.com/in/seu-perfil"
+              placeholder="https://linkedin.com/in/seu-perfil"
               value={formData.linkedinUrl}
               onChange={(e) => updateFormData({ linkedinUrl: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2.5 bg-white border ${
-                errors.linkedinUrl ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors`}
+              className={`w-full pl-9 pr-3 py-2 bg-white border ${
+                errors.linkedinUrl ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
@@ -187,15 +175,15 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
           )}
         </div>
 
-        {/* País Atual de Residência */}
+        {/* País */}
         <div>
           <label
             htmlFor="currentCountry"
-            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
+            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
           >
-            País Atual de Residência <span className="text-red-500">*</span>
+            País de Residência <span className="text-red-500">*</span>
           </label>
-          <div className="relative rounded-lg shadow-sm">
+          <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
               <Globe className="w-4 h-4" aria-hidden="true" />
             </div>
@@ -204,12 +192,12 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               name="currentCountry"
               value={formData.currentCountry}
               onChange={(e) => updateFormData({ currentCountry: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2.5 bg-white border ${
-                errors.currentCountry ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors`}
+              className={`w-full pl-9 pr-3 py-2 bg-white border ${
+                errors.currentCountry ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             >
-              <option value="">Selecione o país onde reside</option>
+              <option value="">Selecione o seu país</option>
               {COMMON_COUNTRIES.map((c) => (
                 <option key={c} value={c}>
                   {c}

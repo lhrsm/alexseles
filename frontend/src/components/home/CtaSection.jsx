@@ -1,7 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { PreQualificationModal } from '../pre-qualification';
 
 export const CtaSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section id="contato" className="py-20 sm:py-28 bg-white text-[#163758] border-t border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,25 +19,31 @@ export const CtaSection = () => {
             </h2>
           </div>
 
-          {/* Lado Direito: Descrição e CTA Único */}
+          {/* Lado Direito: Descrição e Botão de Pré-Qualificação */}
           <div className="lg:col-span-6 space-y-6">
             <p className="text-base sm:text-lg text-[#536773] leading-relaxed font-sans">
-              Agende uma sessão diagnóstica com <strong>Alex Seles</strong>. Vamos traçar em conjunto o caminho mais rápido e seguro para desbloquear a sua evolução, conquistar cargos de liderança e alcançar o patamar salarial correspondente ao seu valor.
+              Submeta a sua pré-qualificação confidencial com <strong>Alex Seles</strong>. Avaliamos a sua trajetória profissional, maturidade técnica e metas para direcionar os passos práticos do seu reposicionamento.
             </p>
             
             <div>
-              <Link
-                to="/contato?tipo=sessao"
-                className="btn-copper inline-flex"
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="btn-copper inline-flex items-center gap-2 cursor-pointer"
               >
-                <span>Vamos Conversar?</span>
+                <span>Acelerar a Minha Carreira</span>
                 <span aria-hidden="true">→</span>
-              </Link>
+              </button>
             </div>
           </div>
 
         </div>
       </div>
+
+      <PreQualificationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };

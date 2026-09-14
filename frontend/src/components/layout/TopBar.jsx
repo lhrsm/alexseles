@@ -24,20 +24,12 @@ export const TopBar = () => {
           </a>
         </div>
 
-        {/* Certificações e Contato Rápido */}
+        {/* Certificações */}
         <div className="flex items-center gap-6">
           <span className="flex items-center gap-1.5 text-slate-400">
             <i className="fa-solid fa-certificate text-sky-400" aria-hidden="true"></i>
             <span>Embaixador ITIL • Membro PMI</span>
           </span>
-          <Link
-            to="/contato?tipo=sessao"
-            className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
-            aria-label="Vamos Conversar?"
-          >
-            <i className="fa-solid fa-calendar-check text-emerald-400" aria-hidden="true"></i>
-            <span>Vamos Conversar?</span>
-          </Link>
         </div>
 
       </div>

@@ -40,24 +40,18 @@ const COMMERCIAL_OPTIONS: {
 }[] = [
   {
     id: 'ready_to_invest',
-    title:
-      'Estou decidido e preparado financeiramente para investir no programa caso seja aprovado',
-    subtitle:
-      'Prioridade executiva imediata para diagnóstico acelerado de reposicionamento.'
+    title: 'Preparado para investir na mentoria',
+    subtitle: 'Compromisso com o processo e decisão imediata.'
   },
   {
     id: 'want_conditions_first',
-    title:
-      'Tenho interesse, mas quero conhecer as opções e condições antes de decidir',
-    subtitle:
-      'Análise prévia de escopo, formatos de mentoria e opções contratuais.'
+    title: 'Quero conhecer formatos e condições antes',
+    subtitle: 'Avaliar propostas e metodologia antes de avançar.'
   },
   {
     id: 'no_financial_availability',
-    title:
-      'No momento busco apenas conteúdos gratuitos ou vagas abertas',
-    subtitle:
-      'Acesso à comunidade aberta, guias técnicos e painel público de oportunidades.'
+    title: 'Apenas conteúdos gratuitos no momento',
+    subtitle: 'Acesso a artigos e publicações públicas.'
   }
 ];
 
@@ -134,10 +128,10 @@ export const Step4Finalization: React.FC<Step4FinalizationProps> = ({
     <div className="space-y-6">
       <div className="border-b border-slate-100 pb-3">
         <h3 className="text-base sm:text-lg font-bold text-slate-900">
-          Remuneração, CV & Decisão Estratégica
+          Remuneração & Decisão
         </h3>
         <p className="text-xs text-slate-500 mt-0.5">
-          Última etapa para a geração do seu diagnóstico confidencial de elegibilidade.
+          Última etapa para envio da avaliação.
         </p>
       </div>
 
@@ -379,10 +373,7 @@ export const Step4Finalization: React.FC<Step4FinalizationProps> = ({
               required
             />
             <span className="text-xs text-slate-600 leading-relaxed">
-              Declaro que as informações prestadas são verídicas e concordo com o tratamento
-              confidencial dos meus dados de acordo com o Regulamento Geral sobre a Proteção de
-              Dados (RGPD) e legislação aplicável, estritamente para efeitos de diagnóstico e
-              orientação executiva. <span className="text-red-500">*</span>
+              Concordo com o tratamento confidencial dos meus dados para avaliação e diagnóstico profissional (RGPD). <span className="text-red-500">*</span>
             </span>
           </label>
           {errors.consentLgpd && (

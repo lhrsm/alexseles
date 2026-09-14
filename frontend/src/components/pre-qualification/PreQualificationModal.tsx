@@ -13,6 +13,7 @@ import { Step4Finalization } from './Step4Finalization';
 import { ResultScreen } from './ResultScreen';
 import { classifyLead } from './leadScorer';
 import { saveLead } from './leadStorage';
+import { addContact } from '../../services/backofficeService';
 
 const INITIAL_FORM_DATA: PreQualificationFormData = {
   fullName: '',
@@ -226,7 +227,7 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
     }
   };
 
-  const handleFinalSubmit = () => {
+  const handleFinalSubmit = async () => {
     // Verificacao defensiva do Honeypot contra robos
     if (formData.botHoneypot && formData.botHoneypot.trim().length > 0) {
       onClose();
@@ -257,7 +258,99 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
       onLeadSubmitted(stored);
     }
 
-    // Avancar para a tela de resultado (Passo 5)
+    // 1. Gravação no Supabase e Backoffice
+    try {
+      await addContact({
+        tipo: 'email',
+        nome: sanitizedData.fullName.slice(0, 100),
+        contato: `${sanitizedData.email.slice(0, 80)} • ${sanitizedData.phone.slice(0, 30)}`,
+        origem: `Pré-Qualificação • ${result.category} (${sanitizedData.currentRole})`,
+        modulo: `Mentoria Executiva (${sanitizedData.experienceYears})`,
+        investimento: sanitizedData.salaryExpectation || 'A definir',
+        horas: 'Diagnóstico de Carreira',
+        tipoSolicitacao: 'Pré-Qualificação de Carreira',
+        mensagem: `[Classificação: ${result.category} - ${result.title}]\nCargo: ${sanitizedData.currentRole} (${sanitizedData.seniority})\nMercados: ${sanitizedData.targetMarkets.join(', ')}\nDocumento: ${sanitizedData.migrationDocType} (${sanitizedData.rightToWork})\nInglês: ${sanitizedData.englishLevel}\nDesafio: ${sanitizedData.mainChallenge}\nLinkedIn: ${sanitizedData.linkedinUrl}`,
+        status: 'Novo'
+      });
+    } catch (dbErr) {
+      console.warn('Registo local efetuado:', dbErr);
+    }
+
+    // 2. Disparo para o Webhook n8n (Trello com checklist do Plano de Ação & Excel / Google Sheets no Drive)
+    try {
+      const n8nWebhookUrl = import.meta.env.VITE_N8N_CALENDAR_WEBHOOK_URL || 'https://n8n.srv1469659.hstgr.cloud/webhook/agendar-google-calendar';
+      await fetch(n8nWebhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          nome: sanitizedData.fullName,
+          email: sanitizedData.email,
+          telefone: sanitizedData.phone,
+          cidade: sanitizedData.currentCountry || 'Não informado',
+          tipoSolicitacao: 'Pré-Qualificação de Carreira',
+          modulo: `Mentoria Executiva • ${sanitizedData.currentRole}`,
+          investimento: sanitizedData.salaryExpectation || 'A definir',
+          horas: 'Diagnóstico de Carreira',
+          objetivo: `Plano de Ação: ${sanitizedData.targetMarkets.join(', ')} (${sanitizedData.seniority})`,
+          desafio: sanitizedData.mainChallenge,
+          slotAgendamento: 'Sessão Diagnóstica (A agendar)',
+          startISO: new Date().toISOString(),
+          endISO: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+          canal: 'Formulário do Site (Pré-Qualificação)'
+        })
+      });
+    } catch (n8nErr) {
+      console.warn('n8n indisponível:', n8nErr);
+    }
+
+    // 3. Disparo de e-mail formatado via FormSubmit
+    try {
+      const formSubmitPayload = {
+        'Tipo de Solicitação': 'Pré-Qualificação de Carreira',
+        'Classificação': `${result.category} - ${result.title}`,
+        'Nome do Candidato': sanitizedData.fullName,
+        'E-mail': sanitizedData.email,
+        'Telefone / WhatsApp': sanitizedData.phone,
+        'LinkedIn': sanitizedData.linkedinUrl,
+        'País Atual': sanitizedData.currentCountry,
+        'Cargo Atual': sanitizedData.currentRole,
+        'Área Profissional': sanitizedData.professionalArea,
+        'Tempo de Experiência': sanitizedData.experienceYears,
+        'Senioridade': sanitizedData.seniority,
+        'Situação Atual': sanitizedData.workStatus,
+        'Principal Desafio': sanitizedData.mainChallenge,
+        'Mercados Alvo': sanitizedData.targetMarkets.join(', '),
+        'Cidadania': sanitizedData.citizenship,
+        'Autorização de Trabalho': sanitizedData.rightToWork,
+        'Documentação Migratória': sanitizedData.migrationDocType,
+        'Previsão Documental': sanitizedData.processForecast || 'N/A',
+        'Nível de Inglês': sanitizedData.englishLevel,
+        'Modalidade Desejada': sanitizedData.workPreference,
+        'Disponibilidade': sanitizedData.availability,
+        'Pretensão Salarial': sanitizedData.salaryExpectation,
+        'Momento Comercial': sanitizedData.commercialReadiness,
+        'Ficheiro CV': sanitizedData.cvFileName || 'Não anexado',
+        '_subject': `Nova Pré-Qualificação [${result.category}]: ${sanitizedData.fullName} (${sanitizedData.currentRole})`,
+        '_template': 'table',
+        '_captcha': 'false'
+      };
+
+      await fetch('https://formsubmit.co/ajax/c95d84248d5d06d3ca2a075a347c71b9', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formSubmitPayload)
+      });
+    } catch (emailErr) {
+      console.warn('Erro ao enviar e-mail via FormSubmit:', emailErr);
+    }
+
+    // Avançar para a tela de resultado (Passo 5)
     setCurrentStep(5);
   };
 
@@ -284,25 +377,21 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
         {/* Cabecalho da Modal */}
         <header className="p-4 sm:p-6 border-b border-slate-100 bg-white sticky top-0 z-20">
           <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1">
-              <div className="flex items-center gap-1.5">
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-blue-50 text-blue-700 border border-blue-200">
-                  <Shield className="w-3 h-3 text-blue-600" aria-hidden="true" />
-                  Avaliação Confidencial
-                </span>
-                <span className="text-[11px] text-slate-400 hidden sm:inline">•</span>
-                <span className="text-[11px] text-slate-500 font-medium hidden sm:inline">
-                  {companyName}
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-1.5 mb-1">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">
+                  <Shield className="w-3 h-3 text-slate-600" aria-hidden="true" />
+                  Confidencial
                 </span>
               </div>
               <h2
                 id="modal-title"
-                className="text-lg sm:text-xl font-display font-bold text-slate-900 tracking-tight"
+                className="text-base sm:text-lg font-display font-bold text-slate-900 tracking-tight"
               >
-                Pré-Qualificação Executiva & Reposicionamento Internacional
+                Pré-Qualificação de Carreira & Tecnologia
               </h2>
               <p className="text-xs text-slate-500">
-                Responda às 4 etapas para calcular a sua elegibilidade e direcionamento prioritário.
+                4 etapas para análise do seu perfil profissional.
               </p>
             </div>
 
