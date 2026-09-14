@@ -22,6 +22,7 @@ import {
   getCurrentMonthVisits, 
   getYearTotalVisits 
 } from '../services/analyticsService';
+import { exportLeadsToCSV } from '../components/pre-qualification';
 
 export const Backoffice = () => {
   const navigate = useNavigate();
@@ -786,6 +787,15 @@ export const Backoffice = () => {
                     >
                       <i className="fa-solid fa-file-csv text-sm" aria-hidden="true"></i>
                       <span>Exportar CSV</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => exportLeadsToCSV()}
+                      className="inline-flex items-center gap-2 px-3 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg font-bold text-xs shadow-sm transition-all"
+                      title="Exportar base de dados da Pré-Qualificação em CSV com codificação Excel"
+                    >
+                      <i className="fa-solid fa-file-export text-sm" aria-hidden="true"></i>
+                      <span>Exportar Pré-Qualificação</span>
                     </button>
                   </div>
                 </div>
