@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logoImg from '../../assets/LOGO.png';
-import { PreQualificationModal } from '../pre-qualification';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isPreQualOpen, setIsPreQualOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const navRef = useRef(null);
@@ -164,18 +162,11 @@ export const Navbar = () => {
             </Link>
           </nav>
 
-          {/* Botões de Ação */}
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setIsPreQualOpen(true)}
-              className="inline-flex items-center gap-1.5 bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs uppercase tracking-wider font-bold px-4 py-2.5 rounded-lg shadow-sm hover:shadow transition-all"
-            >
-              <span>Avaliação Confidencial</span>
-            </button>
+          {/* Botão de Login */}
+          <div className="hidden md:flex items-center">
             <Link
               to="/login"
-              className="inline-flex items-center gap-1.5 border border-white/20 text-white hover:bg-white/10 text-xs uppercase tracking-wider font-bold px-4 py-2.5 rounded-lg transition-all"
+              className="inline-flex items-center gap-2 border border-[#1A73E8] text-white hover:bg-[#1A73E8] hover:text-white text-sm font-semibold px-5 py-2.5 rounded transition-all"
             >
               <span>Login</span>
               <span aria-hidden="true">→</span>
@@ -238,21 +229,11 @@ export const Navbar = () => {
             </Link>
           </div>
           
-          <div className="pt-2 border-t border-white/10 space-y-2">
-            <button
-              type="button"
-              onClick={() => {
-                setIsOpen(false);
-                setIsPreQualOpen(true);
-              }}
-              className="w-full inline-flex justify-center items-center gap-2 bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs uppercase tracking-wider font-bold py-3 rounded-lg shadow-sm transition-all"
-            >
-              <span>Avaliação Confidencial</span>
-            </button>
+          <div className="pt-2 border-t border-white/10">
             <Link
               to="/login"
               onClick={() => setIsOpen(false)}
-              className="w-full inline-flex justify-center items-center gap-2 border border-white/20 text-white hover:bg-white/10 text-xs uppercase tracking-wider font-bold py-3 rounded-lg transition-all"
+              className="w-full inline-flex justify-center items-center gap-2 border border-[#1A73E8] text-white hover:bg-[#1A73E8] text-sm font-semibold py-3 rounded transition-all"
             >
               <span>Login</span>
               <span>→</span>
@@ -260,12 +241,6 @@ export const Navbar = () => {
           </div>
         </div>
       )}
-
-      {/* Modal de Pre-Qualificacao de Alto Padrao */}
-      <PreQualificationModal
-        isOpen={isPreQualOpen}
-        onClose={() => setIsPreQualOpen(false)}
-      />
     </header>
   );
 };

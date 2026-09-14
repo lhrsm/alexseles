@@ -1,7 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { PreQualificationModal } from '../pre-qualification';
 
 export const Hero = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section 
       id="acelerar-carreira"
@@ -34,19 +36,26 @@ export const Hero = () => {
 
             {/* CTA abaixo do título e frase */}
             <div className="pt-2 text-left">
-              <Link
-                to="/contato?tipo=sessao"
-                className="btn-copper shadow-md hover:shadow-lg text-sm sm:text-base font-semibold py-3.5 px-8 inline-flex items-center gap-2"
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="btn-copper shadow-md hover:shadow-lg text-sm sm:text-base font-semibold py-3.5 px-8 inline-flex items-center gap-2 cursor-pointer transition-all"
               >
                 <span>Acelerar a Minha Carreira</span>
                 <span aria-hidden="true">→</span>
-              </Link>
+              </button>
             </div>
 
           </div>
 
         </div>
       </div>
+
+      {/* Modal de Pre-Qualificacao Confidencial de Alto Padrao */}
+      <PreQualificationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };
