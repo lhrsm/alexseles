@@ -23,19 +23,26 @@ export const saveLead = (
   formData: PreQualificationFormData,
   classification: LeadClassification
 ): StoredLead => {
+  // Higienizacao de Seguranca: nao armazenar ficheiro binario pesado em localStorage para evitar QuotaExceededError
+  const sanitizedFormData: PreQualificationFormData = {
+    ...formData,
+    cvFileBase64: undefined // Mantem em memoria durante a sessao, protegendo o storage local
+  };
+
   const newLead: StoredLead = {
     id: `lead_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
     createdAt: new Date().toISOString(),
     category: classification.category,
     classificationTitle: classification.title,
-    formData: { ...formData },
+    formData: sanitizedFormData,
     whatsappUrl: classification.whatsappUrl
   };
 
   if (typeof window !== 'undefined') {
     try {
       const current = getStoredLeads();
-      const updated = [newLead, ...current];
+      // Limite defensivo de 100 registos FIFO para prevenir esgotamento de memoria do cliente
+      const updated = [newLead, ...current].slice(0, 100);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     } catch (error) {
       console.error('Erro ao persistir lead no localStorage:', error);
@@ -58,9 +65,17 @@ export const exportLeadsToCSV = (customLeads?: StoredLead[]): void => {
     return;
   }
 
+  // Prevenção de Injeção de Fórmulas em Folhas de Cálculo (CSV Injection / CWE-1236)
   const escapeCSV = (val: unknown): string => {
     if (val === null || val === undefined) return '""';
-    const str = String(val).replace(/"/g, '""');
+    let str = String(val).replace(/"/g, '""');
+
+    // Se o valor comecar por caracteres que o Excel interpreta como fórmula (=, +, -, @, tab, retorno),
+    // neutraliza adicionando uma apóstrofe de texto seguro no início.
+    if (/^[=+\-@\t\r]/.test(str)) {
+      str = "'" + str;
+    }
+
     return `"${str}"`;
   };
 

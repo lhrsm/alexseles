@@ -38,6 +38,31 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
         </p>
       </div>
 
+      {/* Campo Honeypot Oculto (Segurança Defensiva Anti-Bot / Anti-Spam) */}
+      <div
+        style={{
+          position: 'absolute',
+          opacity: 0,
+          pointerEvents: 'none',
+          zIndex: -1,
+          width: 0,
+          height: 0,
+          overflow: 'hidden'
+        }}
+        aria-hidden="true"
+      >
+        <label htmlFor="botHoneypot">Deixe este campo em branco</label>
+        <input
+          type="text"
+          id="botHoneypot"
+          name="botHoneypot"
+          value={formData.botHoneypot || ''}
+          onChange={(e) => updateFormData({ botHoneypot: e.target.value })}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
         {/* Nome Completo */}
         <div className="sm:col-span-2">

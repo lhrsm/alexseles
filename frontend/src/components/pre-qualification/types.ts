@@ -110,6 +110,9 @@ export interface PreQualificationFormData {
   cvFileBase64?: string;
   commercialReadiness: CommercialReadiness | '';
   consentLgpd: boolean;
+
+  // Campo de Segurança Anti-Spam / Anti-Bot (Honeypot)
+  botHoneypot?: string;
 }
 
 export interface LeadClassification {

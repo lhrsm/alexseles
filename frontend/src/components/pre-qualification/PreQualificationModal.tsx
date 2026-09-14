@@ -98,6 +98,11 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
     const newErrors: Record<string, string> = {};
 
     if (step === 1) {
+      // Bloqueio silencioso se o honeypot tiver sido preenchido por um bot
+      if (formData.botHoneypot && formData.botHoneypot.trim().length > 0) {
+        return false;
+      }
+
       if (!formData.fullName.trim() || formData.fullName.trim().length < 3) {
         newErrors.fullName = 'Introduza o seu nome completo.';
       }
@@ -109,12 +114,11 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
       if (!formData.phone.trim() || phoneClean.length < 8) {
         newErrors.phone = 'Introduza o WhatsApp com DDI (mínimo 8 dígitos).';
       }
-      if (
-        !formData.linkedinUrl.trim() ||
-        (!formData.linkedinUrl.includes('linkedin.com') &&
-          !formData.linkedinUrl.startsWith('http'))
-      ) {
-        newErrors.linkedinUrl = 'Introduza a ligação válida para o seu perfil no LinkedIn.';
+      const cleanUrl = formData.linkedinUrl.trim();
+      const isUnsafeProtocol = /^(javascript|data|vbscript|file):/i.test(cleanUrl);
+      const isLinkedIn = /linkedin\.com/i.test(cleanUrl);
+      if (!cleanUrl || isUnsafeProtocol || !isLinkedIn) {
+        newErrors.linkedinUrl = 'Introduza uma ligação HTTPS válida para o seu perfil no LinkedIn.';
       }
       if (!formData.currentCountry) {
         newErrors.currentCountry = 'Selecione o seu país atual de residência.';
@@ -223,12 +227,31 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
   };
 
   const handleFinalSubmit = () => {
+    // Verificacao defensiva do Honeypot contra robos
+    if (formData.botHoneypot && formData.botHoneypot.trim().length > 0) {
+      onClose();
+      return;
+    }
+
+    // Higienização e Sanitização de Caracteres Especiais (Anti-XSS e Injeção de Tags)
+    const sanitizedData: PreQualificationFormData = {
+      ...formData,
+      fullName: formData.fullName.trim().replace(/[<>]/g, ''),
+      email: formData.email.trim().toLowerCase(),
+      phone: formData.phone.trim(),
+      linkedinUrl: formData.linkedinUrl.trim(),
+      currentRole: formData.currentRole.trim().replace(/[<>]/g, ''),
+      mainChallenge: formData.mainChallenge.trim().replace(/[<>]/g, ''),
+      salaryExpectation: formData.salaryExpectation.trim().replace(/[<>]/g, ''),
+      processForecast: formData.processForecast.trim().replace(/[<>]/g, '')
+    };
+
     // Motor de Classificacao
-    const result = classifyLead(formData, executiveWhatsappNumber);
+    const result = classifyLead(sanitizedData, executiveWhatsappNumber);
     setClassification(result);
 
     // Persistencia Local
-    const stored = saveLead(formData, result);
+    const stored = saveLead(sanitizedData, result);
 
     if (onLeadSubmitted) {
       onLeadSubmitted(stored);
