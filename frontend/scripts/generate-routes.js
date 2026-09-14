@@ -28,7 +28,7 @@ const routes = [
   },
   {
     path: 'transicao-estrategica-fundamentos-tecnicos',
-    title: 'Transição Estratégica & Fundamentos Técnicos em TI | Alex Seles',
+    title: 'Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial | Alex Seles',
     description: 'Mentoria individual para acelerar a sua transição para TI, dominar Inteligência Artificial aplicada na gestão de projetos e dominar os fundamentos da engenharia de software.'
   },
   {
@@ -60,6 +60,11 @@ const routes = [
     path: 'central-de-conhecimento/artigo-7134-migrando-de-carreira-em-software-dicas-para-um-sucesso-estrategico',
     title: 'Migrando de Carreira em Software: Dicas para um Sucesso Estratégico! | Alex Seles',
     description: 'Dicas práticas e estratégicas para profissionais que desejam migrar para o desenvolvimento de software e tecnologia com segurança, método e aceleração por mentoria.'
+  },
+  {
+    path: 'central-de-conhecimento/artigo-3918-bolacha-maldita',
+    title: 'Bolacha maldita! | Alex Seles',
+    description: 'O insucesso começou com uma simples bolacha que quase arruinou minha carreira: lições reais de processos seletivos e transição corporativa em TI.'
   },
   {
     path: 'contato',

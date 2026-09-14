@@ -58,7 +58,7 @@ export const Footer = () => {
 
               <li>
                 <Link to="/transicao-estrategica-fundamentos-tecnicos" className="hover:text-white transition-colors">
-                  Transição Estratégica & Fundamentos Técnicos (Módulo)
+                  Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial (Módulo)
                 </Link>
               </li>
 

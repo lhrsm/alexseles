@@ -64,7 +64,7 @@ export const ContactModule = () => {
         '_captcha': 'false'
       };
 
-      await fetch('https://formsubmit.co/ajax/c95d84248d5d06d3ca2a075a347c71b9', {
+      await fetch('https://formsubmit.co/ajax/contato@alexseles.online', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

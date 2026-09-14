@@ -1,5 +1,7 @@
 import sentidoDaVidaImg from '../assets/SentidoDaVida.png';
 import superandoDesafiosImg from '../assets/SuperandoDEsafios.png';
+import migrandoCarreiraImg from '../assets/migrandoCarreiraSoftware.png';
+import bolachaMalditaImg from '../assets/alexseles.png';
 
 export const articlesData = [
   {
@@ -150,7 +152,7 @@ export const articlesData = [
     title: 'Migrando de Carreira em Software: Dicas para um Sucesso Estratégico!',
     h1: 'Migrando de Carreira em Software: Dicas para um Sucesso Estratégico!',
     slug: 'artigo-7134-migrando-de-carreira-em-software-dicas-para-um-sucesso-estrategico',
-    image: null,
+    image: migrandoCarreiraImg,
     category: 'Carreira & TI',
     categorySlug: 'carreira-ti',
     metaDescription: 'Dicas práticas e estratégicas para profissionais que desejam migrar para o desenvolvimento de software e tecnologia com segurança, método e aceleração por mentoria.',
@@ -208,6 +210,65 @@ export const articlesData = [
       }
     ],
     practicalTip: 'Foque em dominar os fundamentos antes de se perder em frameworks da moda. Participe ativamente em comunidades e busque mentorias para acelerar a sua maturidade profissional.'
+  },
+  {
+    id: 'artigo-3918-bolacha-maldita',
+    number: 4,
+    title: 'Bolacha maldita!',
+    h1: 'Bolacha maldita!',
+    slug: 'artigo-3918-bolacha-maldita',
+    image: bolachaMalditaImg,
+    category: 'Carreira & TI',
+    categorySlug: 'carreira-ti',
+    metaDescription: 'Quem me vê no LinkedIn, pode pensar que a minha trajetória sempre foi um sucesso. Mas, como todos sabemos, a vida profissional tem os seus altos e baixos, e comigo não foi diferente. No meu caso, o insucesso começou com uma simples bolacha que quase arruinou minha carreira.',
+    keywords: [
+      'Cultura Corporativa',
+      'Processo Seletivo',
+      'Transição de Carreira',
+      'Soft Skills',
+      'Mentoria em TI',
+      'Alex Seles',
+      'Resiliência Profissional'
+    ],
+    h2Subtitles: [
+      'Julgamento Precipitado e Equívocos',
+      'O que descobri e como dei a volta por cima!',
+      'A queda é inevitável quando o cavalo é viciado e galopa sem sela.'
+    ],
+    wordCount: '480 palavras',
+    readingTime: '5 min de leitura',
+    publishedAt: '2026-09-10',
+    author: {
+      name: 'Alex Seles',
+      role: 'Head de Inovação & Tecnologia | Mentor de Carreira TI',
+      certifications: 'PMP®, SAFe® 6 Agilist, ITIL® 4, Mestre em Eng. Informática'
+    },
+    sections: [
+      {
+        subtitle: 'Julgamento Precipitado e Equívocos',
+        paragraphs: [
+          'Tudo começou em 2014, recém-chegado ao Brasil, de um intercâmbio na Irlanda, entrei num processo seletivo para uma multinacional alemã do setor automóvel. Não consta no meu currículo, por razões óbvias, até porque foram míseros 3 meses de trabalho e quatro meses de entrevistas. Sim, naquela época, existiam dinâmicas de grupo e testes de raciocínio lógico, entrevistas técnicas, psicológicas, etc., que me ocupavam o dia todo. No final, fui aprovado para uma vaga de First Line Management.',
+          'Após esta maratona, fui chamado ao RH para entregar a documentação. Eram 13h, e eu já estava na empresa desde cedo, faminto e cansado. Todas as analistas do RH tinham ido almoçar, exceto uma que, muito simpática, disse-me: "Podes beber café, comer bolachinhas e esperar que o resto do pessoal regresse." Decidi beber um café e, para enganar a fome, comi uma bolacha Maria. Não fazia ideia de que esse pequeno gesto seria mal interpretado.',
+          'No exato momento em que eu bebia o café e comia uma bolacha, as analistas voltaram do almoço e lançaram-me olhares frios e críticos. Senti que estava a ser julgado em silêncio. Voltei para casa péssimo, me sentindo um criminoso devido aos olhares. Aí começou a cena: 30 dias passaram-se sem que me dissessem quando começaria a trabalhar. Entrei em contacto com o RH e, para minha surpresa, disseram-me que precisavam de uma nova validação do psicólogo: "Precisamos validar algo que tivemos dúvida".'
+        ]
+      },
+      {
+        subtitle: 'O que descobri e como dei a volta por cima!',
+        paragraphs: [
+          'Contei o ocorrido ao meu pai, um homem muito sábio, e ele chamou-lhe "a pegadinha da bolacha". E, como que por ironia, ele tinha razão. Fui chamado para uma nova entrevista, e na mesa havia água e chocolates Bis. A psicóloga disse-me: "Podes beber água, se quiseres" e saiu da sala.',
+          'Quando voltou, perguntou-me por que não tinha bebido a água. Respondi que não estava com sede. Então, perguntou-me por que não tinha comido o chocolate. Respondi que, na vez anterior, aceitei o café e a bolacha porque a analista do RH me ofereceu, e eu estava desde cedo na fábrica com fome. Mas desta vez, como ninguém me ofereceu nada, achei melhor não tocar em nada. Após essa conversa, recebi finalmente a aprovação.'
+        ]
+      },
+      {
+        subtitle: 'A queda é inevitável quando o cavalo é viciado e galopa sem sela.',
+        paragraphs: [
+          'Pensei que, a partir daí, seria tudo tranquilo, mas enganei-me. Passados três meses, consegui optimizar um processo na empresa, reduzindo custos de uma forma que os engenheiros não tinham conseguido resolver durante anos. Um técnico responsável por melhorias criticou-me, disse que só consegui porque "era chefe" e estava "fora da linha". E o RH, que estava presente na reunião, não fez absolutamente nada.',
+          'Senti-me humilhado. Fui ao RH relatar o ocorrido, mas o meu desabafo foi ignorado, e isso acabou por ser usado contra mim. Resultado: fui despedido. Disseram-me algo como: "Se questionas as pessoas com tão pouco tempo na empresa, imagina mais tarde." Fiquei perplexo: fui humilhado, o RH foi omisso, e, no fim, o problema era eu?',
+          'Foi uma experiência triste e reveladora. Triste, porque mostrou a cultura corporativa tóxica que ainda existe, onde os julgamentos são feitos sem sequer darem voz às pessoas. Mais triste ainda, porque sei que muitos profissionais ainda passam por isso diariamente.'
+        ]
+      }
+    ],
+    practicalTip: 'Essa experiência marcou o início de uma longa jornada de aprendizado em TI para migrar de carreira. Longe de me abater, esse episódio fez-me estudar mais, tirar certificações e passar a pesquisar rigorosamente a reputação das empresas antes de aplicar para qualquer vaga, sondando o ambiente e compreendendo exatamente onde estava a pisar.'
   }
 ];
 

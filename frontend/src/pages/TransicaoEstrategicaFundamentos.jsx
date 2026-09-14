@@ -6,11 +6,12 @@ export const TransicaoEstrategicaFundamentos = () => {
   return (
     <main id="main-content" className="bg-[#FFFFFF] text-[#163758] min-h-screen">
       <MetaTags
-        title="Transição Estratégica & Fundamentos Técnicos em TI | Alex Seles"
-        description="Mentoria individual para acelerar a sua transição para TI, dominar Inteligência Artificial aplicada na gestão de projetos e dominar os fundamentos da engenharia de software."
+        title="Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial | Alex Seles"
+        description="Mentoria individual para dominar Inteligência Artificial aplicada na gestão de projetos e dominar os fundamentos da arquitetura e engenharia de software."
         keywords={[
-          "transicao estrategica ti",
-          "fundamentos tecnicos ti",
+          "fundamentos tecnicos em ti",
+          "ciclo de desenvolvimento de software sdlc",
+          "inteligencia artificial ti",
           "power skills ti alex seles",
           "inteligencia artificial na gestao de projetos",
           "ia generativa para gestores",
@@ -31,17 +32,17 @@ export const TransicaoEstrategicaFundamentos = () => {
             <ol className="flex items-center gap-2">
               <li><Link to="/" className="hover:text-[#1557B0]">Início</Link></li>
               <li><span className="text-slate-400" aria-hidden="true">/</span></li>
-              <li className="text-[#1557B0] font-semibold" aria-current="page">Transição Estratégica & Fundamentos Técnicos</li>
+              <li className="text-[#1557B0] font-semibold" aria-current="page">Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial</li>
             </ol>
           </nav>
 
           {/* Hero da Página */}
           <div className="max-w-3xl mb-12">
             <span className="eyebrow">
-              Transição Estratégica & Fundamentos Técnicos
+              Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial
             </span>
             <h1 className="section-title">
-              Transição Estratégica & Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial.
+              Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial.
             </h1>
             <p className="text-base sm:text-lg text-[#536773] mt-4 leading-relaxed font-sans">
               Domina a aplicação prática de ferramentas de Inteligência Artificial e compreende a arquitetura completa do Ciclo de Desenvolvimento de Software (SDLC) para liderar entregas e dialogar de igual para igual com equipas de engenharia.
@@ -81,7 +82,7 @@ export const TransicaoEstrategicaFundamentos = () => {
               <div className="flex flex-wrap items-baseline gap-2">
                 <span className="text-xs font-bold text-[#1557B0] uppercase tracking-wider">Fase 01</span>
                 <span className="text-slate-300 font-light">•</span>
-                <h3 className="text-base sm:text-lg font-bold text-[#163758] font-sans">Transição Estratégica & Fundamentos Técnicos</h3>
+                <h3 className="text-base sm:text-lg font-bold text-[#163758] font-sans">Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial</h3>
                 <span className="text-xs font-medium text-slate-400">(8 Horas)</span>
               </div>
             </div>

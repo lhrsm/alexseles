@@ -46,7 +46,7 @@ export const Navbar = () => {
 
   const solutionLinks = [
     { name: 'TRANSIÇÃO DE CARREIRA PARA TI (TRILHA COMPLETA)', path: '/transicao-de-carreira' },
-    { name: 'TRANSIÇÃO ESTRATÉGICA & FUNDAMENTOS TÉCNICOS (MÓDULO)', path: '/transicao-estrategica-fundamentos-tecnicos' },
+    { name: 'FUNDAMENTOS TÉCNICOS EM TI: CICLO DE DESENVOLVIMENTO DE SOFTWARE (SDLC) & INTELIGÊNCIA ARTIFICIAL (MÓDULO)', path: '/transicao-estrategica-fundamentos-tecnicos' },
     { name: 'GOVERNAÇÃO, PRODUTO & MÉTODOS DE ENTREGA (MÓDULO)', path: '/governanca-produto-metodos-entrega' },
     { name: 'POSICIONAMENTO NO MERCADO - SEJA ENCONTRADO POR RECRUTADORES (MÓDULO)', path: '/linkedin-marca-pessoal-ats' },
   ];

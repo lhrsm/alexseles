@@ -5,7 +5,7 @@ export const ScenarioCards = ({ showCta = false, cardBg = 'bg-white' }) => {
   const phases = [
     {
       phaseName: "Fase 01",
-      phaseTitle: "Transição Estratégica & Fundamentos Técnicos",
+      phaseTitle: "Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial",
       phaseHours: "8 Horas",
       modules: [
         {

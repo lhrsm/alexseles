@@ -29,7 +29,7 @@ const PROGRAMS_CATALOG = {
   transicao_fundamentos: {
     id: 'transicao_fundamentos',
     tipo: 'modulo',
-    name: 'Transição Estratégica & Fundamentos Técnicos (Fase 01)',
+    name: 'Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial (Fase 01)',
     badge: 'Fase 01',
     horas: '8 Horas',
     investimento: 'R$ 2.950',
@@ -296,7 +296,7 @@ export const Contato = () => {
         '_captcha': 'false'
       };
 
-      await fetch('https://formsubmit.co/ajax/c95d84248d5d06d3ca2a075a347c71b9', {
+      await fetch('https://formsubmit.co/ajax/contato@alexseles.online', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -432,7 +432,7 @@ export const Contato = () => {
                 >
                   <optgroup label="Trilhas & Módulos Individuais (Com Investimento)">
                     <option value="trilha_completa">Trilha Completa de Transição para TI (22h • R$ 6.950)</option>
-                    <option value="transicao_fundamentos">Fase 01: Transição Estratégica & Fundamentos Técnicos (8h • R$ 2.950)</option>
+                    <option value="transicao_fundamentos">Fase 01: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial (8h • R$ 2.950)</option>
                     <option value="governanca_produto">Fase 02: Governação, Produto & Métodos de Entrega (11h • R$ 3.950)</option>
                     <option value="posicionamento_ats">Fase 03: Posicionamento no Mercado & ATS (5h • R$ 1.950)</option>
                     <option value="mentoria_lideranca">Mentoria de Liderança & Gestão Ágil (10h • R$ 3.800)</option>

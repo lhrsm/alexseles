@@ -258,6 +258,9 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
       onLeadSubmitted(stored);
     }
 
+    const isQualificado = result.category === 'LEAD_A' || result.category === 'LEAD_B';
+    const trelloStatus = isQualificado ? 'Qualificado' : 'Leads';
+
     // 1. Gravação no Supabase e Backoffice
     try {
       await addContact({
@@ -268,9 +271,9 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
         modulo: `Mentoria Executiva (${sanitizedData.experienceYears})`,
         investimento: sanitizedData.salaryExpectation || 'A definir',
         horas: 'Diagnóstico de Carreira',
-        tipoSolicitacao: 'Pré-Qualificação de Carreira',
-        mensagem: `[Classificação: ${result.category} - ${result.title}]\nCargo: ${sanitizedData.currentRole} (${sanitizedData.seniority})\nMercados: ${sanitizedData.targetMarkets.join(', ')}\nDocumento: ${sanitizedData.migrationDocType} (${sanitizedData.rightToWork})\nInglês: ${sanitizedData.englishLevel}\nDesafio: ${sanitizedData.mainChallenge}\nLinkedIn: ${sanitizedData.linkedinUrl}`,
-        status: 'Novo'
+        tipoSolicitacao: 'Plano de Ação - Pré-Qualificação',
+        mensagem: `[Classificação: ${result.category} - ${result.title} • Coluna: ${trelloStatus}]\nCargo: ${sanitizedData.currentRole} (${sanitizedData.seniority})\nMercados: ${sanitizedData.targetMarkets.join(', ')}\nDocumento: ${sanitizedData.migrationDocType} (${sanitizedData.rightToWork})\nInglês: ${sanitizedData.englishLevel}\nDesafio: ${sanitizedData.mainChallenge}\nLinkedIn: ${sanitizedData.linkedinUrl}`,
+        status: trelloStatus
       });
     } catch (dbErr) {
       console.warn('Registo local efetuado:', dbErr);
@@ -290,27 +293,34 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
           email: sanitizedData.email,
           telefone: sanitizedData.phone,
           cidade: sanitizedData.currentCountry || 'Não informado',
-          tipoSolicitacao: 'Pré-Qualificação de Carreira',
+          tipoSolicitacao: 'Plano de Ação - Pré-Qualificação',
           modulo: `Mentoria Executiva • ${sanitizedData.currentRole}`,
           investimento: sanitizedData.salaryExpectation || 'A definir',
           horas: 'Diagnóstico de Carreira',
-          objetivo: `Plano de Ação: ${sanitizedData.targetMarkets.join(', ')} (${sanitizedData.seniority})`,
+          objetivo: `Plano de Ação [${trelloStatus}]: ${sanitizedData.targetMarkets.join(', ')} (${sanitizedData.seniority})`,
           desafio: sanitizedData.mainChallenge,
           slotAgendamento: 'Sessão Diagnóstica (A agendar)',
           startISO: new Date().toISOString(),
           endISO: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
-          canal: 'Formulário do Site (Pré-Qualificação)'
+          canal: 'Formulário do Site (Pré-Qualificação)',
+          status: trelloStatus,
+          colunaTrello: trelloStatus,
+          trelloList: trelloStatus,
+          isQualificado: isQualificado,
+          resumoPerfil: `${sanitizedData.fullName}, ${sanitizedData.currentRole} (${sanitizedData.seniority}) • Exp: ${sanitizedData.experienceYears} • Inglês: ${sanitizedData.englishLevel} • Mercados: ${sanitizedData.targetMarkets.join(', ')} • Situação: ${sanitizedData.workStatus} • Doc: ${sanitizedData.migrationDocType}`
         })
       });
     } catch (n8nErr) {
       console.warn('n8n indisponível:', n8nErr);
     }
 
-    // 3. Disparo de e-mail formatado via FormSubmit
+    // 3. Disparo de e-mail formatado via FormSubmit diretamente para contato@alexseles.online
     try {
       const formSubmitPayload = {
-        'Tipo de Solicitação': 'Pré-Qualificação de Carreira',
+        'Notificação': 'Há novos leads em Plano de Ação aguardando contacto executivo.',
+        'Status Trello': `${trelloStatus.toUpperCase()} (Encaminhado para a coluna ${trelloStatus})`,
         'Classificação': `${result.category} - ${result.title}`,
+        'Resumo Executivo': `${sanitizedData.fullName} | ${sanitizedData.currentRole} (${sanitizedData.seniority}) | ${sanitizedData.experienceYears} de exp. | Inglês: ${sanitizedData.englishLevel} | Mercados: ${sanitizedData.targetMarkets.join(', ')} | Momento: ${sanitizedData.commercialReadiness}`,
         'Nome do Candidato': sanitizedData.fullName,
         'E-mail': sanitizedData.email,
         'Telefone / WhatsApp': sanitizedData.phone,
@@ -333,12 +343,12 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
         'Pretensão Salarial': sanitizedData.salaryExpectation,
         'Momento Comercial': sanitizedData.commercialReadiness,
         'Ficheiro CV': sanitizedData.cvFileName || 'Não anexado',
-        '_subject': `Nova Pré-Qualificação [${result.category}]: ${sanitizedData.fullName} (${sanitizedData.currentRole})`,
+        '_subject': `[${trelloStatus.toUpperCase()}] Lead em Plano de Ação: ${sanitizedData.fullName} (${sanitizedData.currentRole})`,
         '_template': 'table',
         '_captcha': 'false'
       };
 
-      await fetch('https://formsubmit.co/ajax/c95d84248d5d06d3ca2a075a347c71b9', {
+      await fetch('https://formsubmit.co/ajax/contato@alexseles.online', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -121,6 +121,9 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
     const cleanEmail = sanitizeText(completedData.email) || 'Não informado';
     const cleanLinkedin = sanitizeText(completedData.linkedin) || 'Não informado';
 
+    const isQualificado = !cleanComercial.toLowerCase().includes('curioso') && !cleanComercial.toLowerCase().includes('apenas') && (cleanComercial.toLowerCase().includes('investir') || cleanComercial.toLowerCase().includes('avaliar') || cleanComercial.toLowerCase().includes('imediatamente'));
+    const trelloStatus = isQualificado ? 'Qualificado' : 'Leads';
+
     // 1. Gravação no Supabase e Backoffice
     try {
       await addContact({
@@ -131,9 +134,9 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
         modulo: `Mentoria Executiva (${cleanCargo})`,
         investimento: cleanComercial,
         horas: 'Diagnóstico de Carreira',
-        tipoSolicitacao: 'Pré-Qualificação de Carreira',
-        mensagem: `[SPIN SELLING - PRÉ-QUALIFICAÇÃO EXECUTIVA]\nNome: ${cleanNome}\nCargo: ${cleanCargo}\nExperiência: ${completedData.experiencia || 'TI'}\nProblema/Desafio: ${cleanDesafio}\nImplicação: ${cleanImplicacao}\nDecisão Comercial: ${cleanComercial}\nLinkedIn: ${cleanLinkedin}\nWhatsApp: ${cleanTelefone}\nE-mail: ${cleanEmail}\n\n[TRANSCRIÇÃO CHAT]:\n${allMessages.map(m => `${m.sender.toUpperCase()} (${m.time}): ${m.text}`).join('\n')}`,
-        status: 'Novo'
+        tipoSolicitacao: 'Plano de Ação - Chat Mafalda',
+        mensagem: `[SPIN SELLING - PRÉ-QUALIFICAÇÃO EXECUTIVA • Coluna: ${trelloStatus}]\nNome: ${cleanNome}\nCargo: ${cleanCargo}\nExperiência: ${completedData.experiencia || 'TI'}\nProblema/Desafio: ${cleanDesafio}\nImplicação: ${cleanImplicacao}\nDecisão Comercial: ${cleanComercial}\nLinkedIn: ${cleanLinkedin}\nWhatsApp: ${cleanTelefone}\nE-mail: ${cleanEmail}\n\n[TRANSCRIÇÃO CHAT]:\n${allMessages.map(m => `${m.sender.toUpperCase()} (${m.time}): ${m.text}`).join('\n')}`,
+        status: trelloStatus
       });
     } catch (e) {
       console.warn('Registo local no Backoffice efetuado:', e);
@@ -153,25 +156,33 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
           email: cleanEmail,
           telefone: cleanTelefone,
           cidade: 'Não informado',
-          tipoSolicitacao: 'Pré-Qualificação de Carreira',
+          tipoSolicitacao: 'Plano de Ação - Chat Mafalda',
           modulo: `Mentoria Executiva • ${cleanCargo}`,
           investimento: cleanComercial,
           horas: 'Diagnóstico de Carreira',
-          objetivo: `Plano de Ação: SPIN Selling (${cleanCargo})`,
+          objetivo: `Plano de Ação [${trelloStatus}]: SPIN Selling (${cleanCargo})`,
           desafio: `${cleanDesafio} | Implicação: ${cleanImplicacao}`,
           slotAgendamento: 'Sessão Diagnóstica (A agendar)',
           startISO: new Date().toISOString(),
           endISO: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
-          canal: 'Chat Mafalda (SPIN Selling)'
+          canal: 'Chat Mafalda (SPIN Selling)',
+          status: trelloStatus,
+          colunaTrello: trelloStatus,
+          trelloList: trelloStatus,
+          isQualificado: isQualificado,
+          resumoPerfil: `${cleanNome}, ${cleanCargo} • Exp: ${completedData.experiencia || 'TI'} • Momento: ${cleanComercial} • Desafio: ${cleanDesafio}`
         })
       });
     } catch (n8nErr) {
       console.warn('n8n indisponível:', n8nErr);
     }
 
-    // 3. Disparo de e-mail via FormSubmit diretamente para o mentor
+    // 3. Disparo de e-mail via FormSubmit diretamente para contato@alexseles.online
     try {
       const payload = {
+        'Notificação': 'Há novos leads em Plano de Ação aguardando contacto executivo.',
+        'Status Trello': `${trelloStatus.toUpperCase()} (Encaminhado para a coluna ${trelloStatus})`,
+        'Resumo Executivo': `${cleanNome} | ${cleanCargo} | Exp: ${completedData.experiencia || 'TI'} | Decisão: ${cleanComercial}`,
         'Nome do Candidato': cleanNome,
         'Cargo e Área': cleanCargo,
         'Tempo de Experiência': completedData.experiencia || 'Não informado',
@@ -183,12 +194,12 @@ export const WhatsAppSimulatedChat = ({ isOpen, onClose }) => {
         'E-mail': cleanEmail,
         'Canal de Origem': 'Chat Mafalda (SPIN Selling • Pré-Qualificação)',
         'Data e Hora': new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' }),
-        '_subject': `Nova Pré-Qualificação Chat Mafalda: ${cleanNome} (${cleanCargo})`,
+        '_subject': `[${trelloStatus.toUpperCase()}] Lead em Plano de Ação (Chat): ${cleanNome} (${cleanCargo})`,
         '_template': 'table',
         '_captcha': 'false'
       };
 
-      await fetch('https://formsubmit.co/ajax/c95d84248d5d06d3ca2a075a347c71b9', {
+      await fetch('https://formsubmit.co/ajax/contato@alexseles.online', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
