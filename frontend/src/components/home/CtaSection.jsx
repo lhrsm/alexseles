@@ -191,7 +191,11 @@ export const CtaSection = () => {
                   </div>
 
                   <p className="text-[11px] text-[#63717C] text-center pt-1">
-                    Sem spam. Os seus dados são confidenciais e pode cancelar a subscrição a qualquer momento.
+                    Sem spam. Os seus dados são tratados com confidencialidade nos termos da{' '}
+                    <a href="/politica-de-privacidade" className="underline hover:text-[#163758] font-medium">
+                      Política de Privacidade (RGPD & LGPD)
+                    </a>
+                    . Pode cancelar o envio a qualquer momento.
                   </p>
                 </form>
               )}

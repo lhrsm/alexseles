@@ -21,13 +21,13 @@ const STORAGE_KEYS = {
   CONTACTS: 'mc_contacts',
 };
 
-// Utilizador padrão do sistema
+// Utilizador padrão do sistema (Cifrado com SHA-256)
 const DEFAULT_USERS = [
   {
     id: 'user-admin',
     nome: 'Alex Seles',
     email: import.meta.env.VITE_ADMIN_USER || 'contato@alexseles.online',
-    senha: import.meta.env.VITE_ADMIN_PASSWORD || '+7U.hhrTjnrv&hD',
+    senha_hash: import.meta.env.VITE_ADMIN_PASSWORD_HASH || '53b8c393d55e9f20d846a06793c54b8c1e0f1f55da0465cb9359f65e81be7531',
     perfil: 'Head de Inovação & Mentoria',
     status: 'Ativo',
     dataCadastro: new Date().toLocaleDateString('pt-BR')
@@ -48,7 +48,13 @@ const DEFAULT_CONTACTS = [];
 export const getUsers = () => {
   try {
     const data = localStorage.getItem(STORAGE_KEYS.USERS);
-    return data ? JSON.parse(data) : DEFAULT_USERS;
+    if (!data) return DEFAULT_USERS;
+    const parsed = JSON.parse(data);
+    // Blindagem de Segurança: expurgar qualquer senha em texto puro legada
+    return parsed.map((u) => {
+      const { senha, ...safeUser } = u;
+      return safeUser;
+    });
   } catch (e) {
     return DEFAULT_USERS;
   }
@@ -136,24 +142,26 @@ export const saveUser = async (user) => {
   let updated;
   if (existingIndex >= 0) {
     updated = [...users];
+    const { senha: _s, ...cleanExisting } = updated[existingIndex];
     updated[existingIndex] = {
-      ...updated[existingIndex],
+      ...cleanExisting,
       ...user,
       email: (user.email || '').trim(),
-      senha: rawSenha || updated[existingIndex].senha,
-      senha_hash: senhaHash || updated[existingIndex].senha_hash,
+      senha_hash: senhaHash || cleanExisting.senha_hash,
       status: user.status || 'Ativo'
     };
+    delete updated[existingIndex].senha;
   } else {
+    const { senha: _s, ...cleanNew } = user;
     const newUser = {
-      ...user,
+      ...cleanNew,
       email: (user.email || '').trim(),
-      senha: rawSenha,
       senha_hash: senhaHash,
       id: user.id || `user-${Date.now()}`,
       dataCadastro: new Date().toLocaleDateString('pt-BR'),
       status: user.status || 'Ativo'
     };
+    delete newUser.senha;
     updated = [newUser, ...users];
   }
 

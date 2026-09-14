@@ -80,6 +80,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Backoffice } from './pages/Backoffice';
 import { PoliticaPrivacidade } from './pages/PoliticaPrivacidade';
 import { TermosUso } from './pages/TermosUso';
+import { CookieConsentBanner } from './components/common/CookieConsentBanner';
 
 export function App() {
   return (
@@ -155,6 +156,7 @@ export function App() {
 
         <FloatingContact />
         <Footer />
+        <CookieConsentBanner />
       </div>
     </Router>
   );

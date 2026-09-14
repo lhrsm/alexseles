@@ -373,7 +373,16 @@ export const Step4Finalization: React.FC<Step4FinalizationProps> = ({
               required
             />
             <span className="text-xs text-slate-600 leading-relaxed">
-              Concordo com o tratamento confidencial dos meus dados para avaliação e diagnóstico profissional (RGPD). <span className="text-red-500">*</span>
+              Concordo com o tratamento confidencial dos meus dados para avaliação e diagnóstico profissional nos termos da{' '}
+              <a
+                href="/politica-de-privacidade"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline hover:text-blue-800 font-medium"
+              >
+                Política de Privacidade (RGPD & LGPD)
+              </a>
+              . <span className="text-red-500">*</span>
             </span>
           </label>
           {errors.consentLgpd && (

@@ -221,15 +221,17 @@ export const ContactModule = () => {
                     onChange={handleChange}
                     className="w-full px-3.5 py-2.5 rounded-lg bg-[#0B0D12] border border-[#262E3D] text-white text-xs focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8]"
                   >
-                    <option value="direito_trabalhista">Direito do Trabalho (Rescisão, Horas Extras, Acidente, etc.)</option>
-                    <option value="direito_previdenciario">Direito Previdenciário (Aposentadoria, INSS, BPC/LOAS, etc.)</option>
-                    <option value="consulta_geral">Outras Dúvidas Jurídicas</option>
+                    <option value="transicao_carreira">Transição de Carreira para TI</option>
+                    <option value="fundamentos_sdlc_ia">Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial</option>
+                    <option value="governanca_agil">Governação, Produto & Métodos de Entrega em TI</option>
+                    <option value="linkedin_ats">LinkedIn, Marca Pessoal & Aprovação em ATS</option>
+                    <option value="sessao_diagnostica">Sessão Diagnóstica Executiva Geral (30 min)</option>
                   </select>
                 </div>
 
                 <div>
                   <label htmlFor="resumo_situacao" className="block text-xs font-semibold text-slate-300 mb-1.5">
-                    Resumo Breve da Situação Factual *
+                    Resumo Breve da Situação & Metas Profissionais *
                   </label>
                   <textarea
                     id="resumo_situacao"
@@ -238,12 +240,12 @@ export const ContactModule = () => {
                     rows="4"
                     value={formData.resumo_situacao}
                     onChange={handleChange}
-                    placeholder="Descreva de forma simples os fatos ocorridos (sem incluir senhas ou documentos confidenciais)..."
+                    placeholder="Descreva resumidamente o seu momento profissional e os seus objetivos de carreira em tecnologia..."
                     className="w-full px-3.5 py-2.5 rounded-lg bg-[#0B0D12] border border-[#262E3D] text-white text-xs placeholder-slate-500 focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8]"
                   ></textarea>
                 </div>
 
-                {/* Checkbox LGPD Obrigatório */}
+                {/* Checkbox RGPD / LGPD Obrigatório */}
                 <div className="flex items-start gap-3 pt-2">
                   <input
                     type="checkbox"
@@ -252,9 +254,14 @@ export const ContactModule = () => {
                     checked={formData.consentimento_lgpd}
                     onChange={handleChange}
                     className="mt-0.5 w-4 h-4 rounded border-[#262E3D] bg-[#0B0D12] text-[#1A73E8] focus:ring-[#1A73E8]"
+                    required
                   />
                   <label htmlFor="consentimento_lgpd" className="text-[11px] text-slate-400 leading-normal">
-                    Declaro que li e concordo com a <a href="/politica-de-privacidade" className="text-[#1A73E8] underline hover:text-[#1557B0]">Política de Privacidade</a> e autorizo o contato do escritório estritamente para fins de atendimento técnico.
+                    Declaro que li e concordo com a{' '}
+                    <a href="/politica-de-privacidade" className="text-[#1A73E8] underline hover:text-[#1557B0]">
+                      Política de Privacidade (RGPD & LGPD)
+                    </a>{' '}
+                    e autorizo o tratamento confidencial dos meus dados estritamente para fins de mentoria com Alex Seles.
                   </label>
                 </div>
 
@@ -346,13 +353,13 @@ export const ContactModule = () => {
 
               </div>
 
-              {/* Box de Atendimento Digital Nacional */}
+              {/* Box de Atendimento Digital & Global */}
               <div className="p-4 rounded-xl bg-[#0B0D12] border border-[#262E3D] flex items-start gap-3">
                 <i className="fa-solid fa-earth-americas text-[#1A73E8] text-base mt-0.5" aria-hidden="true"></i>
                 <div>
-                  <h4 className="text-xs font-bold text-white">Atendimento em Todo o Brasil</h4>
+                  <h4 className="text-xs font-bold text-white">Atendimento Remoto & Global</h4>
                   <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">
-                    Utilizamos processos 100% eletrônicos (PJe, e-Proc, Projudi) e reuniões por videoconferência com total segurança e validade jurídica.
+                    Sessões individuais conduzidas com segurança e confidencialidade via Google Meet para profissionais em Portugal, Brasil, União Europeia e Reino Unido.
                   </p>
                 </div>
               </div>
