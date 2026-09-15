@@ -105,15 +105,15 @@ export const CorporatePillars = ({ onOpenModal }) => {
           </p>
         </div>
 
-        {/* Grelha de Cards Padrão Bootstrap / Portfolio UI */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {/* Grelha de Cards Padrão Bootstrap (2 cards em cima, 2 cards em baixo) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           {pillars.map((item) => (
             <div
               key={item.id}
               className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group h-full text-left"
             >
               {/* Foto do Card (card-img-top) */}
-              <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-950 shrink-0">
+              <div className="relative h-52 sm:h-60 w-full overflow-hidden bg-slate-950 shrink-0">
                 <img
                   src={item.image}
                   alt={item.title}

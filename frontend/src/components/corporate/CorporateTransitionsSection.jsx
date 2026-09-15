@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import digitalImg from '../../assets/digital.png';
 import businessImg from '../../assets/business.png';
 import projectImg from '../../assets/project.png';
+import empresaImg from '../../assets/empresa.png';
 
 export const CorporateTransitionsSection = ({ onOpenModal }) => {
   const corporateSlides = [
@@ -29,6 +30,14 @@ export const CorporateTransitionsSection = ({ onOpenModal }) => {
       action: 'Posicione a sua\u00A0marca.',
       description: 'Estruture a proposta de valor técnica da sua organização, eleve a visibilidade das suas soluções no mercado e transforme presença digital em novos\u00A0clientes.',
       image: projectImg
+    },
+    {
+      id: 'capacitacao-in-company',
+      badge: 'Capacitação In-Company & Mentoria',
+      question: 'A sua equipa de TI precisa de evoluir competências?',
+      action: 'Capacite In-Company ou\u00A0Online.',
+      description: 'Programas práticos de up-skilling técnico para equipas de engenharia e mentoria executiva para líderes e Tech Leads, no formato presencial ou 100%\u00A0remoto.',
+      image: empresaImg
     }
   ];
 
