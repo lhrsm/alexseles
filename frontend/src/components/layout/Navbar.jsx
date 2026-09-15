@@ -8,6 +8,10 @@ export const Navbar = () => {
   const location = useLocation();
 
   const isEmpresas = location.pathname.startsWith('/para-empresas') || location.pathname.startsWith('/empresas');
+  const isArtigosActive = location.pathname.startsWith('/central-de-conhecimento');
+  const isSobreActive = location.hash === '#sobre-alex';
+  const isEmpresasActive = isEmpresas && !isSobreActive && !isArtigosActive;
+  const isProfissionaisActive = !isEmpresas && !isSobreActive && !isArtigosActive;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,82 +56,79 @@ export const Navbar = () => {
       </a>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-3 sm:gap-6">
+        <div className="flex items-center justify-between h-20 gap-4">
           
           {/* Logo Oficial Alex Seles */}
-          <div className="flex items-center gap-4 lg:gap-8 flex-shrink-0">
-            <Link 
-              to={isEmpresas ? "/para-empresas" : "/"} 
-              className="flex items-center group focus:outline-none py-1"
-              aria-label="Alex Seles — Mentoria de Carreira & Tecnologia"
-            >
-              <img 
-                src={logoImg} 
-                alt="Alex Seles • Mentoria de Carreira & TI" 
-                className="h-11 sm:h-13 md:h-14 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]" 
-              />
-            </Link>
+          <Link 
+            to={isEmpresas ? "/para-empresas" : "/"} 
+            className="flex items-center group focus:outline-none py-1 flex-shrink-0"
+            aria-label="Alex Seles — Mentoria de Carreira & Tecnologia"
+          >
+            <img 
+              src={logoImg} 
+              alt="Alex Seles • Mentoria de Carreira & TI" 
+              className="h-11 sm:h-13 md:h-14 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]" 
+            />
+          </Link>
 
-            {/* Dois botões independentes lado a lado no Header (sem ícones, hover com outline azul) */}
-            <div className="hidden sm:flex items-center gap-2.5 lg:gap-3">
-              <Link
-                to="/"
-                className={`text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-lg transition-all duration-200 border ${
-                  !isEmpresas
-                    ? 'bg-[#1A73E8] border-[#1A73E8] text-white shadow-md shadow-blue-500/20'
-                    : 'border-slate-700/80 text-slate-300 hover:border-[#1A73E8] hover:text-white hover:bg-[#1A73E8]/10'
-                }`}
-              >
-                Para Profissionais
-              </Link>
-
-              <Link
-                to="/para-empresas"
-                className={`text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-lg transition-all duration-200 border ${
-                  isEmpresas
-                    ? 'bg-[#1A73E8] border-[#1A73E8] text-white shadow-md shadow-blue-500/20'
-                    : 'border-slate-700/80 text-slate-300 hover:border-[#1A73E8] hover:text-white hover:bg-[#1A73E8]/10'
-                }`}
-              >
-                Para Empresas
-              </Link>
-            </div>
-          </div>
-
-          {/* Navegação Desktop */}
+          {/* Navegação Desktop: todos um ao lado do outro, estilo link sem outline, hover azul e selecionado em azul */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8 h-full" aria-label="Navegação principal">
             
+            {/* Link: Para Profissionais */}
+            <Link
+              to="/"
+              className={`text-xs tracking-wider uppercase font-bold transition-all py-2 border-b-2 ${
+                isProfissionaisActive
+                  ? 'text-[#1A73E8] border-[#1A73E8]'
+                  : 'text-slate-200 hover:text-[#1A73E8] border-transparent'
+              }`}
+            >
+              Para Profissionais
+            </Link>
+
+            {/* Link: Para Empresas */}
+            <Link
+              to="/para-empresas"
+              className={`text-xs tracking-wider uppercase font-bold transition-all py-2 border-b-2 ${
+                isEmpresasActive
+                  ? 'text-[#1A73E8] border-[#1A73E8]'
+                  : 'text-slate-200 hover:text-[#1A73E8] border-transparent'
+              }`}
+            >
+              Para Empresas
+            </Link>
+
             {/* Link: Sobre Alex Seles */}
             <a
               href={isEmpresas ? "/para-empresas#sobre-alex" : "/#sobre-alex"}
               onClick={handleSobreClick}
               className={`text-xs tracking-wider uppercase font-bold transition-all py-2 border-b-2 ${
-                (location.pathname === '/' || location.pathname === '/para-empresas') && location.hash === '#sobre-alex'
-                  ? 'text-white border-[#1A73E8]'
-                  : 'text-slate-200 hover:text-white border-transparent'
+                isSobreActive
+                  ? 'text-[#1A73E8] border-[#1A73E8]'
+                  : 'text-slate-200 hover:text-[#1A73E8] border-transparent'
               }`}
             >
-              SOBRE ALEX SELES
+              Sobre Alex Seles
             </a>
 
             {/* Link: Artigos */}
             <Link
               to="/central-de-conhecimento"
               className={`text-xs tracking-wider uppercase font-bold transition-all py-2 border-b-2 ${
-                location.pathname.startsWith('/central-de-conhecimento')
-                  ? 'text-white border-[#1A73E8]'
-                  : 'text-slate-200 hover:text-white border-transparent'
+                isArtigosActive
+                  ? 'text-[#1A73E8] border-[#1A73E8]'
+                  : 'text-slate-200 hover:text-[#1A73E8] border-transparent'
               }`}
             >
-              ARTIGOS
+              Artigos
             </Link>
           </nav>
 
-          {/* Ação do Header: Login com hover outline azul */}
+          {/* Ação do Header: Login */}
           <div className="hidden md:flex items-center">
             <Link
               to="/login"
-              className="inline-flex items-center gap-1.5 border border-[#1A73E8] text-white hover:bg-[#1A73E8] hover:border-[#1A73E8] text-xs font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-xs"
+              className="inline-flex items-center gap-2 border border-[#1A73E8] text-white hover:bg-[#1A73E8] hover:text-white text-xs font-semibold px-4 py-2.5 rounded transition-all"
             >
               <span>Login</span>
               <span aria-hidden="true">→</span>
@@ -151,49 +152,55 @@ export const Navbar = () => {
 
       {/* Menu Mobile */}
       {isOpen && (
-        <div className="md:hidden bg-[#121C28] border-b border-white/10 px-4 pt-4 pb-6 space-y-4 animate-in fade-in duration-150">
-          
-          {/* Dois botões independentes lado a lado no Mobile (sem ícones, hover com outline azul) */}
-          <div className="flex items-center gap-2 pb-2">
+        <div className="md:hidden bg-[#121C28] border-b border-white/10 px-4 pt-4 pb-6 space-y-3 animate-in fade-in duration-150">
+          <div className="space-y-1">
             <Link
               to="/"
               onClick={() => setIsOpen(false)}
-              className={`flex-1 text-center py-2.5 px-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 border ${
-                !isEmpresas
-                  ? 'bg-[#1A73E8] border-[#1A73E8] text-white shadow-sm'
-                  : 'border-slate-700 text-slate-300 hover:border-[#1A73E8] hover:text-white hover:bg-[#1A73E8]/10'
+              className={`block px-3 py-2.5 rounded-lg text-sm font-bold transition-colors ${
+                isProfissionaisActive
+                  ? 'text-[#1A73E8] bg-white/5'
+                  : 'text-slate-200 hover:text-[#1A73E8]'
               }`}
             >
               Para Profissionais
             </Link>
+
             <Link
               to="/para-empresas"
               onClick={() => setIsOpen(false)}
-              className={`flex-1 text-center py-2.5 px-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 border ${
-                isEmpresas
-                  ? 'bg-[#1A73E8] border-[#1A73E8] text-white shadow-sm'
-                  : 'border-slate-700 text-slate-300 hover:border-[#1A73E8] hover:text-white hover:bg-[#1A73E8]/10'
+              className={`block px-3 py-2.5 rounded-lg text-sm font-bold transition-colors ${
+                isEmpresasActive
+                  ? 'text-[#1A73E8] bg-white/5'
+                  : 'text-slate-200 hover:text-[#1A73E8]'
               }`}
             >
               Para Empresas
             </Link>
-          </div>
 
-          <div className="space-y-1 pt-2 border-t border-white/10">
             <a
               href={isEmpresas ? "/para-empresas#sobre-alex" : "/#sobre-alex"}
               onClick={(e) => {
                 setIsOpen(false);
                 handleSobreClick(e);
               }}
-              className="block px-3 py-2 rounded text-sm font-medium text-slate-200 hover:text-white"
+              className={`block px-3 py-2.5 rounded-lg text-sm font-bold transition-colors ${
+                isSobreActive
+                  ? 'text-[#1A73E8] bg-white/5'
+                  : 'text-slate-200 hover:text-[#1A73E8]'
+              }`}
             >
               Sobre Alex Seles
             </a>
+
             <Link
               to="/central-de-conhecimento"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 rounded text-sm font-medium text-slate-200 hover:text-white"
+              className={`block px-3 py-2.5 rounded-lg text-sm font-bold transition-colors ${
+                isArtigosActive
+                  ? 'text-[#1A73E8] bg-white/5'
+                  : 'text-slate-200 hover:text-[#1A73E8]'
+              }`}
             >
               Artigos
             </Link>
@@ -203,7 +210,7 @@ export const Navbar = () => {
             <Link
               to="/login"
               onClick={() => setIsOpen(false)}
-              className="w-full inline-flex justify-center items-center gap-2 border border-[#1A73E8] text-white hover:bg-[#1A73E8] text-sm font-semibold py-2.5 rounded-lg transition-all duration-200"
+              className="w-full inline-flex justify-center items-center gap-2 border border-[#1A73E8] text-white hover:bg-[#1A73E8] text-sm font-semibold py-2.5 rounded transition-all"
             >
               <span>Login</span>
               <span aria-hidden="true">→</span>
