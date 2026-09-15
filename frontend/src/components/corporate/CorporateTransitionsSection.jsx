@@ -132,12 +132,6 @@ export const CorporateTransitionsSection = ({ onOpenModal }) => {
           <div className="w-full px-4 sm:px-6 lg:px-8">
             <div className="max-w-xl sm:max-w-2xl lg:max-w-3xl text-left pointer-events-auto pl-16 sm:pl-20 md:pl-24 lg:pl-28 xl:pl-32">
               
-              <div className="mb-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-sky-500/20 text-sky-300 border border-sky-400/30 backdrop-blur-xs">
-                  {currentItem.badge}
-                </span>
-              </div>
-
               {/* Título com destaque de alto contraste */}
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold font-sans tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] leading-tight text-left">
                 {currentItem.question}{' '}
@@ -150,20 +144,6 @@ export const CorporateTransitionsSection = ({ onOpenModal }) => {
               <p className="text-sm sm:text-base lg:text-lg text-slate-100 mt-4 sm:mt-5 font-sans leading-relaxed text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] max-w-2xl">
                 {currentItem.description}
               </p>
-
-              {/* Botão de Diagnóstico Imediato */}
-              {onOpenModal && (
-                <div className="pt-6">
-                  <button
-                    type="button"
-                    onClick={onOpenModal}
-                    className="btn-copper shadow-lg hover:shadow-xl text-xs sm:text-sm font-semibold py-3 px-6 inline-flex items-center gap-2 cursor-pointer transition-all"
-                  >
-                    <span>Solicitar Diagnóstico Estratégico</span>
-                    <span aria-hidden="true">→</span>
-                  </button>
-                </div>
-              )}
 
             </div>
           </div>
