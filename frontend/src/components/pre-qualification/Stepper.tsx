@@ -8,9 +8,9 @@ interface StepperProps {
 
 const STEP_LABELS = [
   '1. Identificação',
-  '2. Perfil / Carreira',
-  '3. Elegibilidade',
-  '4. Finalização'
+  '2. Bagagem de Origem',
+  '3. Metas de Transição',
+  '4. Prontidão & Envio'
 ];
 
 export const Stepper: React.FC<StepperProps> = ({

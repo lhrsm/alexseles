@@ -1,74 +1,49 @@
-export type ProfessionalArea =
-  | 'Engenharia de Software'
-  | 'Produto'
-  | 'Dados/IA'
-  | 'Design'
-  | 'Liderança Técnica'
-  | 'Outra';
+export type OriginArea =
+  | 'Direito / Jurídico'
+  | 'Engenharia Tradicional (Civil, Mecânica, etc.)'
+  | 'Administração, Gestão & Finanças'
+  | 'Contabilidade & Controladoria'
+  | 'Educação & Formação'
+  | 'Saúde & Biológicas'
+  | 'Vendas, Comercial & Atendimento'
+  | 'Comunicação, Marketing & Design'
+  | 'Outra Área Profissional';
 
-export type ExperienceRange =
-  | '0-2 anos'
-  | '3-5 anos'
-  | '5-7 anos'
-  | '8-10 anos'
-  | '10+ anos';
+export type TotalCareerExperience =
+  | '1 a 2 anos (Início de carreira)'
+  | '3 a 5 anos (Profissional consolidado)'
+  | '6 a 10 anos (Sénior na área atual)'
+  | '10+ anos (Liderança / Gestão prévia)';
 
-export type SeniorityLevel =
-  | 'Júnior'
-  | 'Pleno'
-  | 'Sênior'
-  | 'Especialista/Tech Lead'
-  | 'Gestão/Diretoria';
+export type TechFamiliarity =
+  | 'Iniciante absoluto (começar do zero)'
+  | 'Estudo autodidata (cursos online, lógica básica)'
+  | 'Praticante (já criei pequenos scripts ou projetos)'
+  | 'Contacto profissional (trabalho próximo de devs/TI)';
 
-export type CurrentWorkStatus =
-  | 'Empregado no Brasil'
-  | 'Empregado no Exterior'
-  | 'Prestador PJ Internacional'
-  | 'Em transição';
+export type TargetTechTrack =
+  | 'Ciclo de Desenvolvimento de Software (SDLC & Programação)'
+  | 'Inteligência Artificial Aplicada & Prompt Engineering'
+  | 'Gestão de Projetos de TI & Métodos Ágeis (Scrum/Kanban)'
+  | 'Governação de TI, Produto & Qualidade'
+  | 'Quero orientação do Alex Seles para escolher a trilha ideal';
 
-export type MarketOption =
-  | 'Portugal'
-  | 'Espanha'
-  | 'Reino Unido'
-  | 'Europa Geral'
-  | 'EUA/Canadá'
-  | 'Remoto Global';
+export type MainTransitionChallenge =
+  | 'Excesso de informação dispersa e falta de método'
+  | 'Insegurança em recomeçar ou síndrome do impostor'
+  | 'Falta de projetos práticos e portfólio no GitHub'
+  | 'Currículo e LinkedIn sem destaque para vagas de TI'
+  | 'Dificuldade em conquistar as primeiras entrevistas técnicas';
 
-export type Citizenship =
-  | 'Brasileira'
-  | 'Europeia/Dupla'
-  | 'Outra';
-
-export type RightToWork =
-  | 'Sim'
-  | 'Não'
-  | 'Em processo';
-
-export type MigrationDocType =
-  | 'Cidadania Europeia'
-  | 'Visto de Trabalho'
-  | 'Cartão de Residência'
-  | 'Nômade Digital'
-  | 'Em processo'
-  | 'Não possuo';
+export type WeeklyStudyTime =
+  | '5 a 10 horas semanais'
+  | '10 a 20 horas semanais'
+  | '20+ horas semanais (dedicação intensiva)';
 
 export type EnglishLevel =
-  | 'A1/A2 Básico'
-  | 'B1 Intermediário'
-  | 'B2 Independente/Fluente para Trabalho'
-  | 'C1 Avançado'
-  | 'C2 Nativo/Bilíngue';
-
-export type WorkPreference =
-  | '100% Remoto'
-  | 'Híbrido'
-  | 'Presencial com Relocação';
-
-export type Availability =
-  | 'Imediata'
-  | '30 dias'
-  | '60 dias'
-  | '90+ dias';
+  | 'Básico (em aprendizagem)'
+  | 'Intermediário (leitura técnica confortável)'
+  | 'Avançado / Fluente para Trabalho';
 
 export type CommercialReadiness =
   | 'ready_to_invest'
@@ -78,40 +53,34 @@ export type CommercialReadiness =
 export type LeadCategory = 'LEAD_A' | 'LEAD_B' | 'LEAD_C';
 
 export interface PreQualificationFormData {
-  // Etapa 1: Identificacao e Contato
+  // Etapa 1: Identificação & Contacto
   fullName: string;
   email: string;
   phone: string;
   linkedinUrl: string;
-  currentCountry: string;
+  currentCityCountry: string;
 
-  // Etapa 2: Carreira e Momento Profissional
+  // Etapa 2: Bagagem de Origem & Experiência
+  originArea: OriginArea | '';
   currentRole: string;
-  professionalArea: ProfessionalArea | '';
-  experienceYears: ExperienceRange | '';
-  seniority: SeniorityLevel | '';
-  workStatus: CurrentWorkStatus | '';
-  mainChallenge: string;
+  totalCareerExperience: TotalCareerExperience | '';
+  techFamiliarity: TechFamiliarity | '';
 
-  // Etapa 3: Mercados e Elegibilidade / Documentacao
-  targetMarkets: MarketOption[];
-  citizenship: Citizenship | '';
-  rightToWork: RightToWork | '';
-  migrationDocType: MigrationDocType | '';
-  processForecast: string;
+  // Etapa 3: Metas de Transição & Desafios
+  targetTechTrack: TargetTechTrack | '';
+  mainTransitionChallenge: MainTransitionChallenge | '';
+  weeklyStudyTime: WeeklyStudyTime | '';
   englishLevel: EnglishLevel | '';
 
-  // Etapa 4: Remuneracao, CV e Finalizacao
-  workPreference: WorkPreference | '';
-  availability: Availability | '';
-  salaryExpectation: string;
-  cvFileName: string;
-  cvFileSize: number;
-  cvFileBase64?: string;
+  // Etapa 4: Prontidão & Envio
   commercialReadiness: CommercialReadiness | '';
+  additionalNotes: string;
+  cvFileName?: string;
+  cvFileSize?: number;
+  cvFileBase64?: string;
   consentLgpd: boolean;
 
-  // Campo de Segurança Anti-Spam / Anti-Bot (Honeypot)
+  // Segurança Honeypot
   botHoneypot?: string;
 }
 
@@ -120,23 +89,25 @@ export interface LeadClassification {
   title: string;
   badge: string;
   summary: string;
-  whatsappUrl?: string;
   reasons: string[];
+  whatsappUrl?: string;
 }
 
-export interface StoredLead {
+export interface StoredLeadRecord {
   id: string;
   createdAt: string;
-  category: LeadCategory;
-  classificationTitle: string;
   formData: PreQualificationFormData;
-  whatsappUrl?: string;
+  classification: LeadClassification;
+  status: 'Novo' | 'Em Avaliação' | 'Contactado' | 'Convertido' | 'Descartado';
 }
+
+export type StoredLead = StoredLeadRecord;
 
 export interface PreQualificationModalProps {
   isOpen: boolean;
   onClose: () => void;
   companyName?: string;
   executiveWhatsappNumber?: string;
-  onLeadSubmitted?: (lead: StoredLead) => void;
+  onLeadSubmitted?: (lead: StoredLeadRecord) => void;
 }
+

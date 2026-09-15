@@ -6,163 +6,81 @@ export const classifyLead = (
 ): LeadClassification => {
   const reasons: string[] = [];
 
-  // Verificacoes de Experiencia e Senioridade
-  const isHighExperience = ['5-7 anos', '8-10 anos', '10+ anos'].includes(
-    formData.experienceYears
-  );
-  const isMidOrSenior = [
-    'Pleno',
-    'Sênior',
-    'Especialista/Tech Lead',
-    'Gestão/Diretoria'
-  ].includes(formData.seniority);
-
-  // Verificacao de Direito de Trabalho / Cidadania
-  const hasWorkRight =
-    formData.rightToWork === 'Sim' ||
-    formData.citizenship === 'Europeia/Dupla' ||
-    [
-      'Cidadania Europeia',
-      'Visto de Trabalho',
-      'Cartão de Residência'
-    ].includes(formData.migrationDocType);
-
-  // Verificacao de Documentacao em Andamento
-  const isDocumentationInProcess =
-    formData.rightToWork === 'Em processo' ||
-    formData.migrationDocType === 'Em processo';
-
-  // Verificacao de Idioma
-  const hasProficientEnglish = [
-    'B2 Independente/Fluente para Trabalho',
-    'C1 Avançado',
-    'C2 Nativo/Bilíngue'
-  ].includes(formData.englishLevel);
-
-  // Verificacao de Decisao Comercial
-  const isReadyToInvest =
-    formData.commercialReadiness === 'ready_to_invest';
-  const wantsConditionsFirst =
-    formData.commercialReadiness === 'want_conditions_first';
-  const hasNoFinancialAvailability =
-    formData.commercialReadiness === 'no_financial_availability';
+  const isReadyToInvest = formData.commercialReadiness === 'ready_to_invest';
+  const wantsConditionsFirst = formData.commercialReadiness === 'want_conditions_first';
+  const hasNoFinancialAvailability = formData.commercialReadiness === 'no_financial_availability';
 
   // -------------------------------------------------------------
-  // REGRA 1: LEAD C (Conteudo / Vagas Publicas)
+  // CASO 1: LEAD C (Orientação & Conteúdos Gratuitos)
   // -------------------------------------------------------------
-  if (
-    hasNoFinancialAvailability ||
-    formData.experienceYears === '0-2 anos' ||
-    (formData.rightToWork === 'Não' &&
-      (formData.migrationDocType === 'Não possuo' ||
-        !formData.migrationDocType))
-  ) {
-    if (hasNoFinancialAvailability) {
-      reasons.push('Foco atual em conteudos e vagas publicas');
-    }
-    if (formData.experienceYears === '0-2 anos') {
-      reasons.push('Experiencia profissional inicial (0 a 2 anos)');
-    }
-    if (
-      formData.rightToWork === 'Não' &&
-      (formData.migrationDocType === 'Não possuo' ||
-        !formData.migrationDocType)
-    ) {
-      reasons.push('Ausencia de autorizacao de trabalho ou plano migratorio ativo');
-    }
+  if (hasNoFinancialAvailability) {
+    reasons.push('Foco atual em conteúdos gratuitos e materiais da comunidade');
+    reasons.push(`Área de interesse identificada: ${formData.targetTechTrack || 'Tecnologia Geral'}`);
+    reasons.push(`Desafio apontado: ${formData.mainTransitionChallenge || 'Início da transição'}`);
 
     return {
       category: 'LEAD_C',
-      title: 'Acesso a Materiais & Comunidade Publica',
-      badge: 'Orientacao e Conteudo',
+      title: 'Plano de Acesso à Central de Conhecimento & Guias de TI',
+      badge: 'Orientação & Conteúdos',
       summary:
-        'Agradecemos a sua disponibilidade. No momento, o roteiro mais recomendado para o seu perfil e o acesso aos nossos artigos tecnicos, biblioteca de conhecimentos e painel de oportunidades publicas.',
+        'Agradecemos a sua submissão. Para o seu momento atual, o roteiro mais recomendado é o estudo prático através dos artigos técnicos da nossa Central de Conhecimento e da nossa comunidade de conteúdos.',
       reasons
     };
   }
 
   // -------------------------------------------------------------
-  // REGRA 2: LEAD A (Prioritario / VIP)
+  // CASO 2: LEAD A (Prioritário VIP • Aceleração Imediata)
   // -------------------------------------------------------------
-  if (
-    isHighExperience &&
-    isMidOrSenior &&
-    hasWorkRight &&
-    hasProficientEnglish &&
-    isReadyToInvest
-  ) {
-    reasons.push('Experiencia tecnica solida de 5+ anos');
-    reasons.push(`Senioridade confirmada (${formData.seniority})`);
-    reasons.push('Elegibilidade documental e direito de trabalho garantido');
-    reasons.push(`Nivel de ingles fluente/avancado (${formData.englishLevel})`);
-    reasons.push('Decisao e disponibilidade imediata para mentoria executiva');
+  if (isReadyToInvest) {
+    reasons.push('Decisão e prontidão imediata para investir na mentoria individual');
+    reasons.push(`Bagagem de carreira aproveitável: ${formData.originArea || 'Área prévia'} (${formData.totalCareerExperience || 'Experiência prévia'})`);
+    reasons.push(`Trilha tecnológica selecionada: ${formData.targetTechTrack}`);
+    reasons.push(`Comprometimento semanal: ${formData.weeklyStudyTime}`);
+    reasons.push(`Nível de familiaridade técnica: ${formData.techFamiliarity}`);
 
     const cleanPhone = executiveWhatsappNumber.replace(/\D/g, '');
-    const targetMarketsStr =
-      formData.targetMarkets.length > 0
-        ? formData.targetMarkets.join(', ')
-        : 'Internacional';
-    const docStr =
-      formData.migrationDocType ||
-      (formData.rightToWork === 'Sim'
-        ? 'Direito de trabalho confirmado'
-        : 'Cidadania Europeia/Dupla');
-
-    const message = [
-      `Ola Alex e Equipa Executiva,`,
-      ``,
-      `Conclui a Avaliacao Confidencial de Pre-Qualificacao com classificacao PRIORITARIA (Lead VIP).`,
-      ``,
-      `Nome: ${formData.fullName}`,
-      `Cargo Atual: ${formData.currentRole}`,
-      `Area: ${formData.professionalArea || 'Tecnologia'} (${formData.seniority})`,
-      `Experiencia: ${formData.experienceYears}`,
-      `Mercados de Interesse: ${targetMarketsStr}`,
-      `Documentacao / Visto: ${docStr}`,
-      `Ingles: ${formData.englishLevel}`,
-      `Pretensao Salarial: ${formData.salaryExpectation}`,
-      `LinkedIn: ${formData.linkedinUrl}`,
-      ``,
-      `Gostaria de agendar a sessao diagnostica estrategica com a lideranca.`
-    ].join('\n');
-
-    const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
-      message
-    )}`;
+    const candidateName = formData.fullName || 'Candidato';
+    const message = encodeURIComponent(
+      `Olá Alex Seles, realizei a minha pré-qualificação no site para transição de carreira para TI. ` +
+      `Venho da área de ${formData.originArea || 'minha área profissional'} e o meu foco é migrar para ${formData.targetTechTrack || 'TI'}. ` +
+      `Estou preparado(a) para investir na mentoria individual e gostaria de alinhar os próximos passos com a sua orientação direta. ` +
+      `[Nome: ${candidateName}]`
+    );
 
     return {
       category: 'LEAD_A',
-      title: 'Aprovacao Prioritaria (Lead VIP)',
-      badge: 'Candidato VIP Prioritario',
+      title: 'Perfil Selecionado para Aceleração Individual de Carreira em TI',
+      badge: 'Prioridade Alta • Aceleração Imediata',
       summary:
-        'O seu perfil preenche todos os requisitos estrategicos de alta performance para reposicionamento internacional imediato.',
-      whatsappUrl,
-      reasons
+        'Parabéns! A sua bagagem profissional de origem e o seu compromisso para migrar para tecnologia reúnem as condições perfeitas para a nossa mentoria individual com Alex Seles. Poderá iniciar o alinhamento imediato via WhatsApp executivo.',
+      reasons,
+      whatsappUrl: `https://wa.me/${cleanPhone}?text=${message}`
     };
   }
 
   // -------------------------------------------------------------
-  // REGRA 3: LEAD B (Avaliacao Manual)
+  // CASO 3: LEAD B (Pré-Qualificado • Avaliação de Condições)
   // -------------------------------------------------------------
-  if (isDocumentationInProcess) {
-    reasons.push('Documentacao migratoria em tramitacao');
-  }
-  if (wantsConditionsFirst) {
-    reasons.push('Interesse em analise prévia de condicoes de investimento');
-  }
-  if (!isHighExperience) {
-    reasons.push(`Experiencia consolidada (${formData.experienceYears})`);
-  }
-  if (reasons.length === 0) {
-    reasons.push('Perfil tecnico qualificado para triagem estrategica');
-  }
+  reasons.push('Interesse em avaliar os formatos, cronogramas e condições de investimento');
+  reasons.push(`Bagagem profissional de origem: ${formData.originArea || 'Área prévia'}`);
+  reasons.push(`Trilha de interesse em tecnologia: ${formData.targetTechTrack || 'TI'}`);
+  reasons.push(`Familiaridade atual: ${formData.techFamiliarity || 'Iniciante'}`);
+
+  const cleanPhone = executiveWhatsappNumber.replace(/\D/g, '');
+  const candidateName = formData.fullName || 'Candidato';
+  const message = encodeURIComponent(
+    `Olá Alex Seles, submeti a minha pré-qualificação no site para transição de carreira para TI. ` +
+    `Tenho interesse na trilha de ${formData.targetTechTrack || 'TI'} e gostaria de conhecer as opções de formato, cronograma e condições de investimento da sua mentoria. ` +
+    `[Nome: ${candidateName}]`
+  );
 
   return {
     category: 'LEAD_B',
-    title: 'Perfil Selecionado para Triagem Estrategica',
-    badge: 'Analise Manual em Andamento',
+    title: 'Perfil Pré-Qualificado para Avaliação de Formato e Condições',
+    badge: 'Pré-Qualificado • Transição de Carreira',
     summary:
-      'O seu perfil possui elevado potencial. A nossa equipa executiva realizara uma analise tecnica personalizada e entrara em contacto no prazo maximo de 48 horas.',
-    reasons
+      'O seu perfil possui excelente potencial para reaproveitamento de competências em tecnologia. Entraremos em contacto para apresentar a estrutura da mentoria, carga horária e condições de investimento personalizadas.',
+    reasons,
+    whatsappUrl: `https://wa.me/${cleanPhone}?text=${message}`
   };
 };

@@ -20,26 +20,22 @@ const INITIAL_FORM_DATA: PreQualificationFormData = {
   email: '',
   phone: '',
   linkedinUrl: '',
-  currentCountry: '',
+  currentCityCountry: '',
+  originArea: '',
   currentRole: '',
-  professionalArea: '',
-  experienceYears: '',
-  seniority: '',
-  workStatus: '',
-  mainChallenge: '',
-  targetMarkets: [],
-  citizenship: '',
-  rightToWork: '',
-  migrationDocType: '',
-  processForecast: '',
+  totalCareerExperience: '',
+  techFamiliarity: '',
+  targetTechTrack: '',
+  mainTransitionChallenge: '',
+  weeklyStudyTime: '',
   englishLevel: '',
-  workPreference: '',
-  availability: '',
-  salaryExpectation: '',
+  commercialReadiness: '',
+  additionalNotes: '',
   cvFileName: '',
   cvFileSize: 0,
-  commercialReadiness: '',
-  consentLgpd: false
+  cvFileBase64: undefined,
+  consentLgpd: false,
+  botHoneypot: ''
 };
 
 export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
@@ -121,69 +117,42 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
       if (!cleanUrl || isUnsafeProtocol || !isLinkedIn) {
         newErrors.linkedinUrl = 'Introduza uma ligação HTTPS válida para o seu perfil no LinkedIn.';
       }
-      if (!formData.currentCountry) {
-        newErrors.currentCountry = 'Selecione o seu país atual de residência.';
+      if (!formData.currentCityCountry.trim()) {
+        newErrors.currentCityCountry = 'Introduza a sua cidade e país atual de residência.';
       }
     }
 
     if (step === 2) {
+      if (!formData.originArea) {
+        newErrors.originArea = 'Selecione a sua área profissional de origem.';
+      }
       if (!formData.currentRole.trim()) {
-        newErrors.currentRole = 'Introduza o seu cargo atual ou último cargo.';
+        newErrors.currentRole = 'Introduza o seu cargo atual ou mais recente.';
       }
-      if (!formData.professionalArea) {
-        newErrors.professionalArea = 'Selecione a sua área profissional principal.';
+      if (!formData.totalCareerExperience) {
+        newErrors.totalCareerExperience = 'Selecione o seu tempo total de experiência profissional.';
       }
-      if (!formData.experienceYears) {
-        newErrors.experienceYears = 'Selecione o seu tempo total de experiência.';
-      }
-      if (!formData.seniority) {
-        newErrors.seniority = 'Selecione a sua senioridade atual.';
-      }
-      if (!formData.workStatus) {
-        newErrors.workStatus = 'Selecione a sua situação profissional atual.';
-      }
-      if (!formData.mainChallenge.trim() || formData.mainChallenge.trim().length < 15) {
-        newErrors.mainChallenge =
-          'Descreva o seu principal desafio com pelo menos 15 caracteres.';
+      if (!formData.techFamiliarity) {
+        newErrors.techFamiliarity = 'Selecione o seu nível de familiaridade com tecnologia.';
       }
     }
 
     if (step === 3) {
-      if (formData.targetMarkets.length === 0) {
-        newErrors.targetMarkets = 'Selecione pelo menos um mercado de interesse.';
+      if (!formData.targetTechTrack) {
+        newErrors.targetTechTrack = 'Selecione a trilha tecnológica pretendida.';
       }
-      if (!formData.citizenship) {
-        newErrors.citizenship = 'Selecione a sua cidadania.';
+      if (!formData.mainTransitionChallenge) {
+        newErrors.mainTransitionChallenge = 'Selecione o seu maior obstáculo na transição.';
       }
-      if (!formData.rightToWork) {
-        newErrors.rightToWork = 'Indique se possui autorização de trabalho.';
-      }
-      if (!formData.migrationDocType) {
-        newErrors.migrationDocType = 'Selecione o seu tipo de documentação migratória.';
-      }
-      if (
-        (formData.rightToWork === 'Em processo' ||
-          formData.migrationDocType === 'Em processo') &&
-        (!formData.processForecast.trim() || formData.processForecast.trim().length < 3)
-      ) {
-        newErrors.processForecast =
-          'Indique a estimativa de conclusão do processo documental.';
+      if (!formData.weeklyStudyTime) {
+        newErrors.weeklyStudyTime = 'Selecione a sua dedicação semanal para estudo.';
       }
       if (!formData.englishLevel) {
-        newErrors.englishLevel = 'Selecione o seu nível de proficiência em inglês.';
+        newErrors.englishLevel = 'Selecione o seu nível de inglês.';
       }
     }
 
     if (step === 4) {
-      if (!formData.workPreference) {
-        newErrors.workPreference = 'Selecione a modalidade de trabalho desejada.';
-      }
-      if (!formData.availability) {
-        newErrors.availability = 'Selecione a sua disponibilidade para início ou mudança.';
-      }
-      if (!formData.salaryExpectation.trim()) {
-        newErrors.salaryExpectation = 'Indique a sua pretensão salarial mínima estimada.';
-      }
       if (!formData.commercialReadiness) {
         newErrors.commercialReadiness =
           'Selecione a opção correspondente ao seu momento de decisão e investimento.';
@@ -241,10 +210,9 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
       email: formData.email.trim().toLowerCase(),
       phone: formData.phone.trim(),
       linkedinUrl: formData.linkedinUrl.trim(),
+      currentCityCountry: formData.currentCityCountry.trim().replace(/[<>]/g, ''),
       currentRole: formData.currentRole.trim().replace(/[<>]/g, ''),
-      mainChallenge: formData.mainChallenge.trim().replace(/[<>]/g, ''),
-      salaryExpectation: formData.salaryExpectation.trim().replace(/[<>]/g, ''),
-      processForecast: formData.processForecast.trim().replace(/[<>]/g, '')
+      additionalNotes: (formData.additionalNotes || '').trim().replace(/[<>]/g, '')
     };
 
     // Motor de Classificacao
@@ -267,12 +235,17 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
         tipo: 'email',
         nome: sanitizedData.fullName.slice(0, 100),
         contato: `${sanitizedData.email.slice(0, 80)} • ${sanitizedData.phone.slice(0, 30)}`,
-        origem: `Pré-Qualificação • ${result.category} (${sanitizedData.currentRole})`,
-        modulo: `Mentoria Executiva (${sanitizedData.experienceYears})`,
-        investimento: sanitizedData.salaryExpectation || 'A definir',
-        horas: 'Diagnóstico de Carreira',
-        tipoSolicitacao: 'Plano de Ação - Pré-Qualificação',
-        mensagem: `[Classificação: ${result.category} - ${result.title} • Coluna: ${trelloStatus}]\nCargo: ${sanitizedData.currentRole} (${sanitizedData.seniority})\nMercados: ${sanitizedData.targetMarkets.join(', ')}\nDocumento: ${sanitizedData.migrationDocType} (${sanitizedData.rightToWork})\nInglês: ${sanitizedData.englishLevel}\nDesafio: ${sanitizedData.mainChallenge}\nLinkedIn: ${sanitizedData.linkedinUrl}`,
+        origem: `Pré-Qualificação • ${result.category} (${sanitizedData.originArea} -> ${sanitizedData.targetTechTrack})`,
+        modulo: `Transição para TI • ${sanitizedData.targetTechTrack}`,
+        investimento:
+          sanitizedData.commercialReadiness === 'ready_to_invest'
+            ? 'Pronto para Investir'
+            : sanitizedData.commercialReadiness === 'want_conditions_first'
+            ? 'Avaliar Condições'
+            : 'Conteúdos Gratuitos',
+        horas: 'Diagnóstico de Transição',
+        tipoSolicitacao: 'Plano de Ação - Transição TI',
+        mensagem: `[Classificação: ${result.category} - ${result.title} • Coluna: ${trelloStatus}]\nÁrea de Origem: ${sanitizedData.originArea}\nCargo Atual: ${sanitizedData.currentRole}\nBagagem: ${sanitizedData.totalCareerExperience}\nFamiliaridade com TI: ${sanitizedData.techFamiliarity}\nTrilha Pretendida: ${sanitizedData.targetTechTrack}\nDesafio: ${sanitizedData.mainTransitionChallenge}\nDedicação Semanal: ${sanitizedData.weeklyStudyTime}\nInglês: ${sanitizedData.englishLevel}\nCidade/País: ${sanitizedData.currentCityCountry}\nLinkedIn: ${sanitizedData.linkedinUrl}\nNotas: ${sanitizedData.additionalNotes || 'Nenhuma'}`,
         status: trelloStatus
       });
     } catch (dbErr) {
@@ -281,33 +254,40 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
 
     // 2. Disparo para o Webhook n8n (Trello com checklist do Plano de Ação & Excel / Google Sheets no Drive)
     try {
-      const n8nWebhookUrl = import.meta.env.VITE_N8N_CALENDAR_WEBHOOK_URL || 'https://n8n.srv1469659.hstgr.cloud/webhook/agendar-google-calendar';
+      const n8nWebhookUrl =
+        import.meta.env.VITE_N8N_CALENDAR_WEBHOOK_URL ||
+        'https://n8n.srv1469659.hstgr.cloud/webhook/agendar-google-calendar';
       await fetch(n8nWebhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json'
         },
         body: JSON.stringify({
           nome: sanitizedData.fullName,
           email: sanitizedData.email,
           telefone: sanitizedData.phone,
-          cidade: sanitizedData.currentCountry || 'Não informado',
-          tipoSolicitacao: 'Plano de Ação - Pré-Qualificação',
-          modulo: `Mentoria Executiva • ${sanitizedData.currentRole}`,
-          investimento: sanitizedData.salaryExpectation || 'A definir',
-          horas: 'Diagnóstico de Carreira',
-          objetivo: `Plano de Ação [${trelloStatus}]: ${sanitizedData.targetMarkets.join(', ')} (${sanitizedData.seniority})`,
-          desafio: sanitizedData.mainChallenge,
-          slotAgendamento: 'Sessão Diagnóstica (A agendar)',
+          cidade: sanitizedData.currentCityCountry || 'Não informado',
+          tipoSolicitacao: 'Plano de Ação - Transição TI',
+          modulo: `Transição para TI • ${sanitizedData.targetTechTrack}`,
+          investimento:
+            sanitizedData.commercialReadiness === 'ready_to_invest'
+              ? 'Pronto para Investir'
+              : sanitizedData.commercialReadiness === 'want_conditions_first'
+              ? 'Avaliar Condições'
+              : 'Conteúdos Gratuitos',
+          horas: 'Diagnóstico de Transição',
+          objetivo: `Transição TI [${trelloStatus}]: ${sanitizedData.originArea} -> ${sanitizedData.targetTechTrack}`,
+          desafio: sanitizedData.mainTransitionChallenge,
+          slotAgendamento: 'Diagnóstico de Transição (A agendar)',
           startISO: new Date().toISOString(),
           endISO: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
-          canal: 'Formulário do Site (Pré-Qualificação)',
+          canal: 'Formulário do Site (Pré-Qualificação Transição TI)',
           status: trelloStatus,
           colunaTrello: trelloStatus,
           trelloList: trelloStatus,
           isQualificado: isQualificado,
-          resumoPerfil: `${sanitizedData.fullName}, ${sanitizedData.currentRole} (${sanitizedData.seniority}) • Exp: ${sanitizedData.experienceYears} • Inglês: ${sanitizedData.englishLevel} • Mercados: ${sanitizedData.targetMarkets.join(', ')} • Situação: ${sanitizedData.workStatus} • Doc: ${sanitizedData.migrationDocType}`
+          resumoPerfil: `${sanitizedData.fullName} | Origem: ${sanitizedData.originArea} (${sanitizedData.currentRole}, ${sanitizedData.totalCareerExperience}) | Trilha: ${sanitizedData.targetTechTrack} | Familiaridade: ${sanitizedData.techFamiliarity} | Desafio: ${sanitizedData.mainTransitionChallenge} | Dedicação: ${sanitizedData.weeklyStudyTime} | Inglês: ${sanitizedData.englishLevel} | Prontidão: ${sanitizedData.commercialReadiness}`
         })
       });
     } catch (n8nErr) {
@@ -317,42 +297,36 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
     // 3. Disparo de e-mail formatado via FormSubmit diretamente para contato@alexseles.online
     try {
       const formSubmitPayload = {
-        'Notificação': 'Há novos leads em Plano de Ação aguardando contacto executivo.',
+        Notificação: 'Novo perfil de Transição de Carreira para TI submetido.',
         'Status Trello': `${trelloStatus.toUpperCase()} (Encaminhado para a coluna ${trelloStatus})`,
-        'Classificação': `${result.category} - ${result.title}`,
-        'Resumo Executivo': `${sanitizedData.fullName} | ${sanitizedData.currentRole} (${sanitizedData.seniority}) | ${sanitizedData.experienceYears} de exp. | Inglês: ${sanitizedData.englishLevel} | Mercados: ${sanitizedData.targetMarkets.join(', ')} | Momento: ${sanitizedData.commercialReadiness}`,
+        Classificação: `${result.category} - ${result.title}`,
+        Resumo: `${sanitizedData.fullName} | Origem: ${sanitizedData.originArea} (${sanitizedData.currentRole}) -> Trilha: ${sanitizedData.targetTechTrack} | Momento: ${sanitizedData.commercialReadiness}`,
         'Nome do Candidato': sanitizedData.fullName,
         'E-mail': sanitizedData.email,
-        'Telefone / WhatsApp': sanitizedData.phone,
-        'LinkedIn': sanitizedData.linkedinUrl,
-        'País Atual': sanitizedData.currentCountry,
+        WhatsApp: sanitizedData.phone,
+        LinkedIn: sanitizedData.linkedinUrl,
+        'Cidade e País': sanitizedData.currentCityCountry,
+        'Área de Origem': sanitizedData.originArea,
         'Cargo Atual': sanitizedData.currentRole,
-        'Área Profissional': sanitizedData.professionalArea,
-        'Tempo de Experiência': sanitizedData.experienceYears,
-        'Senioridade': sanitizedData.seniority,
-        'Situação Atual': sanitizedData.workStatus,
-        'Principal Desafio': sanitizedData.mainChallenge,
-        'Mercados Alvo': sanitizedData.targetMarkets.join(', '),
-        'Cidadania': sanitizedData.citizenship,
-        'Autorização de Trabalho': sanitizedData.rightToWork,
-        'Documentação Migratória': sanitizedData.migrationDocType,
-        'Previsão Documental': sanitizedData.processForecast || 'N/A',
+        'Tempo Total de Carreira': sanitizedData.totalCareerExperience,
+        'Familiaridade com TI': sanitizedData.techFamiliarity,
+        'Trilha Pretendida': sanitizedData.targetTechTrack,
+        'Maior Desafio': sanitizedData.mainTransitionChallenge,
+        'Dedicação Semanal': sanitizedData.weeklyStudyTime,
         'Nível de Inglês': sanitizedData.englishLevel,
-        'Modalidade Desejada': sanitizedData.workPreference,
-        'Disponibilidade': sanitizedData.availability,
-        'Pretensão Salarial': sanitizedData.salaryExpectation,
         'Momento Comercial': sanitizedData.commercialReadiness,
+        'Notas / Questões': sanitizedData.additionalNotes || 'Nenhuma',
         'Ficheiro CV': sanitizedData.cvFileName || 'Não anexado',
-        '_subject': `[${trelloStatus.toUpperCase()}] Lead em Plano de Ação: ${sanitizedData.fullName} (${sanitizedData.currentRole})`,
-        '_template': 'table',
-        '_captcha': 'false'
+        _subject: `[${trelloStatus.toUpperCase()}] Transição TI: ${sanitizedData.fullName} (${sanitizedData.originArea} -> ${sanitizedData.targetTechTrack})`,
+        _template: 'table',
+        _captcha: 'false'
       };
 
       await fetch('https://formsubmit.co/ajax/contato@alexseles.online', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json'
         },
         body: JSON.stringify(formSubmitPayload)
       });
@@ -398,10 +372,10 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
                 id="modal-title"
                 className="text-base sm:text-lg font-display font-bold text-slate-900 tracking-tight"
               >
-                Pré-Qualificação de Carreira & Tecnologia
+                Pré-Qualificação • Transição de Carreira para TI
               </h2>
               <p className="text-xs text-slate-500">
-                4 etapas para análise do seu perfil profissional.
+                4 etapas para análise de competências transferíveis e aceleração da sua migração.
               </p>
             </div>
 

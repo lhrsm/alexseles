@@ -154,7 +154,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
               onClick={onClose}
               className="w-full px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-sm shadow-sm transition-all"
             >
-              Concluir e Aguardar Contato
+              Concluir e Aguardar Contacto
             </button>
           </div>
         </div>

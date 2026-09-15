@@ -1,11 +1,10 @@
 import React from 'react';
-import { Briefcase, Layers, Award, Clock } from 'lucide-react';
+import { Briefcase, Layers, Clock, Terminal } from 'lucide-react';
 import {
-  CurrentWorkStatus,
-  ExperienceRange,
+  OriginArea,
   PreQualificationFormData,
-  ProfessionalArea,
-  SeniorityLevel
+  TechFamiliarity,
+  TotalCareerExperience
 } from './types';
 
 interface Step2CareerProps {
@@ -14,36 +13,46 @@ interface Step2CareerProps {
   errors: Record<string, string>;
 }
 
-const PROFESSIONAL_AREAS: ProfessionalArea[] = [
-  'Engenharia de Software',
-  'Produto',
-  'Dados/IA',
-  'Design',
-  'Liderança Técnica',
-  'Outra'
+const ORIGIN_AREAS: OriginArea[] = [
+  'Direito / Jurídico',
+  'Engenharia Tradicional (Civil, Mecânica, etc.)',
+  'Administração, Gestão & Finanças',
+  'Contabilidade & Controladoria',
+  'Educação & Formação',
+  'Saúde & Biológicas',
+  'Vendas, Comercial & Atendimento',
+  'Comunicação, Marketing & Design',
+  'Outra Área Profissional'
 ];
 
-const EXPERIENCE_RANGES: ExperienceRange[] = [
-  '0-2 anos',
-  '3-5 anos',
-  '5-7 anos',
-  '8-10 anos',
-  '10+ anos'
+const TOTAL_EXPERIENCE_OPTIONS: TotalCareerExperience[] = [
+  '1 a 2 anos (Início de carreira)',
+  '3 a 5 anos (Profissional consolidado)',
+  '6 a 10 anos (Sénior na área atual)',
+  '10+ anos (Liderança / Gestão prévia)'
 ];
 
-const SENIORITY_LEVELS: SeniorityLevel[] = [
-  'Júnior',
-  'Pleno',
-  'Sênior',
-  'Especialista/Tech Lead',
-  'Gestão/Diretoria'
-];
-
-const WORK_STATUSES: CurrentWorkStatus[] = [
-  'Empregado no Brasil',
-  'Empregado no Exterior',
-  'Prestador PJ Internacional',
-  'Em transição'
+const TECH_FAMILIARITY_OPTIONS: { id: TechFamiliarity; label: string; desc: string }[] = [
+  {
+    id: 'Iniciante absoluto (começar do zero)',
+    label: 'Iniciante absoluto',
+    desc: 'Sem experiência prévia com código, quero começar do zero com método.'
+  },
+  {
+    id: 'Estudo autodidata (cursos online, lógica básica)',
+    label: 'Estudo autodidata',
+    desc: 'Já fiz cursos online, li tutoriais ou estudei lógica de programação básica.'
+  },
+  {
+    id: 'Praticante (já criei pequenos scripts ou projetos)',
+    label: 'Praticante',
+    desc: 'Já criei pequenos scripts, automações ou projetos práticos simples.'
+  },
+  {
+    id: 'Contacto profissional (trabalho próximo de devs/TI)',
+    label: 'Contacto profissional',
+    desc: 'Trabalho ou já trabalhei próximo a equipas de desenvolvimento e tecnologia.'
+  }
 ];
 
 export const Step2Career: React.FC<Step2CareerProps> = ({
@@ -52,15 +61,63 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
   errors
 }) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
+      <div className="border-b border-slate-100 pb-3">
+        <h3 className="text-base sm:text-lg font-bold text-slate-900">
+          Bagagem Profissional de Origem
+        </h3>
+        <p className="text-xs text-slate-500 mt-0.5">
+          A sua trajetória anterior possui competências transferíveis de alto valor para tecnologia.
+        </p>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Cargo Atual ou Ultimo */}
+        {/* Área Profissional de Origem */}
+        <div>
+          <label
+            htmlFor="originArea"
+            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
+          >
+            Área de Origem / Formação <span className="text-red-500">*</span>
+          </label>
+          <div className="relative rounded-lg">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <Layers className="w-4 h-4" aria-hidden="true" />
+            </div>
+            <select
+              id="originArea"
+              name="originArea"
+              value={formData.originArea}
+              onChange={(e) =>
+                updateFormData({
+                  originArea: e.target.value as OriginArea
+                })
+              }
+              className={`w-full pl-9 pr-3 py-2 bg-white border ${
+                errors.originArea ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              required
+            >
+              <option value="">Selecione a sua área profissional</option>
+              {ORIGIN_AREAS.map((area) => (
+                <option key={area} value={area}>
+                  {area}
+                </option>
+              ))}
+            </select>
+          </div>
+          {errors.originArea && (
+            <p className="mt-1 text-xs text-red-600 font-medium">{errors.originArea}</p>
+          )}
+        </div>
+
+        {/* Cargo Atual ou Mais Recente */}
         <div>
           <label
             htmlFor="currentRole"
             className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
           >
-            Cargo Atual ou Último <span className="text-red-500">*</span>
+            Cargo Atual ou Mais Recente <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -70,7 +127,7 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
               type="text"
               id="currentRole"
               name="currentRole"
-              placeholder="Ex: Engenheiro de Software"
+              placeholder="Ex: Advogado, Engenheiro Civil, Gerente de Vendas..."
               value={formData.currentRole}
               onChange={(e) => updateFormData({ currentRole: e.target.value })}
               className={`w-full pl-9 pr-3 py-2 bg-white border ${
@@ -84,190 +141,91 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
           )}
         </div>
 
-        {/* Area Profissional */}
-        <div>
+        {/* Tempo Total de Carreira */}
+        <div className="sm:col-span-2">
           <label
-            htmlFor="professionalArea"
+            htmlFor="totalCareerExperience"
             className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
           >
-            Área Profissional <span className="text-red-500">*</span>
-          </label>
-          <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-              <Layers className="w-4 h-4" aria-hidden="true" />
-            </div>
-            <select
-              id="professionalArea"
-              name="professionalArea"
-              value={formData.professionalArea}
-              onChange={(e) =>
-                updateFormData({
-                  professionalArea: e.target.value as ProfessionalArea
-                })
-              }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.professionalArea ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
-              required
-            >
-              <option value="">Selecione a área</option>
-              {PROFESSIONAL_AREAS.map((a) => (
-                <option key={a} value={a}>
-                  {a}
-                </option>
-              ))}
-            </select>
-          </div>
-          {errors.professionalArea && (
-            <p className="mt-1 text-xs text-red-600 font-medium">{errors.professionalArea}</p>
-          )}
-        </div>
-
-        {/* Anos de Experiencia */}
-        <div>
-          <label
-            htmlFor="experienceYears"
-            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
-          >
-            Experiência Total <span className="text-red-500">*</span>
+            Tempo Total de Carreira Profissional <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
               <Clock className="w-4 h-4" aria-hidden="true" />
             </div>
             <select
-              id="experienceYears"
-              name="experienceYears"
-              value={formData.experienceYears}
+              id="totalCareerExperience"
+              name="totalCareerExperience"
+              value={formData.totalCareerExperience}
               onChange={(e) =>
                 updateFormData({
-                  experienceYears: e.target.value as ExperienceRange
+                  totalCareerExperience: e.target.value as TotalCareerExperience
                 })
               }
               className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.experienceYears ? 'border-red-500' : 'border-slate-300'
+                errors.totalCareerExperience ? 'border-red-500' : 'border-slate-300'
               } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             >
-              <option value="">Selecione o tempo</option>
-              {EXPERIENCE_RANGES.map((r) => (
-                <option key={r} value={r}>
-                  {r}
+              <option value="">Selecione o tempo total de carreira</option>
+              {TOTAL_EXPERIENCE_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
                 </option>
               ))}
             </select>
           </div>
-          {errors.experienceYears && (
-            <p className="mt-1 text-xs text-red-600 font-medium">{errors.experienceYears}</p>
+          {errors.totalCareerExperience && (
+            <p className="mt-1 text-xs text-red-600 font-medium">{errors.totalCareerExperience}</p>
           )}
         </div>
 
-        {/* Senioridade Atual */}
-        <div>
-          <label
-            htmlFor="seniority"
-            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
-          >
-            Senioridade <span className="text-red-500">*</span>
-          </label>
-          <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-              <Award className="w-4 h-4" aria-hidden="true" />
-            </div>
-            <select
-              id="seniority"
-              name="seniority"
-              value={formData.seniority}
-              onChange={(e) =>
-                updateFormData({
-                  seniority: e.target.value as SeniorityLevel
-                })
-              }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.seniority ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
-              required
-            >
-              <option value="">Selecione a senioridade</option>
-              {SENIORITY_LEVELS.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </div>
-          {errors.seniority && (
-            <p className="mt-1 text-xs text-red-600 font-medium">{errors.seniority}</p>
-          )}
-        </div>
-
-        {/* Situacao Profissional */}
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="workStatus"
-            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
-          >
-            Situação Profissional <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="workStatus"
-            name="workStatus"
-            value={formData.workStatus}
-            onChange={(e) =>
-              updateFormData({
-                workStatus: e.target.value as CurrentWorkStatus
-              })
-            }
-            className={`w-full px-3 py-2 bg-white border ${
-              errors.workStatus ? 'border-red-500' : 'border-slate-300'
-            } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
-            required
-          >
-            <option value="">Selecione a situação atual</option>
-            {WORK_STATUSES.map((w) => (
-              <option key={w} value={w}>
-                {w}
-              </option>
-            ))}
-          </select>
-          {errors.workStatus && (
-            <p className="mt-1 text-xs text-red-600 font-medium">{errors.workStatus}</p>
-          )}
-        </div>
-
-        {/* Desafio / Objetivo */}
-        <div className="sm:col-span-2">
-          <div className="flex items-center justify-between mb-1">
-            <label
-              htmlFor="mainChallenge"
-              className="block text-xs font-bold text-slate-700 uppercase tracking-wider"
-            >
-              Maior Desafio ou Objetivo <span className="text-red-500">*</span>
+        {/* Familiaridade com TI / Programação */}
+        <div className="sm:col-span-2 space-y-2 pt-1">
+          <div className="flex items-center gap-1.5 mb-1">
+            <Terminal className="w-4 h-4 text-blue-600" aria-hidden="true" />
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              Nível de Familiaridade com Tecnologia & Programação <span className="text-red-500">*</span>
             </label>
-            <span
-              className={`text-[11px] ${
-                formData.mainChallenge.length >= 15
-                  ? 'text-emerald-600 font-medium'
-                  : 'text-slate-400'
-              }`}
-            >
-              {formData.mainChallenge.length}/15 mín.
-            </span>
           </div>
-          <textarea
-            id="mainChallenge"
-            name="mainChallenge"
-            rows={3}
-            placeholder="Qual é o seu maior objetivo ou obstáculo profissional no momento?"
-            value={formData.mainChallenge}
-            onChange={(e) => updateFormData({ mainChallenge: e.target.value })}
-            className={`w-full p-3 bg-white border ${
-              errors.mainChallenge ? 'border-red-500' : 'border-slate-300'
-            } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 resize-none`}
-            required
-          />
-          {errors.mainChallenge && (
-            <p className="mt-1 text-xs text-red-600 font-medium">{errors.mainChallenge}</p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {TECH_FAMILIARITY_OPTIONS.map((item) => {
+              const isSelected = formData.techFamiliarity === item.id;
+              return (
+                <button
+                  type="button"
+                  key={item.id}
+                  onClick={() => updateFormData({ techFamiliarity: item.id })}
+                  className={`p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer ${
+                    isSelected
+                      ? 'border-blue-600 bg-blue-50/60 ring-1 ring-blue-600 shadow-xs'
+                      : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs sm:text-sm font-bold text-slate-900">
+                      {item.label}
+                    </span>
+                    <div
+                      className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                        isSelected
+                          ? 'border-blue-600 bg-blue-600 text-white'
+                          : 'border-slate-300'
+                      }`}
+                    >
+                      {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+          {errors.techFamiliarity && (
+            <p className="text-xs text-red-600 font-medium">{errors.techFamiliarity}</p>
           )}
         </div>
       </div>

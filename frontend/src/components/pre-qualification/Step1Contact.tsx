@@ -8,20 +8,6 @@ interface Step1ContactProps {
   errors: Record<string, string>;
 }
 
-const COMMON_COUNTRIES = [
-  'Portugal',
-  'Brasil',
-  'Espanha',
-  'Reino Unido',
-  'Irlanda',
-  'Alemanha',
-  'Países Baixos',
-  'Estados Unidos',
-  'Canadá',
-  'Suíça',
-  'Outro'
-];
-
 export const Step1Contact: React.FC<Step1ContactProps> = ({
   formData,
   updateFormData,
@@ -175,38 +161,33 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
           )}
         </div>
 
-        {/* País */}
+        {/* Cidade e País */}
         <div>
           <label
-            htmlFor="currentCountry"
+            htmlFor="currentCityCountry"
             className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
           >
-            País de Residência <span className="text-red-500">*</span>
+            Cidade e País de Residência <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
               <Globe className="w-4 h-4" aria-hidden="true" />
             </div>
-            <select
-              id="currentCountry"
-              name="currentCountry"
-              value={formData.currentCountry}
-              onChange={(e) => updateFormData({ currentCountry: e.target.value })}
+            <input
+              type="text"
+              id="currentCityCountry"
+              name="currentCityCountry"
+              placeholder="Ex: Lisboa, Portugal ou São Paulo, Brasil"
+              value={formData.currentCityCountry}
+              onChange={(e) => updateFormData({ currentCityCountry: e.target.value })}
               className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.currentCountry ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+                errors.currentCityCountry ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
-            >
-              <option value="">Selecione o seu país</option>
-              {COMMON_COUNTRIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
+            />
           </div>
-          {errors.currentCountry && (
-            <p className="mt-1 text-xs text-red-600 font-medium">{errors.currentCountry}</p>
+          {errors.currentCityCountry && (
+            <p className="mt-1 text-xs text-red-600 font-medium">{errors.currentCityCountry}</p>
           )}
         </div>
       </div>

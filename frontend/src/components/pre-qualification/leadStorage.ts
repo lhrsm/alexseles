@@ -32,10 +32,9 @@ export const saveLead = (
   const newLead: StoredLead = {
     id: `lead_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
     createdAt: new Date().toISOString(),
-    category: classification.category,
-    classificationTitle: classification.title,
     formData: sanitizedFormData,
-    whatsappUrl: classification.whatsappUrl
+    classification,
+    status: 'Novo'
   };
 
   if (typeof window !== 'undefined') {
@@ -88,62 +87,49 @@ export const exportLeadsToCSV = (customLeads?: StoredLead[]): void => {
     'E-mail',
     'WhatsApp',
     'LinkedIn',
-    'Pais Atual',
+    'Cidade e Pais',
+    'Area de Origem',
     'Cargo Atual',
-    'Area Profissional',
-    'Anos Experiencia',
-    'Senioridade',
-    'Situacao Atual',
-    'Desafio Principal',
-    'Mercados de Interesse',
-    'Cidadania',
-    'Direito de Trabalho',
-    'Tipo Documentacao',
-    'Previsao Conclusao Doc',
+    'Tempo Total Carreira',
+    'Familiaridade com TI',
+    'Trilha Pretendida em TI',
+    'Maior Desafio na Transicao',
+    'Dedicacao Semanal',
     'Nivel Ingles',
-    'Modalidade Trabalho',
-    'Disponibilidade',
-    'Pretensao Salarial',
+    'Momento Decisao',
+    'Notas Adicionais',
     'Nome Ficheiro CV',
     'Tamanho Ficheiro CV (KB)',
-    'Momento Decisao',
-    'Consentimento LGPD'
+    'Consentimento RGPD/LGPD'
   ];
 
   const rows = leads.map((item) => {
     const f = item.formData;
     const dateFormatted = new Date(item.createdAt).toLocaleString('pt-PT');
-    const marketsStr = f.targetMarkets ? f.targetMarkets.join(', ') : '';
     const cvSizeKb = f.cvFileSize ? (f.cvFileSize / 1024).toFixed(1) : '0';
 
     return [
       escapeCSV(item.id),
       escapeCSV(dateFormatted),
-      escapeCSV(item.category),
-      escapeCSV(item.classificationTitle),
+      escapeCSV(item.classification.category),
+      escapeCSV(item.classification.title),
       escapeCSV(f.fullName),
       escapeCSV(f.email),
       escapeCSV(f.phone),
       escapeCSV(f.linkedinUrl),
-      escapeCSV(f.currentCountry),
+      escapeCSV(f.currentCityCountry),
+      escapeCSV(f.originArea),
       escapeCSV(f.currentRole),
-      escapeCSV(f.professionalArea),
-      escapeCSV(f.experienceYears),
-      escapeCSV(f.seniority),
-      escapeCSV(f.workStatus),
-      escapeCSV(f.mainChallenge),
-      escapeCSV(marketsStr),
-      escapeCSV(f.citizenship),
-      escapeCSV(f.rightToWork),
-      escapeCSV(f.migrationDocType),
-      escapeCSV(f.processForecast || 'N/A'),
+      escapeCSV(f.totalCareerExperience),
+      escapeCSV(f.techFamiliarity),
+      escapeCSV(f.targetTechTrack),
+      escapeCSV(f.mainTransitionChallenge),
+      escapeCSV(f.weeklyStudyTime),
       escapeCSV(f.englishLevel),
-      escapeCSV(f.workPreference),
-      escapeCSV(f.availability),
-      escapeCSV(f.salaryExpectation),
+      escapeCSV(f.commercialReadiness),
+      escapeCSV(f.additionalNotes || 'N/A'),
       escapeCSV(f.cvFileName || 'Nao anexado'),
       escapeCSV(cvSizeKb),
-      escapeCSV(f.commercialReadiness),
       escapeCSV(f.consentLgpd ? 'Sim' : 'Nao')
     ].join(';');
   });
