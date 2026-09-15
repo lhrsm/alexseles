@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logoImg from '../../assets/LOGO.png';
 
@@ -68,35 +68,33 @@ export const Navbar = () => {
               />
             </Link>
 
-            {/* Dois botões independentes no Header: Para Profissionais e Para Empresas */}
-            <div className="hidden sm:flex items-center gap-2 lg:gap-3">
+            {/* Dois botões independentes lado a lado no Header (sem ícones, hover com outline azul) */}
+            <div className="hidden sm:flex items-center gap-2.5 lg:gap-3">
               <Link
                 to="/"
-                className={`text-xs font-bold uppercase tracking-wider px-3.5 sm:px-4 py-2 rounded-lg transition-all flex items-center gap-2 ${
+                className={`text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-lg transition-all duration-200 border ${
                   !isEmpresas
-                    ? 'bg-[#1A73E8] text-white shadow-sm'
-                    : 'border border-white/20 text-slate-300 hover:text-white hover:border-white/40 hover:bg-white/5'
+                    ? 'bg-[#1A73E8] border-[#1A73E8] text-white shadow-md shadow-blue-500/20'
+                    : 'border-slate-700/80 text-slate-300 hover:border-[#1A73E8] hover:text-white hover:bg-[#1A73E8]/10'
                 }`}
               >
-                <i className="fa-solid fa-user-graduate text-[11px]" aria-hidden="true" />
-                <span>Para Profissionais</span>
+                Para Profissionais
               </Link>
 
               <Link
                 to="/para-empresas"
-                className={`text-xs font-bold uppercase tracking-wider px-3.5 sm:px-4 py-2 rounded-lg transition-all flex items-center gap-2 ${
+                className={`text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-lg transition-all duration-200 border ${
                   isEmpresas
-                    ? 'bg-[#1A73E8] text-white shadow-sm'
-                    : 'border border-white/20 text-slate-300 hover:text-white hover:border-white/40 hover:bg-white/5'
+                    ? 'bg-[#1A73E8] border-[#1A73E8] text-white shadow-md shadow-blue-500/20'
+                    : 'border-slate-700/80 text-slate-300 hover:border-[#1A73E8] hover:text-white hover:bg-[#1A73E8]/10'
                 }`}
               >
-                <i className="fa-solid fa-building text-[11px]" aria-hidden="true" />
-                <span>Para Empresas</span>
+                Para Empresas
               </Link>
             </div>
           </div>
 
-          {/* Navegação Desktop (Sem Mentoria e Sem Soluções por enquanto) */}
+          {/* Navegação Desktop */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8 h-full" aria-label="Navegação principal">
             
             {/* Link: Sobre Alex Seles */}
@@ -125,11 +123,11 @@ export const Navbar = () => {
             </Link>
           </nav>
 
-          {/* Ação do Header: Apenas Login */}
+          {/* Ação do Header: Login com hover outline azul */}
           <div className="hidden md:flex items-center">
             <Link
               to="/login"
-              className="inline-flex items-center gap-2 border border-[#1A73E8] text-white hover:bg-[#1A73E8] hover:text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all"
+              className="inline-flex items-center gap-1.5 border border-[#1A73E8] text-white hover:bg-[#1A73E8] hover:border-[#1A73E8] text-xs font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-xs"
             >
               <span>Login</span>
               <span aria-hidden="true">→</span>
@@ -155,31 +153,29 @@ export const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-[#121C28] border-b border-white/10 px-4 pt-4 pb-6 space-y-4 animate-in fade-in duration-150">
           
-          {/* Dois botões independentes no Menu Mobile */}
-          <div className="grid grid-cols-2 gap-2 pb-2">
+          {/* Dois botões independentes lado a lado no Mobile (sem ícones, hover com outline azul) */}
+          <div className="flex items-center gap-2 pb-2">
             <Link
               to="/"
               onClick={() => setIsOpen(false)}
-              className={`text-center py-2.5 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+              className={`flex-1 text-center py-2.5 px-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 border ${
                 !isEmpresas
-                  ? 'bg-[#1A73E8] text-white shadow-sm'
-                  : 'border border-white/20 text-slate-300 hover:text-white'
+                  ? 'bg-[#1A73E8] border-[#1A73E8] text-white shadow-sm'
+                  : 'border-slate-700 text-slate-300 hover:border-[#1A73E8] hover:text-white hover:bg-[#1A73E8]/10'
               }`}
             >
-              <i className="fa-solid fa-user-graduate text-[11px]" aria-hidden="true" />
-              <span>Para Profissionais</span>
+              Para Profissionais
             </Link>
             <Link
               to="/para-empresas"
               onClick={() => setIsOpen(false)}
-              className={`text-center py-2.5 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+              className={`flex-1 text-center py-2.5 px-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 border ${
                 isEmpresas
-                  ? 'bg-[#1A73E8] text-white shadow-sm'
-                  : 'border border-white/20 text-slate-300 hover:text-white'
+                  ? 'bg-[#1A73E8] border-[#1A73E8] text-white shadow-sm'
+                  : 'border-slate-700 text-slate-300 hover:border-[#1A73E8] hover:text-white hover:bg-[#1A73E8]/10'
               }`}
             >
-              <i className="fa-solid fa-building text-[11px]" aria-hidden="true" />
-              <span>Para Empresas</span>
+              Para Empresas
             </Link>
           </div>
 
@@ -207,7 +203,7 @@ export const Navbar = () => {
             <Link
               to="/login"
               onClick={() => setIsOpen(false)}
-              className="w-full inline-flex justify-center items-center gap-2 border border-[#1A73E8] text-white hover:bg-[#1A73E8] text-sm font-semibold py-2.5 rounded-lg transition-all"
+              className="w-full inline-flex justify-center items-center gap-2 border border-[#1A73E8] text-white hover:bg-[#1A73E8] text-sm font-semibold py-2.5 rounded-lg transition-all duration-200"
             >
               <span>Login</span>
               <span aria-hidden="true">→</span>
