@@ -121,46 +121,41 @@ export const Step4Finalization: React.FC<Step4FinalizationProps> = ({
 
       <div className="space-y-5">
         {/* Momento de Decisão & Investimento (Commercial Readiness) */}
-        <div className="space-y-2.5">
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+        <div>
+          <label
+            htmlFor="commercialReadiness"
+            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
+          >
             Momento de Decisão & Investimento na Mentoria <span className="text-red-500">*</span>
           </label>
-
-          <div className="space-y-2.5">
-            {COMMERCIAL_OPTIONS.map((opt) => {
-              const isSelected = formData.commercialReadiness === opt.id;
-              return (
-                <div
-                  key={opt.id}
-                  onClick={() => updateFormData({ commercialReadiness: opt.id })}
-                  className={`p-3.5 rounded-xl border cursor-pointer transition-all duration-200 flex items-start gap-3 ${
-                    isSelected
-                      ? 'border-blue-600 bg-blue-50/50 shadow-sm ring-1 ring-blue-600'
-                      : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/60'
-                  }`}
-                >
-                  <div className="pt-0.5">
-                    {isSelected ? (
-                      <CheckCircle2
-                        className="w-4 h-4 text-blue-600 stroke-[2.5]"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <div className="w-4 h-4 rounded-full border border-slate-300" />
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
-                      {opt.title}
-                    </h4>
-                    <p className="text-xs text-slate-500 mt-0.5">{opt.subtitle}</p>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="relative rounded-lg">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
+            </div>
+            <select
+              id="commercialReadiness"
+              name="commercialReadiness"
+              value={formData.commercialReadiness}
+              onChange={(e) =>
+                updateFormData({
+                  commercialReadiness: e.target.value as CommercialReadiness
+                })
+              }
+              className={`w-full pl-9 pr-3 py-2 bg-white border ${
+                errors.commercialReadiness ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              required
+            >
+              <option value="">Selecione o seu momento de decisão</option>
+              {COMMERCIAL_OPTIONS.map((opt) => (
+                <option key={opt.id} value={opt.id}>
+                  {opt.title} — {opt.subtitle}
+                </option>
+              ))}
+            </select>
           </div>
           {errors.commercialReadiness && (
-            <p className="text-xs text-red-600 font-medium">{errors.commercialReadiness}</p>
+            <p className="mt-1 text-xs text-red-600 font-medium">{errors.commercialReadiness}</p>
           )}
         </div>
 

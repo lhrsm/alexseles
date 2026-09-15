@@ -181,51 +181,41 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
         </div>
 
         {/* Familiaridade com TI / Programação */}
-        <div className="sm:col-span-2 space-y-2 pt-1">
-          <div className="flex items-center gap-1.5 mb-1">
-            <Terminal className="w-4 h-4 text-blue-600" aria-hidden="true" />
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-              Nível de Familiaridade com Tecnologia & Programação <span className="text-red-500">*</span>
-            </label>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {TECH_FAMILIARITY_OPTIONS.map((item) => {
-              const isSelected = formData.techFamiliarity === item.id;
-              return (
-                <button
-                  type="button"
-                  key={item.id}
-                  onClick={() => updateFormData({ techFamiliarity: item.id })}
-                  className={`p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer ${
-                    isSelected
-                      ? 'border-blue-600 bg-blue-50/60 ring-1 ring-blue-600 shadow-xs'
-                      : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs sm:text-sm font-bold text-slate-900">
-                      {item.label}
-                    </span>
-                    <div
-                      className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                        isSelected
-                          ? 'border-blue-600 bg-blue-600 text-white'
-                          : 'border-slate-300'
-                      }`}
-                    >
-                      {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
-                    </div>
-                  </div>
-                  <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </button>
-              );
-            })}
+        <div className="sm:col-span-2">
+          <label
+            htmlFor="techFamiliarity"
+            className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
+          >
+            Nível de Familiaridade com Tecnologia & Programação <span className="text-red-500">*</span>
+          </label>
+          <div className="relative rounded-lg">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <Terminal className="w-4 h-4" aria-hidden="true" />
+            </div>
+            <select
+              id="techFamiliarity"
+              name="techFamiliarity"
+              value={formData.techFamiliarity}
+              onChange={(e) =>
+                updateFormData({
+                  techFamiliarity: e.target.value as TechFamiliarity
+                })
+              }
+              className={`w-full pl-9 pr-3 py-2 bg-white border ${
+                errors.techFamiliarity ? 'border-red-500' : 'border-slate-300'
+              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              required
+            >
+              <option value="">Selecione o seu nível de familiaridade</option>
+              {TECH_FAMILIARITY_OPTIONS.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.label} — {item.desc}
+                </option>
+              ))}
+            </select>
           </div>
           {errors.techFamiliarity && (
-            <p className="text-xs text-red-600 font-medium">{errors.techFamiliarity}</p>
+            <p className="mt-1 text-xs text-red-600 font-medium">{errors.techFamiliarity}</p>
           )}
         </div>
       </div>

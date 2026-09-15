@@ -91,51 +91,41 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
       </div>
 
       {/* Trilha Tecnológica Pretendida */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-1.5">
-          <Compass className="w-4 h-4 text-blue-600" aria-hidden="true" />
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Trilha Tecnológica Pretendida <span className="text-red-500">*</span>
-          </label>
-        </div>
-
-        <div className="space-y-2">
-          {TARGET_TECH_TRACKS.map((track) => {
-            const isSelected = formData.targetTechTrack === track.id;
-            return (
-              <button
-                type="button"
-                key={track.id}
-                onClick={() => updateFormData({ targetTechTrack: track.id })}
-                className={`w-full p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer flex items-start justify-between gap-3 ${
-                  isSelected
-                    ? 'border-blue-600 bg-blue-50/60 ring-1 ring-blue-600 shadow-xs'
-                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
-                }`}
-              >
-                <div>
-                  <h4 className="text-xs sm:text-sm font-bold text-slate-900">
-                    {track.title}
-                  </h4>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
-                    {track.subtitle}
-                  </p>
-                </div>
-                <div
-                  className={`w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                    isSelected
-                      ? 'border-blue-600 bg-blue-600 text-white'
-                      : 'border-slate-300'
-                  }`}
-                >
-                  {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
-                </div>
-              </button>
-            );
-          })}
+      <div>
+        <label
+          htmlFor="targetTechTrack"
+          className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1"
+        >
+          Trilha Tecnológica Pretendida <span className="text-red-500">*</span>
+        </label>
+        <div className="relative rounded-lg">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <Compass className="w-4 h-4" aria-hidden="true" />
+          </div>
+          <select
+            id="targetTechTrack"
+            name="targetTechTrack"
+            value={formData.targetTechTrack}
+            onChange={(e) =>
+              updateFormData({
+                targetTechTrack: e.target.value as TargetTechTrack
+              })
+            }
+            className={`w-full pl-9 pr-3 py-2 bg-white border ${
+              errors.targetTechTrack ? 'border-red-500' : 'border-slate-300'
+            } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+            required
+          >
+            <option value="">Selecione a trilha pretendida</option>
+            {TARGET_TECH_TRACKS.map((track) => (
+              <option key={track.id} value={track.id}>
+                {track.title}
+              </option>
+            ))}
+          </select>
         </div>
         {errors.targetTechTrack && (
-          <p className="text-xs text-red-600 font-medium">{errors.targetTechTrack}</p>
+          <p className="mt-1 text-xs text-red-600 font-medium">{errors.targetTechTrack}</p>
         )}
       </div>
 
