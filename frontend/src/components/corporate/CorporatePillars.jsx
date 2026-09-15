@@ -1,50 +1,40 @@
 import React, { useState } from 'react';
-import { 
-  Cpu, 
-  Bot, 
-  GitMerge, 
-  GraduationCap, 
-  CheckCircle2, 
-  ArrowRight, 
-  Sparkles, 
-  Building2, 
-  ShieldCheck, 
-  TrendingUp, 
-  Workflow
-} from 'lucide-react';
+import { ArrowRight, CheckCircle2, X, Sparkles, Building2, ShieldCheck, Workflow } from 'lucide-react';
+
+import digitalImg from '../../assets/digital.png';
+import businessImg from '../../assets/business.png';
+import projectImg from '../../assets/project.png';
+import empresaImg from '../../assets/empresa.png';
 
 export const CorporatePillars = ({ onOpenModal }) => {
-  const [activePillarIndex, setActivePillarIndex] = useState(0);
+  const [selectedPillar, setSelectedPillar] = useState(null);
 
   const pillars = [
     {
-      id: 'modernizacao-sistemas',
-      icon: Cpu,
+      id: 'transformacao-digital-sdlc',
+      image: digitalImg,
+      badge: 'Discovery & Quota de Mercado',
       title: 'Transformação Digital & Modernização de Sistemas',
-      subtitle: 'Discovery, Prototipagem, Acessibilidade & SDLC',
-      tag: 'Aumento de Quota de Mercado',
-      deliveryFormat: 'Discovery, PoC / MVP & Engenharia Turnkey',
-      pain: 'Organizações reféns de sistemas obsoletos, processos analógicos ou plataformas web estáticas que não convertem, desenvolvendo software sem pesquisa prévia de utilizadores, sem acessibilidade digital e sem prototipagem, resultando em desperdício orçamental, baixa adoção e perda diária de quota de mercado (market share) para concorrentes mais ágeis.',
-      solution: 'Abordagem ponta a ponta orientada a resultados: iniciamos com Product Discovery e Design Thinking para mapear as dores reais dos utilizadores e alinhar o modelo de negócio; reduzimos o risco de investimento com Protótipos navegáveis, Provas de Conceito técnicas (PoC) e MVPs ágeis antes do desenvolvimento em larga escala. Na engenharia, garantimos conformidade com padrões de Acessibilidade Digital (WCAG / a11y), estruturação moderna do ciclo de vida de desenvolvimento de software (SDLC) e modernização arquitetural — desde websites institucionais e portais até plataformas SaaS e aplicações móveis escaláveis, conectando inovação diretamente às metas de faturação.',
+      comment: 'Iniciamos com Product Discovery e Design Thinking para mapear necessidades reais e validamos hipóteses com Protótipos, PoC e MVP ágil. Desenvolvemos ecossistemas acessíveis (normas WCAG), modernizamos sistemas legados e estruturamos o SDLC para expandir a sua presença digital, market share e faturação.',
+      pain: 'Organizações reféns de sistemas obsoletos, processos analógicos ou plataformas web estáticas que não convertem, desenvolvendo software sem pesquisa prévia de utilizadores, sem acessibilidade digital e sem prototipagem, resultando em desperdício orçamental, baixa adoção e perda diária de quota de mercado.',
+      solution: 'Abordagem ponta a ponta: Product Discovery e Design Thinking; Protótipos navegáveis, PoCs técnicas e MVPs ágeis para mitigação de risco; Acessibilidade Digital plena (WCAG / a11y), arquitetura moderna de software e estruturação do SDLC, conectando a capacidade técnica a metas de faturação.',
       technologies: ['Design Thinking & Discovery', 'Protótipos Navegáveis', 'PoC & MVP Ágil', 'Acessibilidade (WCAG / a11y)', 'Plataformas SaaS & Apps', 'Modernização de Legados & SDLC'],
       deliverables: [
         'Imersão em Design Thinking, Product Discovery e pesquisa com utilizadores',
-        'Construção de Protótipos navegáveis, PoCs de viabilidade técnica e MVPs ágeis',
-        'Desenvolvimento inclusivo com conformidade plena de Acessibilidade (WCAG / a11y)',
+        'Construção de Protótipos navegáveis, PoCs de viabilidade e MVPs ágeis',
+        'Desenvolvimento inclusivo com conformidade de Acessibilidade (normas WCAG)',
         'Estruturação moderna de SDLC, arquitetura escalável e alinhamento a metas de faturação'
       ],
-      impactMetric: 'Mitigação total de risco com MVP/PoC, conformidade de acessibilidade e expansão de market share.',
-      badgeColor: 'bg-blue-50 text-[#1557B0] border-blue-200'
+      impact: 'Mitigação total de risco com MVP/PoC, conformidade de acessibilidade e expansão de market share.'
     },
     {
       id: 'automacao-processos-ia',
-      icon: Bot,
+      image: businessImg,
+      badge: 'Eficiência Operacional & IA',
       title: 'Automação de Processos & Inteligência Artificial',
-      subtitle: 'Eficiência Operacional & Integração n8n',
-      tag: 'Eliminação de Tarefas Manuais',
-      deliveryFormat: 'Auditoria de Processos, Pipelines n8n & Rollout de IA',
-      pain: 'Equipas afogadas em tarefas manuais, operacionais e repetitivas (passagem manual de dados, relatórios dispersos, atendimento lento e validações manuais), gerando desperdício orçamental, atrasos e erros humanos recorrentes.',
-      solution: 'Orquestração avançada de fluxos operacionais com a ferramenta líder de automação n8n, webhooks e integrações de APIs, ligando sistemas legados a ferramentas modernas sem fricção. Incorporamos IA generativa e agentes inteligentes de forma segura na operação e na engenharia (revisões de código assistidas, testes automatizados, triagem inteligente e relatórios preditivos), libertando a sua equipa para atividades estratégicas.',
+      comment: 'Eliminamos rotinas manuais e operacionais repetitivas orquestrando fluxos avançados com n8n, webhooks e integrações de APIs. Incorporamos Inteligência Artificial generativa e agentes inteligentes de forma segura no atendimento, na análise de dados e na engenharia, acelerando o seu time-to-market.',
+      pain: 'Equipas afogadas em tarefas manuais, operacionais e repetitivas (passagem manual de dados, relatórios dispersos, atendimento lento e validações manuais), gerando custos excessivos, lentidão e erros humanos recorrentes.',
+      solution: 'Orquestração avançada de processos com n8n, webhooks e integrações de APIs conectando sistemas legados a ferramentas modernas sem atrito. Adoção prática de IA generativa e agentes inteligentes na operação e na engenharia (code reviews, testes automatizados, triagem e relatórios), eliminando tarefas manuais.',
       technologies: ['n8n Workflow Automation', 'Agentes Autónomos & LLMs', 'OpenAI & Anthropic APIs', 'Webhooks & APIs REST', 'Automação de Testes & CI/CD', 'Python Scripting'],
       deliverables: [
         'Mapeamento detalhado e eliminação de tarefas manuais repetitivas',
@@ -52,18 +42,16 @@ export const CorporatePillars = ({ onOpenModal }) => {
         'Integração segura de agentes de IA generativa em fluxos de trabalho',
         'Monitorização de execução em tempo real e dashboards de desempenho'
       ],
-      impactMetric: 'Redução de até 70% no tempo despendido em rotinas manuais e operacionais.',
-      badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200'
+      impact: 'Redução de até 70% no tempo despendido em tarefas operacionais e rotinas manuais.'
     },
     {
-      id: 'governanca-agil',
-      icon: GitMerge,
+      id: 'governanca-agil-metodos',
+      image: projectImg,
+      badge: 'Previsibilidade de Entregas',
       title: 'Governação Ágil & Métodos de Entrega (SAFe / Scrum / ITIL)',
-      subtitle: 'Auditoria, Implementação & Ritos de Engenharia',
-      tag: 'Previsibilidade Operacional',
-      deliveryFormat: 'Auditoria, Configuração de Ferramentas & Treino',
-      pain: 'Prazos de entrega cronicamente violados, falta de visibilidade do progresso real para a administração executiva, atrito constante entre o departamento de negócio e a engenharia, e ausência de processos preditivos padronizados.',
-      solution: 'Intervenção estruturada assente em três etapas integradas: Auditoria de Maturidade (identificação de estrangulamentos), Implementação Prática de Ferramentas (configuração de Jira, Azure DevOps e automação de fluxos) e Treino Intensivo de Equipas. Implementamos metodologias consolidadas (SAFe, Scrum e ITIL) suportadas por métricas reais de produtividade (Lead Time, Cycle Time e Throughput), assegurando previsibilidade nas entregas e transparência total para a gestão.',
+      comment: 'Auditoria completa à maturidade técnica, implementação prática de ferramentas (Jira / Azure DevOps) e treino intensivo das equipas em métodos ágeis consolidados (SAFe, Scrum e ITIL). Métricas reais de produtividade (Lead Time, Cycle Time) e transparência absoluta para a administração.',
+      pain: 'Prazos de entrega sistematicamente ultrapassados, ausência de visibilidade para a administração executiva, atrito constante entre o negócio e a engenharia, e falta de processos padronizados.',
+      solution: 'Intervenção estruturada em três etapas: Auditoria de Maturidade (estrangulamentos), Implementação Prática de Ferramentas (Jira, Azure DevOps e automação de fluxos) e Treino Intensivo de Equipas (SAFe, Scrum e ITIL), com métricas reais de produtividade e transparência para a gestão.',
       technologies: ['SAFe (Scaled Agile)', 'Scrum & Kanban', 'ITIL 4 Framework', 'Jira Software & DevOps', 'Métricas de Fluxo & CFD', 'Gestão de Dependências'],
       deliverables: [
         'Auditoria completa aos processos de entrega e maturidade técnica',
@@ -71,18 +59,16 @@ export const CorporatePillars = ({ onOpenModal }) => {
         'Treino prático das equipas e líderes em ritos ágeis funcionais',
         'Dashboards executivos com métricas preditivas de produtividade'
       ],
-      impactMetric: 'Mais de 90% de previsibilidade nas sprints e transparência executiva total.',
-      badgeColor: 'bg-amber-50 text-amber-900 border-amber-200'
+      impact: 'Mais de 90% de previsibilidade nas sprints e transparência executiva total.'
     },
     {
       id: 'capacitacao-lideranca',
-      icon: GraduationCap,
+      image: empresaImg,
+      badge: 'In-Company & Online',
       title: 'Capacitação In-Company & Mentoria de Liderança Técnica',
-      subtitle: 'In-Company (Presencial) ou Online Executivo',
-      tag: 'Up-skilling & Liderança',
-      deliveryFormat: 'In-Company (Presencial) ou 100% Online Remoto',
-      pain: 'Elevada rotatividade de engenheiros, carência de profissionais seniores no mercado, estagnação técnica de elementos juniores/plenos e líderes técnicos (Tech Leads e Engineering Managers) promovidos sem formação estratégica em gestão, arquitetura e tomada de decisão.',
-      solution: 'Programas corporativos intensivos disponíveis em formato In-Company (presencial nas instalações da empresa) ou Online Executivo (sessões remotas síncronas). Desenvolvemos programas práticos de up-skilling para equipas de desenvolvimento (boas práticas, padrões de arquitetura, testes e adoção de IA) e mentoria individual/grupal para lideranças técnicas sobre tomada de decisão arquitetural, gestão de engenharia e interlocução com o conselho de administração.',
+      comment: 'Programas acelerados de up-skilling técnico para equipas de desenvolvimento e sessões de mentoria executiva 1:1 para Tech Leads e gestores sobre arquitetura, governança e tomada de decisão. Formações disponíveis em formato presencial In-Company ou 100% online remoto.',
+      pain: 'Elevada rotatividade de engenheiros, carência de profissionais seniores no mercado, estagnação técnica de programadores juniores/plenos e líderes técnicos promovidos sem formação estratégica em gestão e tomada de decisão.',
+      solution: 'Programas corporativos intensivos em formato In-Company (presencial) ou Online Executivo (remoto). Programas práticos de up-skilling técnico para equipas (código limpo, arquitetura, testes e IA) e mentoria individual/grupal para lideranças sobre tomada de decisão técnica e gestão de engenharia.',
       technologies: ['Formato In-Company', 'Formato Online Remoto', 'Up-skilling de Equipas', 'Mentoria Executiva 1:1', 'Engenharia de Software', 'Tomada de Decisão Técnica'],
       deliverables: [
         'Programas de up-skilling técnico desenhados à medida da stack da empresa',
@@ -90,23 +76,26 @@ export const CorporatePillars = ({ onOpenModal }) => {
         'Sessões de mentoria individual para Tech Leads e gestores de engenharia',
         'Avaliação contínua de evolução técnica e planos de carreira de TI'
       ],
-      impactMetric: 'Retenção de talento crítico e autonomização das lideranças técnicas.',
-      badgeColor: 'bg-purple-50 text-purple-900 border-purple-200'
+      impact: 'Retenção de talento crítico e autonomização das lideranças técnicas.'
     }
   ];
 
-  const currentPillar = pillars[activePillarIndex];
-  const CurrentIcon = currentPillar.icon;
+  const handleOpenDiagnosis = (pillar) => {
+    setSelectedPillar(null);
+    if (onOpenModal) {
+      onOpenModal(pillar);
+    }
+  };
 
   return (
     <section id="solucoes-empresas" className="py-20 sm:py-28 bg-[#F8FAFC] text-[#163758] border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Cabeçalho da Secção */}
-        <div className="max-w-3xl space-y-4 mb-12 sm:mb-16 text-left">
+        {/* Cabeçalho da Secção: Limpo e Direto */}
+        <div className="max-w-3xl space-y-4 mb-14 text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white border border-slate-200 text-[#1A73E8] shadow-xs">
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>Portfólio de Soluções Corporativas</span>
+            <span>Soluções Corporativas</span>
           </div>
           <h2 className="section-title text-2xl sm:text-3xl lg:text-4xl text-[#163758] font-extrabold tracking-tight text-left">
             Pilares estratégicos para acelerar a engenharia e os resultados da sua organização.
@@ -116,146 +105,147 @@ export const CorporatePillars = ({ onOpenModal }) => {
           </p>
         </div>
 
-        {/* Barra de Navegação em Abas (Estilo Portfólio de Soluções) */}
-        <div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 p-1.5 bg-slate-200/60 rounded-2xl mb-8 border border-slate-300/70"
-          role="tablist"
-          aria-label="Selecionar Pilar de Solução Corporativa"
-        >
-          {pillars.map((pillar, idx) => {
-            const IconComp = pillar.icon;
-            const isSelected = activePillarIndex === idx;
-            return (
-              <button
-                key={pillar.id}
-                type="button"
-                onClick={() => setActivePillarIndex(idx)}
-                className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-left transition-all duration-200 cursor-pointer ${
-                  isSelected
-                    ? 'bg-white text-[#163758] shadow-sm font-bold border border-slate-200 ring-1 ring-slate-200'
-                    : 'text-slate-600 hover:text-[#163758] hover:bg-white/50 font-medium'
-                }`}
-                role="tab"
-                aria-selected={isSelected}
-                aria-controls={`pillar-panel-${pillar.id}`}
-                id={`pillar-tab-${pillar.id}`}
-              >
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                  isSelected ? 'bg-[#1A73E8] text-white' : 'bg-slate-200/80 text-slate-600'
-                }`}>
-                  <IconComp className="w-4 h-4" aria-hidden="true" />
+        {/* Grelha de Cards Padrão Bootstrap / Portfolio UI */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {pillars.map((item) => (
+            <div
+              key={item.id}
+              className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group h-full text-left"
+            >
+              {/* Foto do Card (card-img-top) */}
+              <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-950 shrink-0">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <div className="absolute top-3 left-3 bg-slate-900/85 backdrop-blur-xs text-white text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border border-white/20 shadow-xs">
+                  {item.badge}
                 </div>
-                <div className="min-w-0">
-                  <span className="block text-xs uppercase tracking-wider font-semibold opacity-75">
-                    Pilar 0{idx + 1}
-                  </span>
-                  <span className="block text-xs sm:text-sm truncate font-bold">
-                    {pillar.title.split('&')[0].trim()}
-                  </span>
+              </div>
+
+              {/* Corpo do Card (card-body): Título + Comentário */}
+              <div className="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-4">
+                <div className="space-y-3">
+                  <h3 className="text-lg sm:text-xl font-bold text-[#163758] group-hover:text-[#1A73E8] transition-colors leading-snug">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-sm text-[#475569] leading-relaxed font-sans text-pretty">
+                    {item.comment}
+                  </p>
                 </div>
-              </button>
-            );
-          })}
+
+                {/* Rodapé do Card: Botão de Ação Link */}
+                <div className="pt-4 border-t border-slate-100 flex flex-col gap-2.5 mt-auto">
+                  <button
+                    type="button"
+                    onClick={() => handleOpenDiagnosis(item)}
+                    className="w-full py-3 px-4 rounded-xl bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-md"
+                  >
+                    <span>Diagnóstico desta solução</span>
+                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPillar(item)}
+                    className="text-xs font-semibold text-slate-500 hover:text-[#1557B0] text-center transition-colors cursor-pointer py-1"
+                  >
+                    Ver detalhes da intervenção
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Painel Central de Apresentação da Solução Ativa (UI Executiva & Portfólio) */}
-        <div 
-          id={`pillar-panel-${currentPillar.id}`}
-          role="tabpanel"
-          aria-labelledby={`pillar-tab-${currentPillar.id}`}
-          className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-14 transition-all"
-        >
-          {/* Topo do Painel */}
-          <div className="bg-gradient-to-r from-slate-900 to-[#163758] text-white px-6 sm:px-10 py-7 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-4 text-left">
-              <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-[#60A5FA] shrink-0">
-                <CurrentIcon className="w-6 h-6" aria-hidden="true" />
-              </div>
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#93C5FD]">
-                  {currentPillar.subtitle}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-                  {currentPillar.title}
-                </h3>
-              </div>
-            </div>
-
-            <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 text-white border border-white/20 backdrop-blur-xs">
-              {currentPillar.tag}
-            </span>
-          </div>
-
-          {/* Corpo do Painel: Duas Colunas Estruturadas (Dor vs Solução & Blueprint) */}
-          <div className="p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-            
-            {/* Coluna Esquerda: Diagnóstico da Dor e Solução Estruturada (7 colunas) */}
-            <div className="lg:col-span-7 space-y-6 text-left">
+        {/* Modal Elegante de Detalhes da Solução (Abre ao clicar em 'Ver detalhes') */}
+        {selectedPillar && (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="pillar-modal-title"
+          >
+            <div className="bg-white w-full max-w-2xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col text-left">
               
-              {/* Bloco 1: A Dor do Negócio */}
-              <div className="bg-amber-50/70 border border-amber-200/90 rounded-2xl p-5 sm:p-6 text-left">
-                <div className="flex items-center gap-2 text-amber-900 font-bold text-xs uppercase tracking-wider mb-2">
-                  <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" aria-hidden="true" />
-                  <span>O Desafio do Negócio (A Dor Operacional)</span>
-                </div>
-                <p className="text-sm sm:text-base text-amber-950 leading-relaxed font-sans text-pretty">
-                  {currentPillar.pain}
-                </p>
-              </div>
+              {/* Header da Modal com Imagem de Destaque */}
+              <div className="relative h-44 sm:h-52 w-full bg-slate-950 overflow-hidden shrink-0">
+                <img
+                  src={selectedPillar.image}
+                  alt={selectedPillar.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+                
+                <button
+                  type="button"
+                  onClick={() => setSelectedPillar(null)}
+                  className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20"
+                  aria-label="Fechar detalhes"
+                >
+                  <X className="w-4 h-4" />
+                </button>
 
-              {/* Bloco 2: A Solução de Engenharia */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-[#1557B0] font-bold text-xs uppercase tracking-wider">
-                  <Workflow className="w-4 h-4 shrink-0" aria-hidden="true" />
-                  <span>A Engenharia Aplicada (O que Resolvemos)</span>
-                </div>
-                <p className="text-sm sm:text-base text-[#475569] leading-relaxed font-sans text-pretty">
-                  {currentPillar.solution}
-                </p>
-              </div>
-
-              {/* Bloco 3: Tecnologias & Ferramentas em Ação */}
-              <div className="space-y-2.5 pt-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
-                  Tecnologias, Padrões & Ferramentas
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  {currentPillar.technologies.map((tech, tIdx) => (
-                    <span 
-                      key={tIdx}
-                      className="px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-
-            {/* Coluna Direita: Ficha Técnica, Entregáveis e Diagnóstico (5 colunas) */}
-            <div className="lg:col-span-5 flex flex-col justify-between bg-slate-50 border border-slate-200/90 rounded-2xl p-6 sm:p-7 text-left">
-              
-              <div className="space-y-5">
-                {/* Formato de Entrega */}
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-1.5">
-                    Formato de Intervenção
+                <div className="absolute bottom-4 left-6 right-6 text-white">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#93C5FD]">
+                    {selectedPillar.badge}
                   </span>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-[#163758] border border-slate-200 shadow-2xs">
-                    <Building2 className="w-3.5 h-3.5 text-[#1A73E8]" aria-hidden="true" />
-                    <span>{currentPillar.deliveryFormat}</span>
+                  <h3 id="pillar-modal-title" className="text-xl sm:text-2xl font-extrabold leading-tight text-white mt-1">
+                    {selectedPillar.title}
+                  </h3>
+                </div>
+              </div>
+
+              {/* Conteúdo com Scroll Suave */}
+              <div className="p-6 sm:p-8 space-y-6 overflow-y-auto flex-1 font-sans">
+                
+                {/* Desafio / A Dor */}
+                <div className="bg-amber-50/80 border border-amber-200/90 rounded-xl p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-amber-900 font-bold text-xs uppercase tracking-wider mb-1.5">
+                    <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" aria-hidden="true" />
+                    <span>O Desafio do Negócio (A Dor)</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-amber-950 leading-relaxed">
+                    {selectedPillar.pain}
+                  </p>
+                </div>
+
+                {/* A Solução */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-[#1557B0] font-bold text-xs uppercase tracking-wider">
+                    <Workflow className="w-4 h-4 shrink-0" aria-hidden="true" />
+                    <span>A Engenharia Aplicada (O que Resolvemos)</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+                    {selectedPillar.solution}
+                  </p>
+                </div>
+
+                {/* Tecnologias */}
+                <div className="space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+                    Tecnologias & Metodologias
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedPillar.technologies.map((t, i) => (
+                      <span key={i} className="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
-                {/* Lista de Entregáveis */}
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-3">
+                {/* Entregáveis */}
+                <div className="space-y-2.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
                     Entregáveis Chave
                   </span>
-                  <ul className="space-y-2.5">
-                    {currentPillar.deliverables.map((item, dIdx) => (
-                      <li key={dIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#334155] leading-snug">
+                  <ul className="space-y-2">
+                    {selectedPillar.deliverables.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#334155]">
                         <CheckCircle2 className="w-4 h-4 text-[#1A73E8] shrink-0 mt-0.5" aria-hidden="true" />
                         <span>{item}</span>
                       </li>
@@ -263,94 +253,30 @@ export const CorporatePillars = ({ onOpenModal }) => {
                   </ul>
                 </div>
 
-                {/* Métrica de Impacto / ROI */}
-                <div className="p-3.5 rounded-xl bg-sky-50/80 border border-sky-200/80 text-left">
-                  <div className="flex items-center gap-2 text-[#1557B0] font-bold text-xs uppercase tracking-wider mb-1">
-                    <TrendingUp className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                    <span>Impacto Estimado</span>
-                  </div>
-                  <p className="text-xs text-sky-950 font-medium leading-relaxed">
-                    {currentPillar.impactMetric}
-                  </p>
-                </div>
               </div>
 
-              {/* Botão de Diagnóstico Desta Solução */}
-              <div className="pt-6 mt-6 border-t border-slate-200">
+              {/* Rodapé da Modal com Botão para Diagnóstico */}
+              <div className="p-5 sm:p-6 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
                 <button
                   type="button"
-                  onClick={onOpenModal}
-                  className="w-full py-3.5 px-5 rounded-xl bg-[#1A73E8] hover:bg-[#1557B0] text-white font-bold text-sm tracking-wide transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer group"
+                  onClick={() => setSelectedPillar(null)}
+                  className="w-full sm:w-auto px-5 py-2.5 text-xs font-bold uppercase text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
                 >
-                  <span>Diagnóstico desta solução</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  Voltar
                 </button>
-                <p className="text-[11px] text-slate-500 text-center mt-2 font-sans">
-                  Sessão estratégica de avaliação com Alex Seles sem compromisso comercial.
-                </p>
+                <button
+                  type="button"
+                  onClick={() => handleOpenDiagnosis(selectedPillar)}
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                >
+                  <span>Solicitar Diagnóstico Desta Solução</span>
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </button>
               </div>
 
             </div>
-
           </div>
-        </div>
-
-        {/* Secção de Acesso Direto aos 4 Pilares (Grelha de Resumo) */}
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-left">
-            <h3 className="text-base sm:text-lg font-bold text-[#163758] tracking-tight">
-              Visão Geral dos 4 Pilares de Engenharia
-            </h3>
-            <span className="text-xs text-slate-500 font-medium">
-              Clique em qualquer pilar para abrir o blueprint completo
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {pillars.map((pillar, idx) => {
-              const IconComponent = pillar.icon;
-              const isCurrent = activePillarIndex === idx;
-
-              return (
-                <div 
-                  key={pillar.id}
-                  onClick={() => setActivePillarIndex(idx)}
-                  className={`bg-white border rounded-2xl p-5 sm:p-6 transition-all cursor-pointer flex flex-col justify-between text-left group ${
-                    isCurrent 
-                      ? 'border-[#1A73E8] shadow-md ring-2 ring-[#1A73E8]/20 bg-blue-50/20' 
-                      : 'border-slate-200/90 hover:border-slate-300 hover:shadow-sm'
-                  }`}
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                        isCurrent ? 'bg-[#1A73E8] text-white' : 'bg-slate-100 text-[#1A73E8] group-hover:bg-[#1A73E8] group-hover:text-white'
-                      }`}>
-                        <IconComponent className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600">
-                        Pilar 0{idx + 1}
-                      </span>
-                    </div>
-
-                    <h4 className="text-sm font-bold text-[#163758] group-hover:text-[#1A73E8] transition-colors leading-snug">
-                      {pillar.title}
-                    </h4>
-
-                    <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
-                      {pillar.pain}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-slate-100 mt-4 flex items-center justify-between text-xs font-bold text-[#1557B0]">
-                    <span>{isCurrent ? 'Pilar selecionado' : 'Explorar pilar'}</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        )}
 
       </div>
     </section>
