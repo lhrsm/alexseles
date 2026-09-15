@@ -9,25 +9,25 @@ export const CorporateTransitionsSection = ({ onOpenModal }) => {
     {
       id: 'transformacao-digital',
       badge: 'Transformação Digital & SDLC',
-      question: 'Queres levar a tua empresa à transformação digital?',
-      role: 'Modernização & SDLC Estratégico',
-      description: 'Ajudamos-te a redesenhar a arquitetura dos teus sistemas, acelerar o ciclo de desenvolvimento de software (SDLC) e converter desafios complexos em vantagem tecnológica competitiva e escalável.',
+      question: 'O desenvolvimento de software da sua empresa está\u00A0lento?',
+      action: 'Modernize o seu\u00A0SDLC.',
+      description: 'Acelere o ciclo de desenvolvimento de software (SDLC), redesenhe a arquitetura dos seus sistemas e converta desafios técnicos complexos em vantagem competitiva e\u00A0escalável.',
       image: digitalImg
     },
     {
       id: 'automacao-ia',
       badge: 'Automação & Inteligência Artificial',
-      question: 'Automatiza os teus processos e liberta a tua equipa para o que interessa.',
-      role: 'Soluções de Automação & IA',
-      description: 'Com as nossas soluções de automação e Inteligência Artificial aplicada, reduzimos o trabalho repetitivo, eliminamos gargalos de entrega e capacitamos a tua equipa para gerar impacto real no negócio.',
+      question: 'A sua equipa está\u00A0sobrecarregada?',
+      action: 'Automatize\u00A0tarefas.',
+      description: 'Use Inteligência Artificial para criar conteúdos, atender clientes, analisar dados e muito mais, combinando um Assistente de IA com o toque\u00A0humano.',
       image: businessImg
     },
     {
       id: 'posicionamento-digital',
       badge: 'Estratégia & Presença Corporativa',
-      question: 'Aumentamos o teu posicionamento no digital através de estratégias consolidadas.',
-      role: 'Autoridade Tecnológica & Escala',
-      description: 'Estruturamos a proposta de valor técnica da tua organização, elevamos a visibilidade das tuas soluções no mercado e posicionamos as tuas lideranças como referência no ecossistema digital.',
+      question: 'A sua empresa tem soluções inovadoras mas pouca\u00A0visibilidade?',
+      action: 'Posicione a sua\u00A0marca.',
+      description: 'Estruture a proposta de valor técnica da sua organização, eleve a visibilidade das suas soluções no mercado e transforme presença digital em novos\u00A0clientes.',
       image: projectImg
     }
   ];
@@ -96,7 +96,7 @@ export const CorporateTransitionsSection = ({ onOpenModal }) => {
             >
               <img
                 src={item.image}
-                alt={item.role}
+                alt={item.badge}
                 className="w-full h-full object-cover object-center"
                 loading={idx === 0 ? 'eager' : 'lazy'}
               />
@@ -132,16 +132,16 @@ export const CorporateTransitionsSection = ({ onOpenModal }) => {
           <div className="w-full px-4 sm:px-6 lg:px-8">
             <div className="max-w-xl sm:max-w-2xl lg:max-w-3xl text-left pointer-events-auto pl-16 sm:pl-20 md:pl-24 lg:pl-28 xl:pl-32">
               
-              {/* Título com destaque de alto contraste */}
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold font-sans tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] leading-tight text-left">
+              {/* Título com destaque de alto contraste e alinhamento à esquerda sem palavras soltas */}
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold font-sans tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] leading-tight text-left text-pretty max-w-2xl">
                 {currentItem.question}{' '}
-                <span className="text-[#60A5FA] font-extrabold block sm:inline mt-1 sm:mt-0">
-                  {currentItem.role}
+                <span className="text-[#60A5FA] font-extrabold inline">
+                  {currentItem.action}
                 </span>
               </h2>
 
               {/* Subtítulo / Frase descritiva */}
-              <p className="text-sm sm:text-base lg:text-lg text-slate-100 mt-4 sm:mt-5 font-sans leading-relaxed text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] max-w-2xl">
+              <p className="text-sm sm:text-base lg:text-lg text-slate-100 mt-4 sm:mt-5 font-sans leading-relaxed text-left text-pretty drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] max-w-2xl">
                 {currentItem.description}
               </p>
 

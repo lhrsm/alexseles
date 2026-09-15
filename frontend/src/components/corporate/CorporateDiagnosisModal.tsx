@@ -51,13 +51,20 @@ export const CorporateDiagnosisModal: React.FC<CorporateDiagnosisModalProps> = (
 
   useEffect(() => {
     if (isOpen) {
-      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       return () => {
-        document.body.style.overflow = originalOverflow;
+        document.body.style.overflow = '';
       };
+    } else {
+      document.body.style.overflow = '';
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {

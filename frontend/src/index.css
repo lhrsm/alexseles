@@ -7,6 +7,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   
   body {
@@ -14,6 +16,9 @@
     color: #163758;
     font-family: 'Inter', Arial, sans-serif;
     line-height: 1.65;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {

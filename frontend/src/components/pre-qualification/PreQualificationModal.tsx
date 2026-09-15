@@ -54,13 +54,20 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
   // Bloqueio de rolagem do body quando a modal estiver aberta
   useEffect(() => {
     if (isOpen) {
-      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       return () => {
-        document.body.style.overflow = originalOverflow;
+        document.body.style.overflow = '';
       };
+    } else {
+      document.body.style.overflow = '';
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   // Fechamento ao pressionar a tecla ESC
   const handleKeyDown = useCallback(

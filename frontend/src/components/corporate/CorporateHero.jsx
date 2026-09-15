@@ -1,15 +1,6 @@
-import React, { useState } from 'react';
-import { CorporateDiagnosisModal } from './CorporateDiagnosisModal';
+import React from 'react';
 
-export const CorporateHero = ({
-  isModalOpen: externalIsModalOpen,
-  setIsModalOpen: externalSetIsModalOpen
-}) => {
-  const [internalModalOpen, setInternalModalOpen] = useState(false);
-
-  const isModalOpen = externalIsModalOpen !== undefined ? externalIsModalOpen : internalModalOpen;
-  const setIsModalOpen = externalSetIsModalOpen || setInternalModalOpen;
-
+export const CorporateHero = ({ onOpenModal }) => {
   return (
     <section 
       id="diagnostico-corporativo"
@@ -44,7 +35,7 @@ export const CorporateHero = ({
             <div className="pt-2 text-left">
               <button
                 type="button"
-                onClick={() => setIsModalOpen(true)}
+                onClick={onOpenModal}
                 className="btn-copper shadow-md hover:shadow-lg text-sm sm:text-base font-semibold py-3.5 px-8 inline-flex items-center gap-2 cursor-pointer transition-all"
               >
                 <span>Solicitar Diagnóstico para a Minha Empresa</span>
@@ -56,12 +47,6 @@ export const CorporateHero = ({
 
         </div>
       </div>
-
-      {/* Modal Corporativa de Diagnóstico */}
-      <CorporateDiagnosisModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </section>
   );
 };

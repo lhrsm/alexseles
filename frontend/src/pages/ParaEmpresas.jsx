@@ -35,7 +35,7 @@ export const ParaEmpresas = () => {
       <CorporateTransitionsSection onOpenModal={() => setIsModalOpen(true)} />
 
       {/* 2ª Secção: Hero com Dores Corporativas & Citação Oficial de Alex Seles */}
-      <CorporateHero isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <CorporateHero onOpenModal={() => setIsModalOpen(true)} />
 
       {/* 3ª Secção: Pilares Estratégicos de Intervenção B2B */}
       <CorporatePillars onOpenModal={() => setIsModalOpen(true)} />

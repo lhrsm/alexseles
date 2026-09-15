@@ -5,6 +5,7 @@ export const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    document.body.style.overflow = '';
     if (hash) {
       const elementId = hash.replace('#', '');
       const timer = setTimeout(() => {
