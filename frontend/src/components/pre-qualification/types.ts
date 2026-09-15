@@ -1,4 +1,5 @@
 export type OriginArea =
+  | 'Tecnologia da Informação (TI, Computação ou Suporte)'
   | 'Direito / Jurídico'
   | 'Engenharia Tradicional (Civil, Mecânica, etc.)'
   | 'Administração, Gestão & Finanças'

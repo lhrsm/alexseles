@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase, Layers, Clock, Terminal } from 'lucide-react';
+import { Briefcase, Layers, Clock, Terminal, ChevronDown } from 'lucide-react';
 import {
   OriginArea,
   PreQualificationFormData,
@@ -14,6 +14,7 @@ interface Step2CareerProps {
 }
 
 const ORIGIN_AREAS: OriginArea[] = [
+  'Tecnologia da Informação (TI, Computação ou Suporte)',
   'Direito / Jurídico',
   'Engenharia Tradicional (Civil, Mecânica, etc.)',
   'Administração, Gestão & Finanças',
@@ -32,26 +33,22 @@ const TOTAL_EXPERIENCE_OPTIONS: TotalCareerExperience[] = [
   '10+ anos (Liderança / Gestão prévia)'
 ];
 
-const TECH_FAMILIARITY_OPTIONS: { id: TechFamiliarity; label: string; desc: string }[] = [
+const TECH_FAMILIARITY_OPTIONS: { id: TechFamiliarity; label: string }[] = [
   {
     id: 'Iniciante absoluto (começar do zero)',
-    label: 'Iniciante absoluto',
-    desc: 'Sem experiência prévia com código, quero começar do zero com método.'
+    label: 'Iniciante absoluto (começar do zero sem experiência prévia)'
   },
   {
     id: 'Estudo autodidata (cursos online, lógica básica)',
-    label: 'Estudo autodidata',
-    desc: 'Já fiz cursos online, li tutoriais ou estudei lógica de programação básica.'
+    label: 'Estudo autodidata (cursos online e lógica básica)'
   },
   {
     id: 'Praticante (já criei pequenos scripts ou projetos)',
-    label: 'Praticante',
-    desc: 'Já criei pequenos scripts, automações ou projetos práticos simples.'
+    label: 'Praticante (já criei scripts ou pequenos projetos)'
   },
   {
     id: 'Contacto profissional (trabalho próximo de devs/TI)',
-    label: 'Contacto profissional',
-    desc: 'Trabalho ou já trabalhei próximo a equipas de desenvolvimento e tecnologia.'
+    label: 'Contacto profissional (já atuo próximo de equipas de TI)'
   }
 ];
 
@@ -81,7 +78,7 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
             Área de Origem / Formação <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Layers className="w-4 h-4" aria-hidden="true" />
             </div>
             <select
@@ -93,9 +90,9 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
                   originArea: e.target.value as OriginArea
                 })
               }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.originArea ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full appearance-none pl-10 pr-10 py-2.5 sm:py-3 bg-white border ${
+                errors.originArea ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 truncate`}
               required
             >
               <option value="">Selecione a sua área profissional</option>
@@ -105,6 +102,9 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
                 </option>
               ))}
             </select>
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+            </div>
           </div>
           {errors.originArea && (
             <p className="mt-1 text-xs text-red-600 font-medium">{errors.originArea}</p>
@@ -120,7 +120,7 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
             Cargo Atual ou Mais Recente <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Briefcase className="w-4 h-4" aria-hidden="true" />
             </div>
             <input
@@ -130,9 +130,9 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
               placeholder="Ex: Advogado, Engenheiro Civil, Gerente de Vendas..."
               value={formData.currentRole}
               onChange={(e) => updateFormData({ currentRole: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.currentRole ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full pl-10 pr-3.5 py-2.5 sm:py-3 bg-white border ${
+                errors.currentRole ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
@@ -150,7 +150,7 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
             Tempo Total de Carreira Profissional <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Clock className="w-4 h-4" aria-hidden="true" />
             </div>
             <select
@@ -162,9 +162,9 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
                   totalCareerExperience: e.target.value as TotalCareerExperience
                 })
               }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.totalCareerExperience ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full appearance-none pl-10 pr-10 py-2.5 sm:py-3 bg-white border ${
+                errors.totalCareerExperience ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 truncate`}
               required
             >
               <option value="">Selecione o tempo total de carreira</option>
@@ -174,6 +174,9 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
                 </option>
               ))}
             </select>
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+            </div>
           </div>
           {errors.totalCareerExperience && (
             <p className="mt-1 text-xs text-red-600 font-medium">{errors.totalCareerExperience}</p>
@@ -189,7 +192,7 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
             Nível de Familiaridade com Tecnologia & Programação <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Terminal className="w-4 h-4" aria-hidden="true" />
             </div>
             <select
@@ -201,18 +204,21 @@ export const Step2Career: React.FC<Step2CareerProps> = ({
                   techFamiliarity: e.target.value as TechFamiliarity
                 })
               }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.techFamiliarity ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full appearance-none pl-10 pr-10 py-2.5 sm:py-3 bg-white border ${
+                errors.techFamiliarity ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 truncate`}
               required
             >
               <option value="">Selecione o seu nível de familiaridade</option>
               {TECH_FAMILIARITY_OPTIONS.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.label} — {item.desc}
+                  {item.label}
                 </option>
               ))}
             </select>
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+            </div>
           </div>
           {errors.techFamiliarity && (
             <p className="mt-1 text-xs text-red-600 font-medium">{errors.techFamiliarity}</p>

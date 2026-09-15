@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, AlertCircle, Clock, Globe2, Check } from 'lucide-react';
+import { Compass, AlertCircle, Clock, Globe2, ChevronDown } from 'lucide-react';
 import {
   EnglishLevel,
   MainTransitionChallenge,
@@ -99,7 +99,7 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
           Trilha Tecnológica Pretendida <span className="text-red-500">*</span>
         </label>
         <div className="relative rounded-lg">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <Compass className="w-4 h-4" aria-hidden="true" />
           </div>
           <select
@@ -111,9 +111,9 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
                 targetTechTrack: e.target.value as TargetTechTrack
               })
             }
-            className={`w-full pl-9 pr-3 py-2 bg-white border ${
-              errors.targetTechTrack ? 'border-red-500' : 'border-slate-300'
-            } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+            className={`w-full appearance-none pl-10 pr-10 py-2.5 sm:py-3 bg-white border ${
+              errors.targetTechTrack ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+            } rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 truncate`}
             required
           >
             <option value="">Selecione a trilha pretendida</option>
@@ -123,6 +123,9 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
               </option>
             ))}
           </select>
+          <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+            <ChevronDown className="w-4 h-4" aria-hidden="true" />
+          </div>
         </div>
         {errors.targetTechTrack && (
           <p className="mt-1 text-xs text-red-600 font-medium">{errors.targetTechTrack}</p>
@@ -139,7 +142,7 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
             Maior Obstáculo ou Desafio na Transição <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <AlertCircle className="w-4 h-4" aria-hidden="true" />
             </div>
             <select
@@ -151,9 +154,9 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
                   mainTransitionChallenge: e.target.value as MainTransitionChallenge
                 })
               }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.mainTransitionChallenge ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full appearance-none pl-10 pr-10 py-2.5 sm:py-3 bg-white border ${
+                errors.mainTransitionChallenge ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 truncate`}
               required
             >
               <option value="">Selecione o seu maior desafio atual</option>
@@ -163,6 +166,9 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
                 </option>
               ))}
             </select>
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+            </div>
           </div>
           {errors.mainTransitionChallenge && (
             <p className="mt-1 text-xs text-red-600 font-medium">{errors.mainTransitionChallenge}</p>
@@ -178,7 +184,7 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
             Dedicação Semanal para Estudo <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Clock className="w-4 h-4" aria-hidden="true" />
             </div>
             <select
@@ -190,9 +196,9 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
                   weeklyStudyTime: e.target.value as WeeklyStudyTime
                 })
               }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.weeklyStudyTime ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full appearance-none pl-10 pr-10 py-2.5 sm:py-3 bg-white border ${
+                errors.weeklyStudyTime ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 truncate`}
               required
             >
               <option value="">Horas semanais disponíveis</option>
@@ -202,6 +208,9 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
                 </option>
               ))}
             </select>
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+            </div>
           </div>
           {errors.weeklyStudyTime && (
             <p className="mt-1 text-xs text-red-600 font-medium">{errors.weeklyStudyTime}</p>
@@ -217,7 +226,7 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
             Nível de Inglês <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Globe2 className="w-4 h-4" aria-hidden="true" />
             </div>
             <select
@@ -229,9 +238,9 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
                   englishLevel: e.target.value as EnglishLevel
                 })
               }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.englishLevel ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full appearance-none pl-10 pr-10 py-2.5 sm:py-3 bg-white border ${
+                errors.englishLevel ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 truncate`}
               required
             >
               <option value="">Selecione a proficiência</option>
@@ -241,6 +250,9 @@ export const Step3Eligibility: React.FC<Step3EligibilityProps> = ({
                 </option>
               ))}
             </select>
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+            </div>
           </div>
           {errors.englishLevel && (
             <p className="mt-1 text-xs text-red-600 font-medium">{errors.englishLevel}</p>

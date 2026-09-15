@@ -401,7 +401,7 @@ export const PreQualificationModal: React.FC<PreQualificationModalProps> = ({
         {/* Corpo com Scroll Suave */}
         <main
           id="pre-qual-modal-body"
-          className="p-4 sm:p-6 overflow-y-auto flex-1 bg-white space-y-4"
+          className="p-4 sm:p-6 overflow-y-auto overflow-x-hidden flex-1 bg-white space-y-4"
         >
           {/* Banner de Erro Global */}
           {globalError && (

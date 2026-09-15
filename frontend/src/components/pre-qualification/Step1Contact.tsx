@@ -60,9 +60,9 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               placeholder="O seu nome completo"
               value={formData.fullName}
               onChange={(e) => updateFormData({ fullName: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.fullName ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full pl-10 pr-3.5 py-2.5 sm:py-3 bg-white border ${
+                errors.fullName ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
@@ -80,7 +80,7 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
             E-mail <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Mail className="w-4 h-4" aria-hidden="true" />
             </div>
             <input
@@ -90,9 +90,9 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               placeholder="seu.email@exemplo.com"
               value={formData.email}
               onChange={(e) => updateFormData({ email: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.email ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full pl-10 pr-3.5 py-2.5 sm:py-3 bg-white border ${
+                errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
@@ -110,7 +110,7 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
             WhatsApp (com DDI) <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Phone className="w-4 h-4" aria-hidden="true" />
             </div>
             <input
@@ -120,9 +120,9 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               placeholder="+351 912 345 678 ou +55 11 99999-9999"
               value={formData.phone}
               onChange={(e) => updateFormData({ phone: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.phone ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full pl-10 pr-3.5 py-2.5 sm:py-3 bg-white border ${
+                errors.phone ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
@@ -140,7 +140,7 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
             LinkedIn <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0A66C2]">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#0A66C2]">
               <i className="fa-brands fa-linkedin text-sm" aria-hidden="true"></i>
             </div>
             <input
@@ -150,9 +150,9 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               placeholder="https://linkedin.com/in/seu-perfil"
               value={formData.linkedinUrl}
               onChange={(e) => updateFormData({ linkedinUrl: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.linkedinUrl ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full pl-10 pr-3.5 py-2.5 sm:py-3 bg-white border ${
+                errors.linkedinUrl ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>
@@ -170,7 +170,7 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
             Cidade e País de Residência <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Globe className="w-4 h-4" aria-hidden="true" />
             </div>
             <input
@@ -180,9 +180,9 @@ export const Step1Contact: React.FC<Step1ContactProps> = ({
               placeholder="Ex: Lisboa, Portugal ou São Paulo, Brasil"
               value={formData.currentCityCountry}
               onChange={(e) => updateFormData({ currentCityCountry: e.target.value })}
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.currentCityCountry ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full pl-10 pr-3.5 py-2.5 sm:py-3 bg-white border ${
+                errors.currentCityCountry ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
               required
             />
           </div>

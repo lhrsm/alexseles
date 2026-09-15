@@ -4,7 +4,8 @@ import {
   FileText,
   Trash2,
   MessageSquare,
-  CheckCircle2
+  CheckCircle2,
+  ChevronDown
 } from 'lucide-react';
 import {
   CommercialReadiness,
@@ -20,22 +21,18 @@ interface Step4FinalizationProps {
 const COMMERCIAL_OPTIONS: {
   id: CommercialReadiness;
   title: string;
-  subtitle: string;
 }[] = [
   {
     id: 'ready_to_invest',
-    title: 'Preparado para investir na aceleração individual',
-    subtitle: 'Foco imediato na transição, dedicação e prontidão para mentoria personalizada.'
+    title: 'Preparado para investir na aceleração individual (Prioridade VIP)'
   },
   {
     id: 'want_conditions_first',
-    title: 'Quero conhecer formatos, metodologia e condições',
-    subtitle: 'Avaliar o cronograma, etapas da trilha e planos de investimento antes de iniciar.'
+    title: 'Quero conhecer formatos, metodologia e condições'
   },
   {
     id: 'no_financial_availability',
-    title: 'Foco em conteúdos gratuitos no momento',
-    subtitle: 'Acesso à Central de Conhecimento, artigos técnicos e materiais da comunidade.'
+    title: 'Foco em conteúdos gratuitos no momento'
   }
 ];
 
@@ -129,7 +126,7 @@ export const Step4Finalization: React.FC<Step4FinalizationProps> = ({
             Momento de Decisão & Investimento na Mentoria <span className="text-red-500">*</span>
           </label>
           <div className="relative rounded-lg">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
             </div>
             <select
@@ -141,18 +138,21 @@ export const Step4Finalization: React.FC<Step4FinalizationProps> = ({
                   commercialReadiness: e.target.value as CommercialReadiness
                 })
               }
-              className={`w-full pl-9 pr-3 py-2 bg-white border ${
-                errors.commercialReadiness ? 'border-red-500' : 'border-slate-300'
-              } rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600`}
+              className={`w-full appearance-none pl-10 pr-10 py-2.5 sm:py-3 bg-white border ${
+                errors.commercialReadiness ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'
+              } rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 truncate`}
               required
             >
               <option value="">Selecione o seu momento de decisão</option>
               {COMMERCIAL_OPTIONS.map((opt) => (
                 <option key={opt.id} value={opt.id}>
-                  {opt.title} — {opt.subtitle}
+                  {opt.title}
                 </option>
               ))}
             </select>
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+            </div>
           </div>
           {errors.commercialReadiness && (
             <p className="mt-1 text-xs text-red-600 font-medium">{errors.commercialReadiness}</p>
