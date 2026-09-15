@@ -163,3 +163,24 @@
   outline: 3px solid #1A73E8;
   outline-offset: 2px;
 }
+
+/* Infinite Marquee Animation for Client Logos */
+@keyframes marquee-slow {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee-slow 40s linear infinite;
+}
+
+.animate-marquee-slow:hover {
+  animation-play-state: paused;
+}
+
