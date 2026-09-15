@@ -80,6 +80,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Backoffice } from './pages/Backoffice';
 import { PoliticaPrivacidade } from './pages/PoliticaPrivacidade';
 import { TermosUso } from './pages/TermosUso';
+import { ParaEmpresas } from './pages/ParaEmpresas';
 import { CookieConsentBanner } from './components/common/CookieConsentBanner';
 
 export function App() {
@@ -93,6 +94,9 @@ export function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/para-empresas" element={<ParaEmpresas />} />
+            <Route path="/empresas" element={<ParaEmpresas />} />
+            <Route path="/b2b" element={<Navigate to="/para-empresas" replace />} />
             <Route path="/transicao-de-carreira" element={<TransicaoCarreira />} />
             <Route path="/transicao" element={<TransicaoCarreira />} />
             <Route path="/servicos" element={<TransicaoCarreira />} />

@@ -22,6 +22,11 @@ const template = fs.readFileSync(templatePath, 'utf-8');
 
 const routes = [
   {
+    path: 'para-empresas',
+    title: 'Alex Seles • Soluções Corporativas | Transformação Digital, Automação, IA & Governação de TI',
+    description: 'Acelere a maturidade tecnológica da sua empresa. Transformação digital, automação de processos, integração segura de IA e capacitação estratégica de equipas de TI com Alex Seles.'
+  },
+  {
     path: 'transicao-de-carreira',
     title: 'Transição de Carreira para TI | Mentoria Estratégica com Alex Seles',
     description: 'Recomeçar na tecnologia é perfeitamente possível. Encurta a tua rota e migra com segurança com a mentoria individual de Alex Seles.'

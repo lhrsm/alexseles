@@ -101,6 +101,12 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/para-empresas" className="hover:text-white text-sky-400 font-semibold transition-colors flex items-center gap-1.5">
+                  <i className="fa-solid fa-building text-xs" aria-hidden="true"></i>
+                  <span>Para Empresas & B2B</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/central-de-conhecimento" className="hover:text-white transition-colors">
                   Central de Artigos
                 </Link>

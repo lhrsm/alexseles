@@ -1,0 +1,197 @@
+import React, { useState, useEffect, useRef } from 'react';
+
+import digitalImg from '../../assets/digital.png';
+import businessImg from '../../assets/business.png';
+import projectImg from '../../assets/project.png';
+
+export const CorporateTransitionsSection = ({ onOpenModal }) => {
+  const corporateSlides = [
+    {
+      id: 'transformacao-digital',
+      badge: 'Transformação Digital & SDLC',
+      question: 'Queres levar a tua empresa à transformação digital?',
+      role: 'Modernização & SDLC Estratégico',
+      description: 'Ajudamos-te a redesenhar a arquitetura dos teus sistemas, acelerar o ciclo de desenvolvimento de software (SDLC) e converter desafios complexos em vantagem tecnológica competitiva e escalável.',
+      image: digitalImg
+    },
+    {
+      id: 'automacao-ia',
+      badge: 'Automação & Inteligência Artificial',
+      question: 'Automatiza os teus processos e liberta a tua equipa para o que interessa.',
+      role: 'Soluções de Automação & IA',
+      description: 'Com as nossas soluções de automação e Inteligência Artificial aplicada, reduzimos o trabalho repetitivo, eliminamos gargalos de entrega e capacitamos a tua equipa para gerar impacto real no negócio.',
+      image: businessImg
+    },
+    {
+      id: 'posicionamento-digital',
+      badge: 'Estratégia & Presença Corporativa',
+      question: 'Aumentamos o teu posicionamento no digital através de estratégias consolidadas.',
+      role: 'Autoridade Tecnológica & Escala',
+      description: 'Estruturamos a proposta de valor técnica da tua organização, elevamos a visibilidade das tuas soluções no mercado e posicionamos as tuas lideranças como referência no ecossistema digital.',
+      image: projectImg
+    }
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
+
+  const prevSlide = () => {
+    setActiveIndex((prev) => (prev === 0 ? corporateSlides.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setActiveIndex((prev) => (prev === corporateSlides.length - 1 ? 0 : prev + 1));
+  };
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev === corporateSlides.length - 1 ? 0 : prev + 1));
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isPaused, corporateSlides.length]);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > 50) nextSlide();
+    if (distance < -50) prevSlide();
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  const currentItem = corporateSlides[activeIndex];
+
+  return (
+    <section 
+      id="inicio" 
+      className="relative w-full bg-slate-950 text-white overflow-hidden select-none border-b border-slate-200/80 pt-0"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      aria-label="Carrossel de Soluções Corporativas & Transformação Digital"
+    >
+      <div className="relative w-full h-[calc(100vh-180px)] min-h-[480px] max-h-[740px] overflow-hidden">
+        {corporateSlides.map((item, idx) => {
+          const isActive = activeIndex === idx;
+          return (
+            <div
+              key={item.id}
+              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}
+              aria-hidden={!isActive}
+            >
+              <img
+                src={item.image}
+                alt={item.role}
+                className="w-full h-full object-cover object-center"
+                loading={idx === 0 ? 'eager' : 'lazy'}
+              />
+              {/* Degradê escuro profundo no lado esquerdo para contraste e legibilidade impecáveis */}
+              <div className="absolute inset-y-0 left-0 w-full sm:w-4/5 md:w-3/4 lg:w-3/5 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+            </div>
+          );
+        })}
+
+        {/* Seta de Navegação: Esquerda [ < ] */}
+        <button
+          type="button"
+          onClick={prevSlide}
+          className="absolute left-3 sm:left-5 lg:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-black/50 hover:bg-black/80 text-white border border-white/20 flex items-center justify-center backdrop-blur-sm shadow-xl transition-all hover:scale-105 cursor-pointer"
+          aria-label="Slide anterior"
+        >
+          <i className="fa-solid fa-chevron-left text-base sm:text-lg" aria-hidden="true" />
+        </button>
+
+        {/* Seta de Navegação: Direita [ > ] */}
+        <button
+          type="button"
+          onClick={nextSlide}
+          className="absolute right-3 sm:right-5 lg:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-black/50 hover:bg-black/80 text-white border border-white/20 flex items-center justify-center backdrop-blur-sm shadow-xl transition-all hover:scale-105 cursor-pointer"
+          aria-label="Próximo slide"
+        >
+          <i className="fa-solid fa-chevron-right text-base sm:text-lg" aria-hidden="true" />
+        </button>
+
+        {/* Bloco Textual: Posicionado à esquerda com margem arejada e segura em relação às setas */}
+        <div className="absolute inset-0 z-20 flex items-center pointer-events-none">
+          <div className="w-full px-4 sm:px-6 lg:px-8">
+            <div className="max-w-xl sm:max-w-2xl lg:max-w-3xl text-left pointer-events-auto pl-16 sm:pl-20 md:pl-24 lg:pl-28 xl:pl-32">
+              
+              <div className="mb-3">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-sky-500/20 text-sky-300 border border-sky-400/30 backdrop-blur-xs">
+                  {currentItem.badge}
+                </span>
+              </div>
+
+              {/* Título com destaque de alto contraste */}
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold font-sans tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] leading-tight text-left">
+                {currentItem.question}{' '}
+                <span className="text-[#60A5FA] font-extrabold block sm:inline mt-1 sm:mt-0">
+                  {currentItem.role}
+                </span>
+              </h2>
+
+              {/* Subtítulo / Frase descritiva */}
+              <p className="text-sm sm:text-base lg:text-lg text-slate-100 mt-4 sm:mt-5 font-sans leading-relaxed text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] max-w-2xl">
+                {currentItem.description}
+              </p>
+
+              {/* Botão de Diagnóstico Imediato */}
+              {onOpenModal && (
+                <div className="pt-6">
+                  <button
+                    type="button"
+                    onClick={onOpenModal}
+                    className="btn-copper shadow-lg hover:shadow-xl text-xs sm:text-sm font-semibold py-3 px-6 inline-flex items-center gap-2 cursor-pointer transition-all"
+                  >
+                    <span>Solicitar Diagnóstico Estratégico</span>
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              )}
+
+            </div>
+          </div>
+        </div>
+
+        {/* Indicadores de Paginação */}
+        <div 
+          className="absolute bottom-5 sm:bottom-7 inset-x-0 z-20 flex items-center justify-center gap-2.5" 
+          role="tablist" 
+          aria-label="Navegação por slides corporativos"
+        >
+          {corporateSlides.map((item, idx) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setActiveIndex(idx)}
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                activeIndex === idx
+                  ? 'w-8 bg-[#1A73E8] shadow-md ring-2 ring-white/30'
+                  : 'w-2.5 bg-white/50 hover:bg-white/90'
+              }`}
+              aria-label={`Slide ${idx + 1}: ${item.badge}`}
+              aria-selected={activeIndex === idx}
+              role="tab"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
