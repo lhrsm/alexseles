@@ -21,19 +21,19 @@ export const CorporatePillars = ({ onOpenModal }) => {
       id: 'modernizacao-sistemas',
       icon: Cpu,
       title: 'Transformação Digital & Modernização de Sistemas',
-      subtitle: 'Expansão de Mercado, Arquitetura & SDLC',
+      subtitle: 'Discovery, Prototipagem, Acessibilidade & SDLC',
       tag: 'Aumento de Quota de Mercado',
-      deliveryFormat: 'Projetos Turnkey & Modernização de Engenharia',
-      pain: 'Organizações reféns de sistemas obsoletos, processos analógicos ou plataformas web estáticas que não convertem, perdendo quota de mercado (market share) e relevância comercial para concorrentes digitalmente ágeis.',
-      solution: 'Estruturação de raiz do ciclo de vida de desenvolvimento de software (SDLC) e modernização de arquitetura e código. Desenvolvemos ecossistemas digitais de alto rendimento — desde websites institucionais e portais corporativos até aplicações móveis e plataformas SaaS escaláveis — concebidos para expandir a presença digital, aumentar o market share e alinhar diretamente a capacidade técnica às metas de faturação.',
-      technologies: ['Plataformas SaaS', 'Web & Mobile Apps', 'Arquitetura Cloud & APIs', 'Modernização de Legados', 'SDLC Ágil', 'DevOps'],
+      deliveryFormat: 'Discovery, PoC / MVP & Engenharia Turnkey',
+      pain: 'Organizações reféns de sistemas obsoletos, processos analógicos ou plataformas web estáticas que não convertem, desenvolvendo software sem pesquisa prévia de utilizadores, sem acessibilidade digital e sem prototipagem, resultando em desperdício orçamental, baixa adoção e perda diária de quota de mercado (market share) para concorrentes mais ágeis.',
+      solution: 'Abordagem ponta a ponta orientada a resultados: iniciamos com Product Discovery e Design Thinking para mapear as dores reais dos utilizadores e alinhar o modelo de negócio; reduzimos o risco de investimento com Protótipos navegáveis, Provas de Conceito técnicas (PoC) e MVPs ágeis antes do desenvolvimento em larga escala. Na engenharia, garantimos conformidade com padrões de Acessibilidade Digital (WCAG / a11y), estruturação moderna do ciclo de vida de desenvolvimento de software (SDLC) e modernização arquitetural — desde websites institucionais e portais até plataformas SaaS e aplicações móveis escaláveis, conectando inovação diretamente às metas de faturação.',
+      technologies: ['Design Thinking & Discovery', 'Protótipos Navegáveis', 'PoC & MVP Ágil', 'Acessibilidade (WCAG / a11y)', 'Plataformas SaaS & Apps', 'Modernização de Legados & SDLC'],
       deliverables: [
-        'Diagnóstico e mapeamento do débito técnico e arquitetura',
-        'Desenvolvimento de aplicações web, SaaS e mobile de alta escala',
-        'Alinhamento direto entre capacidade de entrega e metas de faturação',
-        'Documentação técnica, segurança e padrões modernos de código'
+        'Imersão em Design Thinking, Product Discovery e pesquisa com utilizadores',
+        'Construção de Protótipos navegáveis, PoCs de viabilidade técnica e MVPs ágeis',
+        'Desenvolvimento inclusivo com conformidade plena de Acessibilidade (WCAG / a11y)',
+        'Estruturação moderna de SDLC, arquitetura escalável e alinhamento a metas de faturação'
       ],
-      impactMetric: 'Expansão mensurável de market share e aceleração contínua do ciclo de entrega.',
+      impactMetric: 'Mitigação total de risco com MVP/PoC, conformidade de acessibilidade e expansão de market share.',
       badgeColor: 'bg-blue-50 text-[#1557B0] border-blue-200'
     },
     {
