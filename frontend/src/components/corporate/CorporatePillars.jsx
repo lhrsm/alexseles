@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, X, Sparkles, Building2, ShieldCheck, Workflow } from 'lucide-react';
-
-import digitalImg from '../../assets/digital.png';
-import businessImg from '../../assets/business.png';
-import projectImg from '../../assets/project.png';
-import empresaImg from '../../assets/empresa.png';
+import { 
+  ArrowRight, 
+  CheckCircle2, 
+  X, 
+  Sparkles, 
+  Building2, 
+  ShieldCheck, 
+  Workflow, 
+  Cpu, 
+  Bot, 
+  GitMerge, 
+  GraduationCap 
+} from 'lucide-react';
 
 export const CorporatePillars = ({ onOpenModal }) => {
   const [selectedPillar, setSelectedPillar] = useState(null);
@@ -12,7 +19,7 @@ export const CorporatePillars = ({ onOpenModal }) => {
   const pillars = [
     {
       id: 'transformacao-digital-sdlc',
-      image: digitalImg,
+      icon: Cpu,
       badge: 'Discovery & Quota de Mercado',
       title: 'Transformação Digital & Modernização de Sistemas',
       comment: 'Iniciamos com Product Discovery e Design Thinking para mapear necessidades reais e validamos hipóteses com Protótipos, PoC e MVP ágil. Desenvolvemos ecossistemas acessíveis (normas WCAG), modernizamos sistemas legados e estruturamos o SDLC para expandir a sua presença digital, market share e faturação.',
@@ -29,7 +36,7 @@ export const CorporatePillars = ({ onOpenModal }) => {
     },
     {
       id: 'automacao-processos-ia',
-      image: businessImg,
+      icon: Bot,
       badge: 'Eficiência Operacional & IA',
       title: 'Automação de Processos & Inteligência Artificial',
       comment: 'Eliminamos rotinas manuais e operacionais repetitivas orquestrando fluxos avançados com n8n, webhooks e integrações de APIs. Incorporamos Inteligência Artificial generativa e agentes inteligentes de forma segura no atendimento, na análise de dados e na engenharia, acelerando o seu time-to-market.',
@@ -46,7 +53,7 @@ export const CorporatePillars = ({ onOpenModal }) => {
     },
     {
       id: 'governanca-agil-metodos',
-      image: projectImg,
+      icon: GitMerge,
       badge: 'Previsibilidade de Entregas',
       title: 'Governação Ágil & Métodos de Entrega (SAFe / Scrum / ITIL)',
       comment: 'Auditoria completa à maturidade técnica, implementação prática de ferramentas (Jira / Azure DevOps) e treino intensivo das equipas em métodos ágeis consolidados (SAFe, Scrum e ITIL). Métricas reais de produtividade (Lead Time, Cycle Time) e transparência absoluta para a administração.',
@@ -63,7 +70,7 @@ export const CorporatePillars = ({ onOpenModal }) => {
     },
     {
       id: 'capacitacao-lideranca',
-      image: empresaImg,
+      icon: GraduationCap,
       badge: 'In-Company & Online',
       title: 'Capacitação In-Company & Mentoria de Liderança Técnica',
       comment: 'Programas acelerados de up-skilling técnico para equipas de desenvolvimento e sessões de mentoria executiva 1:1 para Tech Leads e gestores sobre arquitetura, governança e tomada de decisão. Formações disponíveis em formato presencial In-Company ou 100% online remoto.',
@@ -93,7 +100,7 @@ export const CorporatePillars = ({ onOpenModal }) => {
         
         {/* Cabeçalho da Secção: Limpo e Direto */}
         <div className="max-w-3xl space-y-4 mb-14 text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white border border-slate-200 text-[#1A73E8] shadow-xs">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-white border border-slate-200 text-[#1A73E8] shadow-2xs">
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Soluções Corporativas</span>
           </div>
@@ -105,44 +112,44 @@ export const CorporatePillars = ({ onOpenModal }) => {
           </p>
         </div>
 
-        {/* Grelha de Cards Padrão Bootstrap (2 cards em cima, 2 cards em baixo) */}
+        {/* Grelha de Cards Mais Quadrados com Ícones (2 em cima, 2 em baixo) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-          {pillars.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group h-full text-left"
-            >
-              {/* Foto do Card (card-img-top) */}
-              <div className="relative h-52 sm:h-60 w-full overflow-hidden bg-slate-950 shrink-0">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute top-3 left-3 bg-slate-900/85 backdrop-blur-xs text-white text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border border-white/20 shadow-xs">
-                  {item.badge}
+          {pillars.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <div
+                key={item.id}
+                className="bg-white rounded-lg border border-slate-200/90 shadow-2xs hover:shadow-md transition-all duration-200 p-7 sm:p-8 flex flex-col justify-between group h-full text-left"
+              >
+                <div className="space-y-4">
+                  {/* Topo do Card: Ícone em Destaque + Badge */}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-sky-50 text-[#1A73E8] border border-sky-100 flex items-center justify-center shrink-0 group-hover:bg-[#1A73E8] group-hover:text-white transition-colors duration-200 shadow-2xs">
+                      <IconComponent className="w-6 h-6" aria-hidden="true" />
+                    </div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                      {item.badge}
+                    </span>
+                  </div>
+
+                  {/* Título e Comentário */}
+                  <div className="space-y-2.5 pt-1">
+                    <h3 className="text-xl font-bold text-[#163758] group-hover:text-[#1A73E8] transition-colors leading-snug">
+                      {item.title}
+                    </h3>
+
+                    <p className="text-sm text-[#475569] leading-relaxed font-sans text-pretty">
+                      {item.comment}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Corpo do Card (card-body): Título + Comentário */}
-              <div className="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-4">
-                <div className="space-y-3">
-                  <h3 className="text-lg sm:text-xl font-bold text-[#163758] group-hover:text-[#1A73E8] transition-colors leading-snug">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-sm text-[#475569] leading-relaxed font-sans text-pretty">
-                    {item.comment}
-                  </p>
-                </div>
-
-                {/* Rodapé do Card: Botão de Ação Link */}
-                <div className="pt-4 border-t border-slate-100 flex flex-col gap-2.5 mt-auto">
+                {/* Rodapé do Card: Botões Lado a Lado (Primary + Outline) */}
+                <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-6">
                   <button
                     type="button"
                     onClick={() => handleOpenDiagnosis(item)}
-                    className="w-full py-3 px-4 rounded-xl bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-md"
+                    className="flex-1 py-3 px-4 rounded-lg bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-md whitespace-nowrap"
                   >
                     <span>Diagnóstico desta solução</span>
                     <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -151,17 +158,17 @@ export const CorporatePillars = ({ onOpenModal }) => {
                   <button
                     type="button"
                     onClick={() => setSelectedPillar(item)}
-                    className="text-xs font-semibold text-slate-500 hover:text-[#1557B0] text-center transition-colors cursor-pointer py-1"
+                    className="py-3 px-4 rounded-lg bg-white hover:bg-slate-50 text-[#163758] border border-slate-300 hover:border-slate-400 text-xs sm:text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
                   >
-                    Ver detalhes da intervenção
+                    <span>Ver detalhes</span>
                   </button>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Modal Elegante de Detalhes da Solução (Abre ao clicar em 'Ver detalhes') */}
+        {/* Modal Limpa de Detalhes da Solução (Estilo Mais Quadrado e Corporativo) */}
         {selectedPillar && (
           <div 
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn"
@@ -169,41 +176,39 @@ export const CorporatePillars = ({ onOpenModal }) => {
             aria-modal="true"
             aria-labelledby="pillar-modal-title"
           >
-            <div className="bg-white w-full max-w-2xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col text-left">
+            <div className="bg-white w-full max-w-2xl rounded-xl border border-slate-200 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col text-left">
               
-              {/* Header da Modal com Imagem de Destaque */}
-              <div className="relative h-44 sm:h-52 w-full bg-slate-950 overflow-hidden shrink-0">
-                <img
-                  src={selectedPillar.image}
-                  alt={selectedPillar.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+              {/* Header da Modal com Ícone e Título */}
+              <div className="bg-slate-900 text-white p-6 sm:p-7 flex items-start justify-between gap-4 shrink-0 border-b border-slate-800">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-white/10 text-[#60A5FA] border border-white/20 flex items-center justify-center shrink-0">
+                    {React.createElement(selectedPillar.icon, { className: "w-6 h-6", "aria-hidden": "true" })}
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#93C5FD]">
+                      {selectedPillar.badge}
+                    </span>
+                    <h3 id="pillar-modal-title" className="text-xl sm:text-2xl font-extrabold leading-tight text-white mt-1">
+                      {selectedPillar.title}
+                    </h3>
+                  </div>
+                </div>
                 
                 <button
                   type="button"
                   onClick={() => setSelectedPillar(null)}
-                  className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20"
+                  className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20 shrink-0"
                   aria-label="Fechar detalhes"
                 >
                   <X className="w-4 h-4" />
                 </button>
-
-                <div className="absolute bottom-4 left-6 right-6 text-white">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#93C5FD]">
-                    {selectedPillar.badge}
-                  </span>
-                  <h3 id="pillar-modal-title" className="text-xl sm:text-2xl font-extrabold leading-tight text-white mt-1">
-                    {selectedPillar.title}
-                  </h3>
-                </div>
               </div>
 
               {/* Conteúdo com Scroll Suave */}
               <div className="p-6 sm:p-8 space-y-6 overflow-y-auto flex-1 font-sans">
                 
                 {/* Desafio / A Dor */}
-                <div className="bg-amber-50/80 border border-amber-200/90 rounded-xl p-4 sm:p-5">
+                <div className="bg-amber-50/80 border border-amber-200/90 rounded-lg p-4 sm:p-5">
                   <div className="flex items-center gap-2 text-amber-900 font-bold text-xs uppercase tracking-wider mb-1.5">
                     <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" aria-hidden="true" />
                     <span>O Desafio do Negócio (A Dor)</span>
@@ -260,14 +265,14 @@ export const CorporatePillars = ({ onOpenModal }) => {
                 <button
                   type="button"
                   onClick={() => setSelectedPillar(null)}
-                  className="w-full sm:w-auto px-5 py-2.5 text-xs font-bold uppercase text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 text-xs font-bold uppercase text-slate-600 hover:text-slate-900 transition-colors cursor-pointer rounded-lg border border-slate-300 bg-white"
                 >
                   Voltar
                 </button>
                 <button
                   type="button"
                   onClick={() => handleOpenDiagnosis(selectedPillar)}
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                  className="w-full sm:w-auto px-6 py-3 rounded-lg bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
                 >
                   <span>Solicitar Diagnóstico Desta Solução</span>
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
