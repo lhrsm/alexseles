@@ -18,6 +18,145 @@ import {
 import { getCaseBySlug, getNextCase, getAllCases } from '../data/casesData';
 import { MetaTags } from '../components/seo/MetaTags';
 
+const getTechIcon = (techName) => {
+  const name = techName.toLowerCase();
+
+  // HTML5
+  if (name.includes('html5')) {
+    return <i className="fa-brands fa-html5 text-[#E34F26]" aria-hidden="true" />;
+  }
+  // WAI-ARIA / Acessibilidade
+  if (name.includes('wai-aria') || name.includes('aria')) {
+    return <i className="fa-solid fa-universal-access text-[#0284C7]" aria-hidden="true" />;
+  }
+  // Bootstrap
+  if (name.includes('bootstrap')) {
+    return <i className="fa-brands fa-bootstrap text-[#7952B3]" aria-hidden="true" />;
+  }
+  // JavaScript / TypeScript
+  if (name.includes('javascript') || name.includes('typescript') || name.includes('js')) {
+    return <i className="fa-brands fa-js text-[#EAB308]" aria-hidden="true" />;
+  }
+  // React
+  if (name.includes('react')) {
+    return <i className="fa-brands fa-react text-[#06B6D4]" aria-hidden="true" />;
+  }
+  // Access Monitor / Auditoria
+  if (name.includes('access monitor')) {
+    return <i className="fa-solid fa-gauge-high text-[#059669]" aria-hidden="true" />;
+  }
+  // WAVE
+  if (name.includes('wave')) {
+    return <i className="fa-solid fa-eye text-[#0284C7]" aria-hidden="true" />;
+  }
+  // Color Contrast
+  if (name.includes('contrast')) {
+    return <i className="fa-solid fa-circle-half-stroke text-[#6366F1]" aria-hidden="true" />;
+  }
+  // Screen Readers / NVDA / JAWS
+  if (name.includes('screen readers') || name.includes('nvda') || name.includes('jaws')) {
+    return <i className="fa-solid fa-volume-high text-[#D97706]" aria-hidden="true" />;
+  }
+  // Figma
+  if (name.includes('figma')) {
+    return <i className="fa-brands fa-figma text-[#F24E1E]" aria-hidden="true" />;
+  }
+  // Jira
+  if (name.includes('jira')) {
+    return <i className="fa-brands fa-jira text-[#0052CC]" aria-hidden="true" />;
+  }
+  // Confluence / MS Project
+  if (name.includes('confluence') || name.includes('project')) {
+    return <i className="fa-brands fa-confluence text-[#0052CC]" aria-hidden="true" />;
+  }
+  // Design System AMA
+  if (name.includes('design system da ama') || name.includes('ama')) {
+    return <i className="fa-solid fa-landmark text-[#0F766E]" aria-hidden="true" />;
+  }
+  // REST / API
+  if (name.includes('rest') || name.includes('api')) {
+    return <i className="fa-solid fa-network-wired text-[#2563EB]" aria-hidden="true" />;
+  }
+  // WCAG / Certificações
+  if (name.includes('wcag')) {
+    return <i className="fa-solid fa-award text-[#EAB308]" aria-hidden="true" />;
+  }
+  // Miro
+  if (name.includes('miro')) {
+    return <i className="fa-solid fa-diagram-project text-[#F59E0B]" aria-hidden="true" />;
+  }
+  // Cloud: OCI / Oracle
+  if (name.includes('oracle') || name.includes('oci')) {
+    return <i className="fa-solid fa-cloud text-[#C74634]" aria-hidden="true" />;
+  }
+  // Microsoft Azure
+  if (name.includes('azure') || name.includes('microsoft')) {
+    return <i className="fa-brands fa-microsoft text-[#0089D6]" aria-hidden="true" />;
+  }
+  // AWS
+  if (name.includes('aws') || name.includes('amazon')) {
+    return <i className="fa-brands fa-aws text-[#FF9900]" aria-hidden="true" />;
+  }
+  // C# / .NET
+  if (name.includes('c#') || name.includes('.net')) {
+    return <i className="fa-solid fa-code text-[#512BD4]" aria-hidden="true" />;
+  }
+  // Java
+  if (name.includes('java')) {
+    return <i className="fa-brands fa-java text-[#E76F00]" aria-hidden="true" />;
+  }
+  // Python
+  if (name.includes('python')) {
+    return <i className="fa-brands fa-python text-[#3776AB]" aria-hidden="true" />;
+  }
+  // IoT & MQTT
+  if (name.includes('iot') || name.includes('mqtt')) {
+    return <i className="fa-solid fa-microchip text-[#10B981]" aria-hidden="true" />;
+  }
+  // Encriptação / TLS / VPN
+  if (name.includes('tls') || name.includes('vpn') || name.includes('encriptad') || name.includes('seguran')) {
+    return <i className="fa-solid fa-shield-halved text-[#4F46E5]" aria-hidden="true" />;
+  }
+  // ITIL / ITSM
+  if (name.includes('itil') || name.includes('itsm')) {
+    return <i className="fa-solid fa-clipboard-check text-[#0891B2]" aria-hidden="true" />;
+  }
+  // Kafka
+  if (name.includes('kafka')) {
+    return <i className="fa-solid fa-arrows-split-up-and-left text-[#231F20]" aria-hidden="true" />;
+  }
+  // Docker / Kubernetes
+  if (name.includes('docker') || name.includes('kubernetes') || name.includes('k8s')) {
+    return <i className="fa-brands fa-docker text-[#2496ED]" aria-hidden="true" />;
+  }
+  // GitLab
+  if (name.includes('gitlab')) {
+    return <i className="fa-brands fa-gitlab text-[#FC6D26]" aria-hidden="true" />;
+  }
+  // Terraform
+  if (name.includes('terraform')) {
+    return <i className="fa-solid fa-cubes text-[#844FBA]" aria-hidden="true" />;
+  }
+  // PostgreSQL / Redis / Database
+  if (name.includes('postgresql') || name.includes('redis') || name.includes('sql')) {
+    return <i className="fa-solid fa-database text-[#336791]" aria-hidden="true" />;
+  }
+  // Prometheus / Grafana
+  if (name.includes('prometheus') || name.includes('grafana')) {
+    return <i className="fa-solid fa-chart-line text-[#E6522C]" aria-hidden="true" />;
+  }
+  // SonarQube
+  if (name.includes('sonarqube')) {
+    return <i className="fa-solid fa-shield-virus text-[#4B9FD5]" aria-hidden="true" />;
+  }
+  // SAFe / Agile / Scrum
+  if (name.includes('safe') || name.includes('scrum') || name.includes('kanban')) {
+    return <i className="fa-solid fa-sitemap text-[#0284C7]" aria-hidden="true" />;
+  }
+
+  return <i className="fa-solid fa-terminal text-[#1A73E8]" aria-hidden="true" />;
+};
+
 export const CasoDeSucesso = () => {
   const { slug } = useParams();
 
@@ -292,15 +431,17 @@ export const CasoDeSucesso = () => {
             <p className="text-sm text-[#475569] leading-relaxed">
               Soluções de classe empresarial selecionadas com rigor técnico para garantir escalabilidade, segurança e observabilidade contínua:
             </p>
-            <div className="flex flex-wrap gap-2.5 pt-1">
+            <div className="flex flex-wrap gap-2.5 sm:gap-3 pt-1">
               {currentCase.technologies.map((tech, tIdx) => (
-                <span
+                <div
                   key={tIdx}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#F8FAFC] border border-slate-200 text-xs sm:text-sm font-semibold text-[#163758] shadow-2xs hover:border-[#1A73E8] hover:text-[#1A73E8] transition-colors"
+                  className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-[#F8FAFC] border border-slate-200/90 text-xs sm:text-sm font-semibold text-[#163758] shadow-2xs hover:border-[#1A73E8]/50 hover:bg-white hover:shadow-xs transition-all duration-200 group cursor-default"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#1A73E8]" aria-hidden="true" />
-                  {tech}
-                </span>
+                  <span className="w-6 h-6 rounded-lg bg-white border border-slate-200/70 flex items-center justify-center shrink-0 text-sm shadow-2xs group-hover:scale-110 transition-transform">
+                    {getTechIcon(tech)}
+                  </span>
+                  <span>{tech}</span>
+                </div>
               ))}
             </div>
           </div>

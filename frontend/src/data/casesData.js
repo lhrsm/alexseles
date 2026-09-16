@@ -12,6 +12,9 @@ import solucaoModernizacao from '../assets/corporate/solucao-modernizacao.jpg';
 import solucaoAutomacao from '../assets/corporate/solucao-automacao-ia.jpg';
 import solucaoGovernanca from '../assets/corporate/solucao-governanca-agil.jpg';
 import solucaoCapacitacao from '../assets/corporate/solucao-capacitacao-lideranca.jpg';
+import solucaoIefp from '../assets/solucaoiefp.webp';
+import resultadoIefp from '../assets/resultadoiefp.webp';
+import datativit from '../assets/datativit.png';
 
 export const casesData = [
   {
@@ -22,8 +25,8 @@ export const casesData = [
     logo: iefpLogo,
     image: caseIefp,
     challengeImage: caseIefp,
-    solutionImage: solucaoModernizacao,
-    resultsImage: solucaoGovernanca,
+    solutionImage: solucaoIefp,
+    resultsImage: resultadoIefp,
     title: 'Transformação Digital Inclusiva & Obtenção do Selo de Acessibilidade Web',
     cardHeadline: 'Solução de serviços web acessível a todos e conquista do selo oficial de acessibilidade no site do IEFP.',
     shortDescription: 'A solução de serviços web da IEFP é acessível a todos e recebeu o selo de acessibilidade no site da IEFP.',
@@ -257,8 +260,8 @@ export const casesData = [
     client: 'TIVIT',
     clientFullName: 'TIVIT Multinacional de Tecnologia',
     logo: tivitLogo,
-    image: caseTivit,
-    challengeImage: caseTivit,
+    image: datativit,
+    challengeImage: datativit,
     solutionImage: solucaoAutomacao,
     resultsImage: solucaoCapacitacao,
     title: 'Migração Crítica de Data Center para Cloud & Sistema IoT Seguro em Telecomunicações',
