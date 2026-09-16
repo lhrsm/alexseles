@@ -24,7 +24,7 @@ export const CorporatePillars = ({ onOpenModal }) => {
       title: 'Automação de Processos & Inteligência Artificial',
       paragraphs: [
         'Mapeamos gargalos operacionais e eliminamos tarefas manuais e repetitivas orquestrando esteiras avançadas de automação com n8n, webhooks e integrações robustas de APIs REST, interligando de forma transparente sistemas legados, bases de dados e plataformas modernas sem fricção.',
-        'Incorporamos Inteligência Artificial generativa e agentes autónomos de forma segura e governada nos fluxos de trabalho da organização — seja no suporte inteligente, na análise avançada de dados corporativos ou nas esteiras de engenharia de software (revisão de código, automação de testes e monitorização preditiva) —, acelerando o time-to-market e reduzindo até 70% o tempo despendido em rotinas manuais.'
+        'Incorporamos Inteligência Artificial generativa e agentes autónomos de forma segura e governada nos fluxos de trabalho da organização, seja no suporte inteligente, na análise avançada de dados corporativos ou nas esteiras de engenharia de software (revisão de código, automação de testes e monitorização preditiva), acelerando o time-to-market e reduzindo até 70% o tempo despendido em rotinas manuais.'
       ]
     },
     {
@@ -32,7 +32,7 @@ export const CorporatePillars = ({ onOpenModal }) => {
       icon: GitMerge,
       title: 'Governação de Entregas & Metodologias (Ágil, Híbrido e Preditivo)',
       paragraphs: [
-        'Realizamos uma auditoria minuciosa à maturidade técnica e aos fluxos de entrega da organização, identificando as causas raiz de atritos, desvios e atrasos sistemáticos. Desenhamos e implementamos o modelo metodológico ideal para o contexto da empresa — seja Ágil (Scrum, Kanban, SAFe), Preditivo/Tradicional (PMI/PMP) ou modelos Híbridos —, garantindo total alinhamento entre a engenharia de software e os objetivos de negócio.',
+        'Realizamos uma auditoria minuciosa à maturidade técnica e aos fluxos de entrega da organização, identificando as causas raiz de atritos, desvios e atrasos sistemáticos. Desenhamos e implementamos o modelo metodológico ideal para o contexto da empresa, seja Ágil (Scrum, Kanban, SAFe), Preditivo/Tradicional (PMI/PMP) ou modelos Híbridos, garantindo total alinhamento entre a engenharia de software e os objetivos de negócio.',
         'Capacitamos as equipas nos ritos, papéis e cerimónias funcionais, auditamos e parametrizamos ferramentas de mercado (Jira Software, Azure DevOps) sob as melhores práticas de governança ITIL 4, e estabelecemos dashboards executivos com métricas preditivas de fluxo (Lead Time, Cycle Time, Throughput e CFD) para assegurar mais de 90% de previsibilidade nas entregas e transparência absoluta para a administração.'
       ]
     },
