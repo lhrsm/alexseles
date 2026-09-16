@@ -89,7 +89,7 @@ const routes = [
   {
     path: 'casos-de-sucesso',
     title: 'Histórias de Sucesso & Engenharia de Software | Alex Seles',
-    description: 'Dos desafios dos clientes nascem soluções de excelência. Casos reais de intervenção técnica em organizações como IEFP, ARTE, Capgemini e TIVIT.'
+    description: 'Dos desafios dos clientes aos resultados excecionais. Casos reais de intervenção técnica em organizações como IEFP, ARTE, Capgemini e TIVIT.'
   },
   {
     path: 'casos-de-sucesso/iefp',
