@@ -1,68 +1,77 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import { casesData } from '../../data/casesData';
 
 export const CorporatePillars = () => {
   return (
-    <section id="solucoes-empresas" className="py-20 sm:py-28 bg-[#F8FAFC] text-[#163758] border-b border-slate-200/80">
+    <section id="solucoes-empresas" className="py-20 sm:py-28 bg-[#0B131E] text-white border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Cabeçalho da Secção */}
-        <div className="max-w-3xl space-y-3 mb-12 sm:mb-14 text-left">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500 font-sans block">
-            Casos de Sucesso & Soluções
-          </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl text-[#163758] font-extrabold tracking-tight text-left font-sans">
-            Soluções e Serviços de Engenharia
+        {/* Cabeçalho da Secção (Inspirado no Benchmarking) */}
+        <div className="max-w-3xl space-y-3 mb-12 sm:mb-16 text-left">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white font-extrabold tracking-tight text-left font-sans">
+            As nossas histórias de sucesso
           </h2>
-          <p className="text-base sm:text-lg text-[#536773] leading-relaxed font-sans text-pretty text-left">
-            Dos desafios dos clientes nascem soluções de excelência. Intervenções especializadas para empresas que necessitam de elevar a maturidade técnica das suas equipas e obter previsibilidade no desenvolvimento de software.
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-sans text-pretty text-left">
+            Dos desafios dos nossos clientes nascem soluções de excelência.
           </p>
         </div>
 
-        {/* Grelha de Cards de Sucesso */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Grelha de 2 em 2 com frases grandes e espaço dedicado para imagem/mockup */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {casesData.map((item) => (
-            <div
+            <Link
               key={item.id}
-              className="bg-white rounded-xl border border-slate-200/90 shadow-2xs hover:shadow-lg hover:border-[#1A73E8]/50 transition-all duration-300 p-6 flex flex-col justify-between text-center group"
+              to={`/casos-de-sucesso/${item.slug}`}
+              className={`relative overflow-hidden rounded-3xl p-8 sm:p-10 min-h-[380px] sm:min-h-[420px] flex flex-col justify-between shadow-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl group block text-inherit hover:no-underline cursor-pointer ${item.cardBg} ${item.textContrast}`}
+              aria-label={`Saber mais sobre o caso de sucesso de ${item.client}`}
             >
-              <Link 
-                to={`/casos-de-sucesso/${item.slug}`}
-                className="block text-inherit hover:no-underline focus:outline-none focus:ring-2 focus:ring-[#1A73E8] rounded-lg"
-                aria-label={`Saber mais sobre o caso de sucesso de ${item.client}`}
-              >
-                {/* Logo grande e ao meio, sem background cinzento */}
-                <div className="flex items-center justify-center h-20 sm:h-24 w-full p-2 mb-4">
+              {/* Coluna de Conteúdo (Lado Esquerdo) */}
+              <div className="w-full sm:w-[58%] z-10 flex flex-col justify-between h-full space-y-6 text-left">
+                <div className="space-y-4">
+                  {/* Nome do Cliente */}
+                  <span className="text-base sm:text-lg font-bold tracking-tight block opacity-95 font-sans">
+                    {item.client}
+                  </span>
+
+                  {/* Frase / Chamada Grande de Alto Impacto */}
+                  <h3 className="text-2xl sm:text-3xl font-extrabold leading-[1.18] tracking-tight font-sans text-pretty">
+                    {item.cardHeadline}
+                  </h3>
+                </div>
+
+                {/* Botão Sabe mais (Pílula Branca arredondada como no benchmarking) */}
+                <div className="pt-2">
+                  <span 
+                    className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-white font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200"
+                    style={{ color: item.cardTextColor || '#163758' }}
+                  >
+                    Sabe mais
+                  </span>
+                </div>
+              </div>
+
+              {/* Espaço para a Imagem / Mockup de Smartphone (Lado Direito) */}
+              <div className="absolute right-2 sm:right-6 -bottom-6 sm:-bottom-8 w-[44%] sm:w-[45%] max-w-[240px] sm:max-w-[280px] pointer-events-none transition-transform duration-500 group-hover:-translate-y-2">
+                <div className="relative rounded-t-[34px] rounded-b-xl border-[6px] border-slate-900 bg-slate-900 shadow-2xl overflow-hidden aspect-[9/16]">
+                  {/* Barra de Status do Telefone */}
+                  <div className="absolute top-0 inset-x-0 h-5 bg-slate-900/90 z-20 flex items-center justify-between px-3 text-[9px] text-white">
+                    <span className="font-semibold">12:04</span>
+                    <div className="w-12 h-3 bg-black rounded-full" />
+                    <span className="text-[8px] opacity-80">5G</span>
+                  </div>
+
+                  {/* Imagem do Case no ecrã do telemóvel */}
                   <img 
-                    src={item.logo} 
-                    alt={item.client} 
-                    className="max-h-12 sm:max-h-14 max-w-[170px] w-auto object-contain mx-auto transition-transform duration-300 group-hover:scale-105" 
+                    src={item.image} 
+                    alt={item.client}
+                    className="w-full h-full object-cover pt-4" 
                     loading="lazy"
                   />
                 </div>
+              </div>
 
-                {/* Nome do Cliente */}
-                <span className="text-xs font-bold uppercase tracking-wider text-[#1A73E8] block mb-2 font-sans">
-                  {item.client}
-                </span>
-
-                {/* Chamada única de impacto no lugar do título (sem subtítulo) */}
-                <h3 className="text-sm sm:text-base font-bold text-[#163758] group-hover:text-[#1A73E8] transition-colors leading-relaxed mb-6 font-sans text-pretty min-h-[72px] flex items-center justify-center">
-                  {item.cardHeadline}
-                </h3>
-              </Link>
-
-              {/* Botão Saber mais */}
-              <Link
-                to={`/casos-de-sucesso/${item.slug}`}
-                className="w-full py-2.5 px-4 rounded-lg border border-[#1A73E8] text-[#1A73E8] hover:bg-[#1A73E8] hover:text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-2xs hover:shadow-xs group/btn mt-auto text-center"
-              >
-                <span>Saber mais</span>
-                <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-200" aria-hidden="true" />
-              </Link>
-            </div>
+            </Link>
           ))}
         </div>
 
