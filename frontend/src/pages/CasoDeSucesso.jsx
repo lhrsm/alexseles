@@ -176,149 +176,204 @@ export const CasoDeSucesso = () => {
         </div>
       </header>
 
-      {/* 3. Corpo Editorial do Artigo / Case Study */}
-      <div className="py-16 sm:py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-20 text-left">
-        
-        {/* Secção: O Desafio */}
-        <section aria-labelledby="seccao-desafio" className="space-y-6">
-          <div className="space-y-2 border-l-4 border-[#1A73E8] pl-4 sm:pl-6">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8]">
-              01 • Contexto & Necessidades
-            </span>
-            <h2 id="seccao-desafio" className="text-2xl sm:text-3xl font-extrabold text-[#163758] tracking-tight">
-              O desafio
-            </h2>
+      {/* 3. Secção: O Desafio (Cinzento - Texto à Esquerda, Imagem à Direita) */}
+      <section aria-labelledby="seccao-desafio" className="py-16 sm:py-24 bg-[#F8FAFC] border-b border-slate-200/80">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Coluna Esquerda: Texto */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              <div className="space-y-2 border-l-4 border-[#1A73E8] pl-4 sm:pl-6">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8]">
+                  01 • Contexto & Necessidades
+                </span>
+                <h2 id="seccao-desafio" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#163758] tracking-tight font-sans">
+                  O desafio
+                </h2>
+              </div>
+
+              <h3 className="text-lg sm:text-xl font-semibold text-[#163758] leading-snug">
+                {currentCase.challenge.headline}
+              </h3>
+
+              <div className="space-y-4 text-base sm:text-lg text-[#475569] leading-relaxed font-sans">
+                {currentCase.challenge.paragraphs.map((p, idx) => (
+                  <p key={idx}>{p}</p>
+                ))}
+              </div>
+            </div>
+
+            {/* Coluna Direita: Imagem com moldura limpa */}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="w-full aspect-[4/3] rounded-2xl border border-slate-200/90 bg-white overflow-hidden shadow-md group">
+                <img 
+                  src={currentCase.challengeImage || currentCase.image} 
+                  alt={`O Desafio • ${currentCase.client}`} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <h3 className="text-lg sm:text-xl font-semibold text-[#163758] leading-snug">
-            {currentCase.challenge.headline}
-          </h3>
+      {/* 4. Secção: A Solução (Branco - Texto à Esquerda, Imagem à Direita) */}
+      <section aria-labelledby="seccao-solucao" className="py-16 sm:py-24 bg-white border-b border-slate-200/80">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Coluna Esquerda: Texto */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              <div className="space-y-2 border-l-4 border-[#1A73E8] pl-4 sm:pl-6">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8]">
+                  02 • Estratégia de Engenharia
+                </span>
+                <h2 id="seccao-solucao" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#163758] tracking-tight font-sans">
+                  A solução
+                </h2>
+              </div>
 
-          <div className="space-y-4 text-base sm:text-lg text-[#475569] leading-relaxed font-sans">
-            {currentCase.challenge.paragraphs.map((p, idx) => (
-              <p key={idx}>{p}</p>
-            ))}
-          </div>
-        </section>
+              <h3 className="text-lg sm:text-xl font-semibold text-[#163758] leading-snug">
+                {currentCase.solution.headline}
+              </h3>
 
-        {/* Secção: A Solução */}
-        <section aria-labelledby="seccao-solucao" className="space-y-8 pt-8 border-t border-slate-200">
-          <div className="space-y-2 border-l-4 border-[#1A73E8] pl-4 sm:pl-6">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8]">
-              02 • Estratégia de Engenharia
-            </span>
-            <h2 id="seccao-solucao" className="text-2xl sm:text-3xl font-extrabold text-[#163758] tracking-tight">
-              A solução
-            </h2>
-          </div>
+              <div className="space-y-4 text-base sm:text-lg text-[#475569] leading-relaxed font-sans">
+                {currentCase.solution.paragraphs.map((p, idx) => (
+                  <p key={idx}>{p}</p>
+                ))}
+              </div>
+            </div>
 
-          <h3 className="text-lg sm:text-xl font-semibold text-[#163758] leading-snug">
-            {currentCase.solution.headline}
-          </h3>
-
-          <div className="space-y-4 text-base sm:text-lg text-[#475569] leading-relaxed font-sans">
-            {currentCase.solution.paragraphs.map((p, idx) => (
-              <p key={idx}>{p}</p>
-            ))}
+            {/* Coluna Direita: Imagem com moldura limpa */}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="w-full aspect-[4/3] rounded-2xl border border-slate-200/90 bg-slate-50 overflow-hidden shadow-md group">
+                <img 
+                  src={currentCase.solutionImage || currentCase.image} 
+                  alt={`A Solução • ${currentCase.client}`} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Pilares Estruturais da Solução */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4">
-            {currentCase.solution.pillars.map((pillar, pIdx) => (
-              <div 
-                key={pIdx}
-                className="p-6 rounded-xl bg-[#F8FAFC] border border-slate-200/80 hover:border-[#1A73E8]/40 hover:shadow-md transition-all duration-300 space-y-2 text-left"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-[#1A73E8] text-white text-xs font-bold flex items-center justify-center shrink-0">
-                    {pIdx + 1}
-                  </span>
-                  <h4 className="text-base font-bold text-[#163758]">
-                    {pillar.name}
-                  </h4>
+          <div className="pt-4 text-left">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-6">
+              Pilares Fundamentais de Entrega
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {currentCase.solution.pillars.map((pillar, pIdx) => (
+                <div 
+                  key={pIdx}
+                  className="p-6 rounded-xl bg-[#F8FAFC] border border-slate-200/80 hover:border-[#1A73E8]/40 hover:shadow-md transition-all duration-300 space-y-2 text-left"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-[#1A73E8] text-white text-xs font-bold flex items-center justify-center shrink-0">
+                      {pIdx + 1}
+                    </span>
+                    <h5 className="text-base font-bold text-[#163758]">
+                      {pillar.name}
+                    </h5>
+                  </div>
+                  <p className="text-sm text-[#475569] leading-relaxed pt-1">
+                    {pillar.description}
+                  </p>
                 </div>
-                <p className="text-sm text-[#475569] leading-relaxed pt-1">
-                  {pillar.description}
-                </p>
+              ))}
+            </div>
+          </div>
+
+          {/* As Tecnologias Integradas na Solução */}
+          <div className="pt-8 border-t border-slate-100 text-left space-y-4">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8] block">
+              Stack & Ferramentas
+            </span>
+            <p className="text-sm text-[#475569] leading-relaxed">
+              Soluções de classe empresarial selecionadas com rigor técnico para garantir escalabilidade, segurança e observabilidade contínua:
+            </p>
+            <div className="flex flex-wrap gap-2.5 pt-1">
+              {currentCase.technologies.map((tech, tIdx) => (
+                <span
+                  key={tIdx}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#F8FAFC] border border-slate-200 text-xs sm:text-sm font-semibold text-[#163758] shadow-2xs hover:border-[#1A73E8] hover:text-[#1A73E8] transition-colors"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#1A73E8]" aria-hidden="true" />
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 5. Secção: Os Resultados (Cinzento - IMAGEM PRIMEIRO, Conteúdo e Métricas à Direita) */}
+      <section aria-labelledby="seccao-resultados" className="py-16 sm:py-24 bg-[#F8FAFC] border-b border-slate-200/80">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Coluna Esquerda: Imagem com moldura limpa (INVERTIDO - PRIMEIRO) */}
+            <div className="lg:col-span-5 flex items-center justify-center order-2 lg:order-1">
+              <div className="w-full aspect-[4/3] rounded-2xl border border-slate-200/90 bg-white overflow-hidden shadow-md group">
+                <img 
+                  src={currentCase.resultsImage || currentCase.image} 
+                  alt={`Os Resultados • ${currentCase.client}`} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
               </div>
-            ))}
-          </div>
-        </section>
+            </div>
 
-        {/* Secção: As Tecnologias */}
-        <section aria-labelledby="seccao-tecnologias" className="space-y-6 pt-8 border-t border-slate-200">
-          <div className="space-y-2 border-l-4 border-[#1A73E8] pl-4 sm:pl-6">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8]">
-              03 • Stack & Ferramentas
-            </span>
-            <h2 id="seccao-tecnologias" className="text-2xl sm:text-3xl font-extrabold text-[#163758] tracking-tight">
-              As tecnologias
-            </h2>
-          </div>
-
-          <p className="text-base text-[#475569] leading-relaxed font-sans">
-            Soluções de classe empresarial selecionadas com critério para garantir escalabilidade, segurança e observabilidade contínua:
-          </p>
-
-          <div className="flex flex-wrap gap-2.5 pt-2">
-            {currentCase.technologies.map((tech, tIdx) => (
-              <span
-                key={tIdx}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-sm font-semibold text-[#163758] shadow-2xs hover:border-[#1A73E8] hover:text-[#1A73E8] transition-colors"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#1A73E8]" aria-hidden="true" />
-                {tech}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        {/* Secção: Os Resultados */}
-        <section aria-labelledby="seccao-resultados" className="space-y-8 pt-8 border-t border-slate-200">
-          <div className="space-y-2 border-l-4 border-[#1A73E8] pl-4 sm:pl-6">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8]">
-              04 • Impacto Mensurável
-            </span>
-            <h2 id="seccao-resultados" className="text-2xl sm:text-3xl font-extrabold text-[#163758] tracking-tight">
-              Os resultados
-            </h2>
-          </div>
-
-          <h3 className="text-lg sm:text-xl font-semibold text-[#163758] leading-snug">
-            {currentCase.results.headline}
-          </h3>
-
-          <div className="space-y-4 text-base sm:text-lg text-[#475569] leading-relaxed font-sans">
-            {currentCase.results.paragraphs.map((p, idx) => (
-              <p key={idx}>{p}</p>
-            ))}
-          </div>
-
-          {/* Destaques Numéricos e de Métricas */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-            {currentCase.results.metrics.map((metric, mIdx) => (
-              <div 
-                key={mIdx}
-                className="p-6 rounded-xl bg-gradient-to-b from-[#F8FAFC] to-white border border-slate-200/90 text-center space-y-2 shadow-2xs"
-              >
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1A73E8] font-sans tracking-tight">
-                  {metric.value}
-                </div>
-                <p className="text-xs sm:text-sm font-semibold text-slate-600 leading-snug">
-                  {metric.label}
-                </p>
+            {/* Coluna Direita: Conteúdo e Métricas */}
+            <div className="lg:col-span-7 space-y-6 text-left order-1 lg:order-2">
+              <div className="space-y-2 border-l-4 border-[#1A73E8] pl-4 sm:pl-6">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8]">
+                  03 • Impacto Mensurável
+                </span>
+                <h2 id="seccao-resultados" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#163758] tracking-tight font-sans">
+                  Os resultados
+                </h2>
               </div>
-            ))}
-          </div>
-        </section>
 
-        {/* Secção: O Processo */}
-        <section aria-labelledby="seccao-processo" className="space-y-8 pt-8 border-t border-slate-200">
+              <h3 className="text-lg sm:text-xl font-semibold text-[#163758] leading-snug">
+                {currentCase.results.headline}
+              </h3>
+
+              <div className="space-y-4 text-base sm:text-lg text-[#475569] leading-relaxed font-sans">
+                {currentCase.results.paragraphs.map((p, idx) => (
+                  <p key={idx}>{p}</p>
+                ))}
+              </div>
+
+              {/* Destaques Numéricos e de Métricas em cartões brancos */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                {currentCase.results.metrics.map((metric, mIdx) => (
+                  <div 
+                    key={mIdx}
+                    className="p-5 sm:p-6 rounded-xl bg-white border border-slate-200/90 text-center space-y-2 shadow-2xs hover:border-[#1A73E8]/40 transition-all"
+                  >
+                    <div className="text-2xl sm:text-3xl font-extrabold text-[#1A73E8] font-sans tracking-tight">
+                      {metric.value}
+                    </div>
+                    <p className="text-xs sm:text-sm font-semibold text-slate-600 leading-snug">
+                      {metric.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Secção: Metodologia & Governação (Branco) */}
+      <section aria-labelledby="seccao-processo" className="py-16 sm:py-24 bg-white border-b border-slate-200/80">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-left">
           <div className="space-y-2 border-l-4 border-[#1A73E8] pl-4 sm:pl-6">
             <span className="text-xs font-bold uppercase tracking-widest text-[#1A73E8]">
-              05 • Metodologia & Governação
+              04 • Metodologia & Governação
             </span>
-            <h2 id="seccao-processo" className="text-2xl sm:text-3xl font-extrabold text-[#163758] tracking-tight">
+            <h2 id="seccao-processo" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#163758] tracking-tight font-sans">
               O processo
             </h2>
           </div>
@@ -328,11 +383,11 @@ export const CasoDeSucesso = () => {
           </h3>
 
           {/* Etapas do Processo */}
-          <div className="space-y-4 pt-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
             {currentCase.process.steps.map((step, sIdx) => (
               <div 
                 key={sIdx}
-                className="flex items-start gap-4 p-5 rounded-xl bg-slate-50/70 border border-slate-200/70 text-left"
+                className="flex items-start gap-4 p-5 sm:p-6 rounded-xl bg-[#F8FAFC] border border-slate-200/80 text-left hover:border-[#1A73E8]/40 transition-colors"
               >
                 <div className="w-8 h-8 rounded-lg bg-[#163758] text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
                   0{sIdx + 1}
@@ -348,11 +403,13 @@ export const CasoDeSucesso = () => {
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* 4. Próxima História de Sucesso */}
-        {nextCase && (
-          <section className="mt-16 pt-10 border-t border-slate-200">
+      {/* 7. Secção: Próxima História de Sucesso (Cinzento) */}
+      {nextCase && (
+        <section className="py-16 sm:py-20 bg-[#F8FAFC]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-6">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                 Próxima História de Sucesso
@@ -368,18 +425,18 @@ export const CasoDeSucesso = () => {
 
             <Link
               to={`/casos-de-sucesso/${nextCase.slug}`}
-              className="block p-6 sm:p-8 rounded-2xl bg-[#F8FAFC] border border-slate-200/90 hover:border-[#1A73E8]/60 hover:shadow-lg transition-all duration-300 group"
+              className="block p-6 sm:p-8 rounded-2xl bg-white border border-slate-200/90 hover:border-[#1A73E8]/60 hover:shadow-lg transition-all duration-300 group"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                 <div className="flex items-center gap-5">
-                  <div className="w-20 h-16 bg-white rounded-lg border border-slate-200 p-2 flex items-center justify-center shrink-0 shadow-2xs">
+                  <div className="w-20 h-16 bg-slate-50 rounded-lg border border-slate-200 p-2 flex items-center justify-center shrink-0 shadow-2xs">
                     <img 
                       src={nextCase.logo} 
                       alt={nextCase.client} 
                       className="max-h-10 max-w-full object-contain"
                     />
                   </div>
-                  <div>
+                  <div className="text-left">
                     <span className="text-xs font-bold uppercase tracking-wider text-[#1A73E8] block mb-1">
                       {nextCase.client} • {nextCase.industry}
                     </span>
@@ -395,10 +452,9 @@ export const CasoDeSucesso = () => {
                 </div>
               </div>
             </Link>
-          </section>
-        )}
-
-      </div>
+          </div>
+        </section>
+      )}
     </main>
   );
 };

@@ -8,6 +8,11 @@ import caseArte from '../assets/cases/case-arte.jpg';
 import caseCapgemini from '../assets/cases/case-capgemini.jpg';
 import caseTivit from '../assets/cases/case-tivit.jpg';
 
+import solucaoModernizacao from '../assets/corporate/solucao-modernizacao.jpg';
+import solucaoAutomacao from '../assets/corporate/solucao-automacao-ia.jpg';
+import solucaoGovernanca from '../assets/corporate/solucao-governanca-agil.jpg';
+import solucaoCapacitacao from '../assets/corporate/solucao-capacitacao-lideranca.jpg';
+
 export const casesData = [
   {
     id: 'iefp',
@@ -16,6 +21,9 @@ export const casesData = [
     clientFullName: 'Instituto do Emprego e Formação Profissional',
     logo: iefpLogo,
     image: caseIefp,
+    challengeImage: caseIefp,
+    solutionImage: solucaoModernizacao,
+    resultsImage: solucaoGovernanca,
     title: 'Transformação Digital Inclusiva & Obtenção do Selo de Acessibilidade Web',
     cardHeadline: 'Solução de serviços web acessível a todos e conquista do selo oficial de acessibilidade no site do IEFP.',
     shortDescription: 'A solução de serviços web da IEFP é acessível a todos e recebeu o selo de acessibilidade no site da IEFP.',
@@ -133,6 +141,9 @@ export const casesData = [
     clientFullName: 'ARTE / ePortugal (AMA)',
     logo: arteLogo,
     image: caseArte,
+    challengeImage: caseArte,
+    solutionImage: solucaoAutomacao,
+    resultsImage: solucaoModernizacao,
     title: 'Otimização de Experiência no ePortugal & Selo de Ouro AMA em Usabilidade',
     cardHeadline: 'Redução do abandono de formulários com melhoria da experiência e selo de ouro da AMA em usabilidade.',
     shortDescription: 'Redução do abandono de formulários, numa melhoria da experiência e na conquista do selo de ouro da AMA em usabilidade e acessibilidade.',
@@ -247,6 +258,9 @@ export const casesData = [
     clientFullName: 'TIVIT Multinacional de Tecnologia',
     logo: tivitLogo,
     image: caseTivit,
+    challengeImage: caseTivit,
+    solutionImage: solucaoAutomacao,
+    resultsImage: solucaoCapacitacao,
     title: 'Migração Crítica de Data Center para Cloud & Sistema IoT Seguro em Telecomunicações',
     cardHeadline: 'Migração crítica de data center para a cloud e controlo IoT com aumento de 45% no EBITDA, zero incidentes e 100% de SLA.',
     shortDescription: 'Migração de data center para cloud e sistema IoT seguro em câmaras frias: +45% no EBITDA, 0 incidentes e 100% de SLA.',
@@ -366,6 +380,9 @@ export const casesData = [
     clientFullName: 'Capgemini Global Consulting & Technology',
     logo: capgeminiLogo,
     image: caseCapgemini,
+    challengeImage: caseCapgemini,
+    solutionImage: solucaoGovernanca,
+    resultsImage: solucaoModernizacao,
     title: 'Modernização de Sistemas Críticos & Engenharia Ágil em Larga Escala',
     cardHeadline: 'Modernização de arquiteturas críticas e engenharia ágil com redução de 60% no time-to-market.',
     shortDescription: 'Modernização de arquiteturas críticas e aceleração de entregas contínuas com estabilidade e excelência técnica.',
