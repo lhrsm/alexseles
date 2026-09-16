@@ -1,49 +1,40 @@
 import React from 'react';
-import { 
-  ArrowRight, 
-  Cpu, 
-  Bot, 
-  GitMerge, 
-  GraduationCap 
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import iefpLogo from '../../assets/clients/iefp.png';
+import arteLogo from '../../assets/clients/arte.svg';
+import netforceLogo from '../../assets/clients/netforce.svg';
+import tivitLogo from '../../assets/clients/tivit.svg';
 
 export const CorporatePillars = ({ onOpenModal }) => {
+  const loremText = [
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+  ];
+
   const pillars = [
     {
-      id: 'transformacao-digital-sdlc',
-      icon: Cpu,
-      title: 'Transformação Digital, Design UX/UI & Modernização de Sistemas',
-      paragraphs: [
-        'Iniciamos com Product Discovery aprofundado e Design UX/UI centrado nas necessidades reais do utilizador, mapeando jornadas e validando hipóteses críticas através de protótipos de alta fidelidade, Provas de Conceito (PoC) e MVPs ágeis. Esta abordagem mitiga os riscos de investimento e assegura que a solução digital possui validação prática de mercado antes do desenvolvimento em grande escala.',
-        'Desenvolvemos e modernizamos ecossistemas digitais com conformidade rigorosa com normas de Acessibilidade Digital (WCAG / a11y), transacionando sistemas legados e arquiteturas monolíticas obsoletas para ambientes Cloud modernos, modulares e seguros. Estruturamos todo o ciclo de vida do desenvolvimento de software (SDLC) para expandir a presença digital, o market share e a faturação da organização.'
-      ]
+      id: 'iefp',
+      logo: iefpLogo,
+      title: 'IEFP',
+      paragraphs: loremText
     },
     {
-      id: 'automacao-processos-ia',
-      icon: Bot,
-      title: 'Automação de Processos & Inteligência Artificial',
-      paragraphs: [
-        'Mapeamos gargalos operacionais e eliminamos tarefas manuais e repetitivas orquestrando esteiras avançadas de automação com n8n, webhooks e integrações robustas de APIs REST, interligando de forma transparente sistemas legados, bases de dados e plataformas modernas sem fricção.',
-        'Incorporamos Inteligência Artificial generativa e agentes autónomos de forma segura e governada nos fluxos de trabalho da organização, seja no suporte inteligente, na análise avançada de dados corporativos ou nas esteiras de engenharia de software (revisão de código, automação de testes e monitorização preditiva), acelerando o time-to-market e reduzindo até 70% o tempo despendido em rotinas manuais.'
-      ]
+      id: 'arte',
+      logo: arteLogo,
+      title: 'ARTE',
+      paragraphs: loremText
     },
     {
-      id: 'governanca-agil-metodos',
-      icon: GitMerge,
-      title: 'Governação de Entregas & Metodologias (Ágil, Híbrido e Preditivo)',
-      paragraphs: [
-        'Realizamos uma auditoria minuciosa à maturidade técnica e aos fluxos de entrega da organização, identificando as causas raiz de atritos, desvios e atrasos sistemáticos. Desenhamos e implementamos o modelo metodológico ideal para o contexto da empresa, seja Ágil (Scrum, Kanban, SAFe), Preditivo/Tradicional (PMI/PMP) ou modelos Híbridos, garantindo total alinhamento entre a engenharia de software e os objetivos de negócio.',
-        'Capacitamos as equipas nos ritos, papéis e cerimónias funcionais, auditamos e parametrizamos ferramentas de mercado (Jira Software, Azure DevOps) sob as melhores práticas de governança ITIL 4, e estabelecemos dashboards executivos com métricas preditivas de fluxo (Lead Time, Cycle Time, Throughput e CFD) para assegurar mais de 90% de previsibilidade nas entregas e transparência absoluta para a administração.'
-      ]
+      id: 'netforce',
+      logo: netforceLogo,
+      title: 'Netforce',
+      paragraphs: loremText
     },
     {
-      id: 'capacitacao-lideranca',
-      icon: GraduationCap,
-      title: 'Skill-Up Técnico In-Company & Mentoria de Liderança',
-      paragraphs: [
-        'Desenvolvemos programas intensivos de aceleração técnica (Skill-Up) desenhados sob medida para a stack e os desafios operacionais da sua equipa de desenvolvimento. Formamos os programadores em engenharia de software moderna, código limpo (clean code), arquitetura escalável, automação de testes e aplicação prática e ética de Inteligência Artificial no dia a dia da engenharia.',
-        'Conduzimos programas de mentoria executiva individual 1:1 para Tech Leads, coordenadores técnicos e gestores de engenharia, preparando-os para a tomada de decisão técnica complexa, liderança de equipas multidisciplinares e governança estratégica de produtos digitais. As capacitações estão disponíveis em formato presencial In-Company ou 100% online remoto, maximizando a retenção de talentos críticos e consolidando a autonomia técnica interna.'
-      ]
+      id: 'tivit',
+      logo: tivitLogo,
+      title: 'TIVIT',
+      paragraphs: loremText
     }
   ];
 
@@ -67,7 +58,6 @@ export const CorporatePillars = ({ onOpenModal }) => {
         {/* Lista Vertical de Soluções (Um abaixo do outro, sem imagens, sem badges e sem numeração) */}
         <div className="flex flex-col gap-6">
           {pillars.map((item) => {
-            const IconComponent = item.icon;
             return (
               <div
                 key={item.id}
@@ -75,20 +65,25 @@ export const CorporatePillars = ({ onOpenModal }) => {
               >
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 sm:gap-8">
                   
-                  {/* Bloco Principal: Ícone + Título + Descrição Expandida */}
+                  {/* Bloco Principal: Logótipo + Título + Descrição Lorem Ipsum */}
                   <div className="flex items-start gap-4 sm:gap-5 flex-1">
-                    {/* Ícone da Solução */}
-                    <div className="w-12 h-12 rounded-lg bg-blue-50/80 border border-blue-100 flex items-center justify-center text-[#1A73E8] shrink-0 group-hover:bg-[#1A73E8] group-hover:text-white transition-all duration-300 mt-1">
-                      <IconComponent className="w-6 h-6" aria-hidden="true" />
+                    {/* Logótipo do Cliente / Case */}
+                    <div className="w-16 h-16 sm:w-20 sm:h-16 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-center p-2 shrink-0 group-hover:border-[#1A73E8]/40 transition-all duration-300 mt-1">
+                      <img 
+                        src={item.logo} 
+                        alt={item.title} 
+                        className="max-h-10 sm:max-h-11 max-w-full object-contain" 
+                        loading="lazy"
+                      />
                     </div>
 
                     <div className="space-y-3 flex-1">
-                      {/* Título sem numeração */}
+                      {/* Título com Nome do Cliente */}
                       <h3 className="text-xl sm:text-2xl font-bold text-[#163758] group-hover:text-[#1A73E8] transition-colors leading-snug">
                         {item.title}
                       </h3>
 
-                      {/* Descrição Executiva Expandida */}
+                      {/* Descrição em Lorem Ipsum */}
                       <div className="space-y-2.5 text-sm sm:text-base text-[#475569] leading-relaxed font-sans text-pretty max-w-4xl">
                         {item.paragraphs.map((paragraph, pIdx) => (
                           <p key={pIdx}>{paragraph}</p>

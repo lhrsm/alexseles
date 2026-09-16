@@ -10,8 +10,9 @@ export const Navbar = () => {
   const isEmpresas = location.pathname.startsWith('/para-empresas') || location.pathname.startsWith('/empresas');
   const isArtigosActive = location.pathname.startsWith('/central-de-conhecimento');
   const isSobreActive = location.hash === '#sobre-alex';
-  const isEmpresasActive = isEmpresas && !isSobreActive && !isArtigosActive;
-  const isProfissionaisActive = !isEmpresas && !isSobreActive && !isArtigosActive;
+  const isCasesActive = isEmpresas && location.hash === '#solucoes-empresas';
+  const isEmpresasActive = isEmpresas && !isSobreActive && !isArtigosActive && !isCasesActive;
+  const isProfissionaisActive = !isEmpresas && !isSobreActive && !isArtigosActive && !isCasesActive;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +34,17 @@ export const Navbar = () => {
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
         window.history.pushState(null, '', `${targetPath}#sobre-alex`);
+      }
+    }
+  };
+
+  const handleCasesClick = (e) => {
+    if (location.pathname === '/para-empresas') {
+      e.preventDefault();
+      const el = document.getElementById('solucoes-empresas');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState(null, '', '/para-empresas#solucoes-empresas');
       }
     }
   };
@@ -96,6 +108,19 @@ export const Navbar = () => {
               }`}
             >
               Para Empresas
+            </Link>
+
+            {/* Link: Cases de Sucesso */}
+            <Link
+              to="/para-empresas#solucoes-empresas"
+              onClick={handleCasesClick}
+              className={`text-xs tracking-wider uppercase font-bold transition-all py-2 border-b-2 ${
+                isCasesActive
+                  ? 'text-[#1A73E8] border-[#1A73E8]'
+                  : 'text-slate-200 hover:text-[#1A73E8] border-transparent'
+              }`}
+            >
+              Cases de Sucesso
             </Link>
 
             {/* Link: Sobre Alex Seles */}
@@ -176,6 +201,21 @@ export const Navbar = () => {
               }`}
             >
               Para Empresas
+            </Link>
+
+            <Link
+              to="/para-empresas#solucoes-empresas"
+              onClick={(e) => {
+                setIsOpen(false);
+                handleCasesClick(e);
+              }}
+              className={`block px-3 py-2.5 rounded-lg text-sm font-bold transition-colors ${
+                isCasesActive
+                  ? 'text-[#1A73E8] bg-white/5'
+                  : 'text-slate-200 hover:text-[#1A73E8]'
+              }`}
+            >
+              Cases de Sucesso
             </Link>
 
             <a
