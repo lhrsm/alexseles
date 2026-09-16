@@ -121,10 +121,6 @@ export const CorporatePillars = ({ onOpenModal }) => {
             
             {/* Coluna Esquerda: Texto + CTA */}
             <div className="lg:col-span-7 space-y-5 text-left">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1557B0] bg-blue-50 border border-blue-100 px-3 py-1 rounded-md inline-block">
-                Consultoria & Engenharia de Software
-              </span>
-              
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#163758] tracking-tight leading-tight font-sans">
                 Transforme rapidamente as suas Ideias em Impacto!
               </h2>
@@ -133,8 +129,8 @@ export const CorporatePillars = ({ onOpenModal }) => {
                 Precisa de software à medida? Descubra como posso ajudar a sua empresa a escalar o seu negócio e a aumentar a quota de mercado (<span className="italic font-medium">market share</span>). A combinação de mais de 25 anos de experiência e know-how técnico traduz-se em intervenções estratégicas para modernizar sistemas, automatizar operações com IA e garantir previsibilidade na engenharia de software e metodologias ágeis — dando vida à sua visão, rigorosamente dentro do prazo e do orçamento.
               </p>
 
-              {/* Botão de CTA + Garantias */}
-              <div className="pt-2 space-y-3">
+              {/* Botão de CTA */}
+              <div className="pt-2">
                 <button
                   type="button"
                   onClick={() => handleOpenDiagnosis(null)}
@@ -143,25 +139,10 @@ export const CorporatePillars = ({ onOpenModal }) => {
                   <span>Solicitar Diagnóstico Técnico</span>
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </button>
-
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500 pt-1">
-                  <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Sem compromisso inicial</span>
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Análise executiva e técnica</span>
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Resposta em 24h</span>
-                  </span>
-                </div>
               </div>
             </div>
 
-            {/* Coluna Direita: Imagem Editorial com Badge de Autoridade */}
+            {/* Coluna Direita: Imagem Editorial */}
             <div className="lg:col-span-5">
               <div className="relative rounded-xl overflow-hidden border border-slate-200/90 shadow-lg aspect-[4/3] group">
                 <img
@@ -170,15 +151,6 @@ export const CorporatePillars = ({ onOpenModal }) => {
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-lg bg-slate-900/85 backdrop-blur-sm border border-white/10 text-white text-left space-y-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#93C5FD] block">
-                    Mais de 25 anos de experiência
-                  </span>
-                  <p className="text-xs text-slate-200 font-medium leading-snug">
-                    Consultoria de alto nível em organizações como Capgemini, Ford, Stellantis, Continental e ARTE.
-                  </p>
-                </div>
               </div>
             </div>
 
