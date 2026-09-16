@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logoImg from '../../assets/LOGO.png';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isCasesRoute = location.pathname.startsWith('/casos-de-sucesso') || 
                        location.pathname.startsWith('/cases') || 
@@ -13,10 +14,14 @@ export const Navbar = () => {
   const isEmpresas = location.pathname.startsWith('/para-empresas') || 
                      location.pathname.startsWith('/empresas');
   const isArtigosActive = location.pathname.startsWith('/central-de-conhecimento');
-  const isSobreActive = location.hash === '#sobre-alex';
   const isCasesActive = isCasesRoute || (isEmpresas && location.hash === '#solucoes-empresas');
-  const isEmpresasActive = isEmpresas && !isSobreActive && !isArtigosActive && !isCasesActive;
-  const isProfissionaisActive = !isEmpresas && !isSobreActive && !isArtigosActive && !isCasesActive && !isCasesRoute;
+  const isEmpresasActive = isEmpresas && !isArtigosActive && !isCasesActive;
+  const isProfissionaisActive = !isEmpresas && !isArtigosActive && !isCasesActive && !isCasesRoute;
+
+  // Se o utilizador estiver em Cases de Sucesso, "Sobre Alex" deve direcionar para "Para Profissionais" (/#sobre-alex).
+  // Caso contrário, permanece no contexto inicial (Para Empresas ou Para Profissionais).
+  const targetSobrePath = (isEmpresas && !isCasesActive) ? '/para-empresas' : '/';
+  const targetSobreHref = `${targetSobrePath}#sobre-alex`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,14 +36,13 @@ export const Navbar = () => {
   }, [location.pathname]);
 
   const handleSobreClick = (e) => {
-    const targetPath = isEmpresas ? '/para-empresas' : '/';
-    if (location.pathname === targetPath) {
+    if (location.pathname === targetSobrePath) {
       e.preventDefault();
       const el = document.getElementById('sobre-alex');
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
-        window.history.pushState(null, '', `${targetPath}#sobre-alex`);
       }
+      navigate(targetSobreHref);
     }
   };
 
@@ -48,8 +52,8 @@ export const Navbar = () => {
       const el = document.getElementById('solucoes-empresas');
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
-        window.history.pushState(null, '', '/para-empresas#solucoes-empresas');
       }
+      navigate('/para-empresas#solucoes-empresas');
     }
   };
 
@@ -129,17 +133,13 @@ export const Navbar = () => {
             </Link>
 
             {/* Link: Sobre Alex Seles */}
-            <a
-              href={isEmpresas ? "/para-empresas#sobre-alex" : "/#sobre-alex"}
+            <Link
+              to={targetSobreHref}
               onClick={handleSobreClick}
-              className={`text-xs tracking-wider uppercase font-bold transition-all py-2 border-b-2 ${
-                isSobreActive
-                  ? 'text-[#1A73E8] border-[#1A73E8]'
-                  : 'text-slate-200 hover:text-[#1A73E8] border-transparent'
-              }`}
+              className="text-xs tracking-wider uppercase font-bold transition-all py-2 border-b-2 text-slate-200 hover:text-[#1A73E8] border-transparent"
             >
               Sobre Alex Seles
-            </a>
+            </Link>
 
             {/* Link: Artigos */}
             <Link
@@ -223,20 +223,16 @@ export const Navbar = () => {
               Cases de Sucesso
             </Link>
 
-            <a
-              href={isEmpresas ? "/para-empresas#sobre-alex" : "/#sobre-alex"}
+            <Link
+              to={targetSobreHref}
               onClick={(e) => {
                 setIsOpen(false);
                 handleSobreClick(e);
               }}
-              className={`block px-3 py-2.5 rounded-lg text-sm font-bold transition-colors ${
-                isSobreActive
-                  ? 'text-[#1A73E8] bg-white/5'
-                  : 'text-slate-200 hover:text-[#1A73E8]'
-              }`}
+              className="block px-3 py-2.5 rounded-lg text-sm font-bold transition-colors text-slate-200 hover:text-[#1A73E8]"
             >
               Sobre Alex Seles
-            </a>
+            </Link>
 
             <Link
               to="/central-de-conhecimento"
