@@ -7,12 +7,16 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  const isEmpresas = location.pathname.startsWith('/para-empresas') || location.pathname.startsWith('/empresas');
+  const isCasesRoute = location.pathname.startsWith('/casos-de-sucesso') || 
+                       location.pathname.startsWith('/cases') || 
+                       location.pathname.startsWith('/historias-de-sucesso');
+  const isEmpresas = location.pathname.startsWith('/para-empresas') || 
+                     location.pathname.startsWith('/empresas');
   const isArtigosActive = location.pathname.startsWith('/central-de-conhecimento');
   const isSobreActive = location.hash === '#sobre-alex';
-  const isCasesActive = isEmpresas && location.hash === '#solucoes-empresas';
+  const isCasesActive = isCasesRoute || (isEmpresas && location.hash === '#solucoes-empresas');
   const isEmpresasActive = isEmpresas && !isSobreActive && !isArtigosActive && !isCasesActive;
-  const isProfissionaisActive = !isEmpresas && !isSobreActive && !isArtigosActive && !isCasesActive;
+  const isProfissionaisActive = !isEmpresas && !isSobreActive && !isArtigosActive && !isCasesActive && !isCasesRoute;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,7 +77,7 @@ export const Navbar = () => {
           
           {/* Logo Oficial Alex Seles */}
           <Link 
-            to={isEmpresas ? "/para-empresas" : "/"} 
+            to={isEmpresas || isCasesRoute ? "/para-empresas" : "/"} 
             className="flex items-center group focus:outline-none py-1 flex-shrink-0"
             aria-label="Alex Seles — Mentoria de Carreira & Tecnologia"
           >
