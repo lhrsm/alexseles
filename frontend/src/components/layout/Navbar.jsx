@@ -55,11 +55,12 @@ export const Navbar = () => {
   }
 
   return (
-    <header 
-      className={`sticky top-0 z-50 transition-all duration-300 bg-[#0E1620] border-b ${
-        scrolled ? 'border-white/10 shadow-lg' : 'border-white/5'
-      }`}
-    >
+    <>
+      <header 
+        className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 bg-[#0E1620] border-b ${
+          scrolled ? 'border-white/10 shadow-lg' : 'border-white/5'
+        }`}
+      >
       <a 
         href="#main-content" 
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:bg-[#1A73E8] focus:text-white focus:px-4 focus:py-2 focus:rounded"
@@ -259,5 +260,8 @@ export const Navbar = () => {
         </div>
       )}
     </header>
+    {/* Espaçador para compensar a altura do header congelado (80px) */}
+    <div className="h-20 w-full shrink-0" aria-hidden="true" />
+  </>
   );
 };

@@ -81,6 +81,7 @@ import { Backoffice } from './pages/Backoffice';
 import { PoliticaPrivacidade } from './pages/PoliticaPrivacidade';
 import { TermosUso } from './pages/TermosUso';
 import { ParaEmpresas } from './pages/ParaEmpresas';
+import { CasoDeSucesso } from './pages/CasoDeSucesso';
 import { CookieConsentBanner } from './components/common/CookieConsentBanner';
 
 export function App() {
@@ -97,6 +98,10 @@ export function App() {
             <Route path="/para-empresas" element={<ParaEmpresas />} />
             <Route path="/empresas" element={<ParaEmpresas />} />
             <Route path="/b2b" element={<Navigate to="/para-empresas" replace />} />
+            <Route path="/casos-de-sucesso" element={<Navigate to="/para-empresas#solucoes-empresas" replace />} />
+            <Route path="/casos-de-sucesso/:slug" element={<CasoDeSucesso />} />
+            <Route path="/historias-de-sucesso/:slug" element={<CasoDeSucesso />} />
+            <Route path="/cases/:slug" element={<CasoDeSucesso />} />
             <Route path="/transicao-de-carreira" element={<TransicaoCarreira />} />
             <Route path="/transicao" element={<TransicaoCarreira />} />
             <Route path="/servicos" element={<TransicaoCarreira />} />

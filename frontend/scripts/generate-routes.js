@@ -85,6 +85,31 @@ const routes = [
     path: 'termos-de-uso',
     title: 'Termos de Utilização | Alex Seles',
     description: 'Termos e condições gerais de utilização do sítio oficial e serviços de mentoria de Alex Seles.'
+  },
+  {
+    path: 'casos-de-sucesso',
+    title: 'Histórias de Sucesso & Engenharia de Software | Alex Seles',
+    description: 'Dos desafios dos clientes nascem soluções de excelência. Casos reais de intervenção técnica em organizações como IEFP, ARTE, Capgemini e TIVIT.'
+  },
+  {
+    path: 'casos-de-sucesso/iefp',
+    title: 'IEFP: Transformação Digital Inclusiva & Selo de Acessibilidade Web | Alex Seles',
+    description: 'Como uma intervenção de engenharia de software e desenho centrado no utilizador democratizou o acesso aos serviços de emprego e formação para todos os cidadãos portugueses.'
+  },
+  {
+    path: 'casos-de-sucesso/arte',
+    title: 'ARTE: Otimização de Experiência no ePortugal & Selo de Ouro AMA em Usabilidade | Alex Seles',
+    description: 'Redução do abandono de formulários, melhoria da experiência e conquista do selo de ouro da AMA em usabilidade e acessibilidade.'
+  },
+  {
+    path: 'casos-de-sucesso/tivit',
+    title: 'TIVIT: Migração Crítica de Data Center para Cloud & Sistema IoT Seguro | Alex Seles',
+    description: 'Migração de data center para cloud e sistema IoT seguro em câmaras frias: +45% no EBITDA, 0 incidentes e 100% de conformidade de SLA.'
+  },
+  {
+    path: 'casos-de-sucesso/capgemini',
+    title: 'Capgemini: Modernização de Sistemas Críticos & Engenharia Ágil em Larga Escala | Alex Seles',
+    description: 'Modernização de arquiteturas críticas e engenharia ágil com redução de 60% no time-to-market e alta disponibilidade operacional.'
   }
 ];
 
