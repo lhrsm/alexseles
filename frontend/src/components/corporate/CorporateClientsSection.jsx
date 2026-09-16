@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import capgeminiLogo from '../../assets/clients/capgemini.svg';
 import tivitLogo from '../../assets/clients/tivit.svg';
 import actDigitalLogo from '../../assets/clients/actdigital.svg';
@@ -11,6 +11,12 @@ import segurancaSocialLogo from '../../assets/clients/seguranca-social.png';
 import aimaLogo from '../../assets/clients/aima.png';
 
 export const CorporateClientsSection = () => {
+  const [activeClientId, setActiveClientId] = useState(null);
+
+  const toggleClientColor = (id) => {
+    setActiveClientId((prev) => (prev === id ? null : id));
+  };
+
   const clients = [
     {
       id: 'capgemini',
@@ -30,7 +36,7 @@ export const CorporateClientsSection = () => {
       id: 'actdigital',
       name: 'ACT Digital',
       logo: actDigitalLogo,
-      heightClass: 'h-6 sm:h-7',
+      heightClass: 'h-7 sm:h-8',
       category: 'Transformação & Inovação Digital'
     },
     {
@@ -112,36 +118,56 @@ export const CorporateClientsSection = () => {
         {/* Linha de Logos em Loop Contínuo Suave */}
         <div className="animate-marquee-slow flex items-center gap-12 sm:gap-16 lg:gap-20 select-none py-2">
           {/* 1ª Cópia da Lista de Logos */}
-          {clients.map((client, idx) => (
-            <div 
-              key={`client-1-${client.id}-${idx}`}
-              className="shrink-0 flex items-center justify-center group"
-              title={`${client.name} — ${client.category}`}
-            >
-              <img
-                src={client.logo}
-                alt={`Logótipo oficial de ${client.name}`}
-                className={`${client.heightClass} w-auto max-w-[130px] sm:max-w-[160px] object-contain grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300 cursor-default`}
-                loading="lazy"
-              />
-            </div>
-          ))}
+          {clients.map((client, idx) => {
+            const isSelected = activeClientId === client.id;
+            return (
+              <button
+                type="button"
+                key={`client-1-${client.id}-${idx}`}
+                onClick={() => toggleClientColor(client.id)}
+                className="shrink-0 flex items-center justify-center p-2 rounded-lg transition-all duration-300 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+                title={`${client.name} — ${client.category} (clique para fixar cores)`}
+                aria-pressed={isSelected}
+              >
+                <img
+                  src={client.logo}
+                  alt={`Logótipo oficial de ${client.name}`}
+                  className={`${client.heightClass} w-auto max-w-[130px] sm:max-w-[160px] object-contain transition-all duration-300 ${
+                    isSelected
+                      ? 'grayscale-0 opacity-100 scale-110 drop-shadow-xs'
+                      : 'grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 group-active:opacity-100 group-active:grayscale-0'
+                  }`}
+                  loading="lazy"
+                />
+              </button>
+            );
+          })}
 
           {/* 2ª Cópia para Loop Perfeito Sem Saltos */}
-          {clients.map((client, idx) => (
-            <div 
-              key={`client-2-${client.id}-${idx}`}
-              className="shrink-0 flex items-center justify-center group"
-              title={`${client.name} — ${client.category}`}
-            >
-              <img
-                src={client.logo}
-                alt={`Logótipo oficial de ${client.name}`}
-                className={`${client.heightClass} w-auto max-w-[130px] sm:max-w-[160px] object-contain grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300 cursor-default`}
-                loading="lazy"
-              />
-            </div>
-          ))}
+          {clients.map((client, idx) => {
+            const isSelected = activeClientId === client.id;
+            return (
+              <button
+                type="button"
+                key={`client-2-${client.id}-${idx}`}
+                onClick={() => toggleClientColor(client.id)}
+                className="shrink-0 flex items-center justify-center p-2 rounded-lg transition-all duration-300 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+                title={`${client.name} — ${client.category} (clique para fixar cores)`}
+                aria-pressed={isSelected}
+              >
+                <img
+                  src={client.logo}
+                  alt={`Logótipo oficial de ${client.name}`}
+                  className={`${client.heightClass} w-auto max-w-[130px] sm:max-w-[160px] object-contain transition-all duration-300 ${
+                    isSelected
+                      ? 'grayscale-0 opacity-100 scale-110 drop-shadow-xs'
+                      : 'grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 group-active:opacity-100 group-active:grayscale-0'
+                  }`}
+                  loading="lazy"
+                />
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

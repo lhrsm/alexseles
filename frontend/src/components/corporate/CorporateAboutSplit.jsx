@@ -20,7 +20,7 @@ export const CorporateAboutSplit = () => {
               <div className="p-5 bg-white border-t border-slate-100 text-center space-y-1">
                 <span className="font-sans text-xl font-bold text-[#163758] block">Alex Seles</span>
                 <span className="text-xs font-semibold text-[#1557B0] block">
-                  Engenheiro Informático, Mestre e Head de Inovação
+                  Engenheiro Informático e Mestre em Engenharia Informática
                 </span>
               </div>
             </div>
@@ -37,16 +37,44 @@ export const CorporateAboutSplit = () => {
 
             <div className="space-y-4 text-sm sm:text-base text-[#475569] leading-relaxed font-sans">
               <p>
-                <strong className="text-[#163758]">Engenheiro Informático e mestre</strong>, com mais de duas décadas de experiência em gestão de programas estratégicos, modernização de sistemas e aceleração de equipas multidisciplinares de engenharia de software em setores de alta criticidade como telecomunicações, banca, automóvel e administração pública.
+                <strong className="text-[#163758]">Engenheiro Informático e mestre em Engenharia Informática</strong>, com mais de 20 anos de experiência em gestão de programas estratégicos e projetos em equipas multifuncionais de desenvolvimento de software em setores de alta criticidade como telecomunicações, banca, automóvel e setor público. Possui as certificações <strong className="text-[#163758]">PMP®, SAFe® 6 Agilist, ITIL® 4, PSMII™, PSMI™, PSPOI™</strong> entre outras.
               </p>
 
               <p>
-                Liderou transformações digitais de grande escala em instituições de referência em Portugal, com destaque para a <strong className="text-[#163758]">ARTE</strong> (Agência para a Reforma Tecnológica do Estado), o <strong className="text-[#163758]">IEFP</strong> (Instituto do Emprego e Formação Profissional) e a <strong className="text-[#163758]">Segurança Social</strong>, unificando processos de desenvolvimento, arquitetura em nuvem e métodos ágeis de alta performance.
+                Especialista em liderar <strong className="text-[#163758]">transformações digitais complexas</strong> e projetos estratégicos em multinacionais e instituições de referência como <strong className="text-[#163758]">Capgemini</strong>, <strong className="text-[#163758]">TIVIT</strong>, <strong className="text-[#163758]">ACT Digital</strong>, <strong className="text-[#163758]">Ford Motor Company</strong>, <strong className="text-[#163758]">Stellantis</strong>, <strong className="text-[#163758]">Continental Pneus</strong>, <strong className="text-[#163758]">MSX International</strong>, <strong className="text-[#163758]">IEFP</strong>, <strong className="text-[#163758]">Segurança Social</strong> e <strong className="text-[#163758]">AIMA</strong>.
               </p>
 
               <p>
-                Detém certificações de classe mundial como <strong className="text-[#163758]">PMP® (Project Management Professional), SAFe® 6 Agilist, ITIL® 4 Ambassador, PSM II™ e PSPO I™</strong>. Em Portugal, é membro ativo do <strong className="text-[#163758]">PMI</strong> e Embaixador ITIL, além de influenciador com mais de <strong className="text-[#163758]">62 mil seguidores no LinkedIn</strong>, assessorando empresas na implementação de boas práticas de engenharia de software, automação inteligente e governança de Inteligência Artificial.
+                Em Portugal, é <strong className="text-[#163758]">membro do PMI (Project Management Institute)</strong> e <strong className="text-[#163758]">Embaixador ITIL</strong>, destaca-se também como influenciador digital, com uma rede de <strong className="text-[#163758]">mais de 62 mil seguidores no LinkedIn</strong>. Na plataforma, fomenta a empregabilidade no interior do país e a economia local, além de apoiar e orientar profissionais em transição de carreira e assessorar organizações em engenharia de software e governança de IA.
               </p>
+            </div>
+
+            {/* Credibilidade Corporativa: Empresas e Organismos com Intervenção */}
+            <div className="pt-2 pb-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2.5">
+                Organizações e multinacionais com intervenção técnica:
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  'Capgemini',
+                  'TIVIT',
+                  'ACT Digital',
+                  'Ford Motor Company',
+                  'Stellantis',
+                  'Continental Pneus',
+                  'MSX International',
+                  'IEFP',
+                  'Segurança Social',
+                  'AIMA'
+                ].map((empresa) => (
+                  <span 
+                    key={empresa}
+                    className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-slate-200 text-[#163758] shadow-2xs"
+                  >
+                    {empresa}
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Selos de Garantia e Certificações */}
