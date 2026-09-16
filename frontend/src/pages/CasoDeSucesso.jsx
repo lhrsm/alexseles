@@ -131,32 +131,46 @@ export const CasoDeSucesso = () => {
             </div>
           </div>
 
-          {/* Caixa de Autoridade: Publicação Oficial de Referência no Medium */}
-          {currentCase.mediumUrl && (
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl bg-gradient-to-r from-slate-50 via-blue-50/20 to-white border border-slate-200/90 shadow-2xs text-left">
-              <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-black text-lg shrink-0 shadow-xs">
-                  M
-                </div>
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#1A73E8] block mb-0.5">
-                    Referência de Autoridade • Publicação Oficial no Medium
+          {/* Referências de Autoridade e Reconhecimento Oficial (Medium & AMA) - Layout Clean sem caixa */}
+          {(currentCase.mediumUrl || currentCase.amaUrl) && (
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 pt-1 text-left">
+              {currentCase.mediumUrl && (
+                <a
+                  href={currentCase.mediumUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-[#1A73E8] transition-colors group cursor-pointer"
+                  title="Ler publicação oficial no Medium"
+                >
+                  <span className="w-5 h-5 flex items-center justify-center shrink-0 text-slate-900 group-hover:text-[#1A73E8] transition-colors">
+                    <svg viewBox="0 0 1043.63 592.71" className="w-4 h-4" fill="currentColor" aria-hidden="true">
+                      <path d="M588.67 296.36c0 163.67-131.78 296.35-294.33 296.35S0 460 0 296.36 131.78 0 294.34 0s294.33 132.69 294.33 296.36M911.56 296.36c0 154.06-65.89 279-147.17 279s-147.18-124.94-147.18-279 65.88-279 147.16-279 147.17 124.9 147.17 279M1043.63 296.36c0 138-23.17 249.94-51.76 249.94s-51.75-111.91-51.75-249.94 23.17-249.94 51.75-249.94 51.76 111.9 51.76 249.94"/>
+                    </svg>
                   </span>
-                  <p className="text-sm font-semibold text-[#163758]">
-                    Documentação técnica e proposta metodológica da autoria de Alex Seles
-                  </p>
-                </div>
-              </div>
+                  <span className="underline underline-offset-4 decoration-slate-300 group-hover:decoration-[#1A73E8]">
+                    Ler artigo no Medium
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#1A73E8] transition-colors shrink-0" aria-hidden="true" />
+                </a>
+              )}
 
-              <a
-                href={currentCase.mediumUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#163758] hover:bg-[#1A73E8] text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0 shadow-2xs group/btn cursor-pointer"
-              >
-                <span>Ler Artigo no Medium</span>
-                <ExternalLink className="w-3.5 h-3.5 transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" aria-hidden="true" />
-              </a>
+              {currentCase.amaUrl && (
+                <a
+                  href={currentCase.amaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-[#1A73E8] transition-colors group cursor-pointer"
+                  title="Consultar validação oficial da AMA"
+                >
+                  <span className="h-5 px-1.5 rounded bg-[#163758] group-hover:bg-[#1A73E8] text-white text-[10px] font-black tracking-wider uppercase flex items-center justify-center transition-colors shrink-0">
+                    AMA
+                  </span>
+                  <span className="underline underline-offset-4 decoration-slate-300 group-hover:decoration-[#1A73E8]">
+                    {currentCase.amaLabel || 'Reconhecimento Oficial AMA'}
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#1A73E8] transition-colors shrink-0" aria-hidden="true" />
+                </a>
+              )}
             </div>
           )}
 
