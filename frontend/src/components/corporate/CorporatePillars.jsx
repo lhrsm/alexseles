@@ -14,7 +14,7 @@ export const CorporatePillars = () => {
             Casos de Sucesso
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl text-[#163758] font-extrabold tracking-tight text-left font-sans">
-            As nossas histórias de sucesso
+            Histórias de sucesso
           </h2>
           <p className="text-base sm:text-lg text-[#536773] leading-relaxed font-sans text-pretty text-left">
             Dos desafios dos nossos clientes nascem soluções de excelência.

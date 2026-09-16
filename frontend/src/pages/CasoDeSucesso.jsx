@@ -12,7 +12,8 @@ import {
   Shield,
   Building2,
   Calendar,
-  Sparkles
+  Sparkles,
+  ExternalLink
 } from 'lucide-react';
 import { getCaseBySlug, getNextCase, getAllCases } from '../data/casesData';
 import { MetaTags } from '../components/seo/MetaTags';
@@ -131,6 +132,35 @@ export const CasoDeSucesso = () => {
               </p>
             </div>
           </div>
+
+          {/* Caixa de Autoridade: Publicação Oficial de Referência no Medium */}
+          {currentCase.mediumUrl && (
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl bg-gradient-to-r from-slate-50 via-blue-50/20 to-white border border-slate-200/90 shadow-2xs text-left">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-black text-lg shrink-0 shadow-xs">
+                  M
+                </div>
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#1A73E8] block mb-0.5">
+                    Referência de Autoridade • Publicação Oficial no Medium
+                  </span>
+                  <p className="text-sm font-semibold text-[#163758]">
+                    Documentação técnica e proposta metodológica da autoria de Alex Seles
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href={currentCase.mediumUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#163758] hover:bg-[#1A73E8] text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0 shadow-2xs group/btn cursor-pointer"
+              >
+                <span>Ler Artigo no Medium</span>
+                <ExternalLink className="w-3.5 h-3.5 transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" aria-hidden="true" />
+              </a>
+            </div>
+          )}
 
           {/* Imagem de Destaque Editorial com Logótipo Integrado */}
           <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200/90 aspect-[16/9] sm:aspect-[21/9] bg-slate-900 group">
