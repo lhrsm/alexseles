@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { 
   ArrowRight, 
@@ -17,11 +17,9 @@ import {
 } from 'lucide-react';
 import { getCaseBySlug, getNextCase, getAllCases } from '../data/casesData';
 import { MetaTags } from '../components/seo/MetaTags';
-import { CorporateDiagnosisModal } from '../components/corporate/CorporateDiagnosisModal';
 
 export const CasoDeSucesso = () => {
   const { slug } = useParams();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const currentCase = getCaseBySlug(slug);
 
@@ -358,46 +356,9 @@ export const CasoDeSucesso = () => {
           </div>
         </section>
 
-        {/* 4. Caixa de CTA Executivo / Solicitar Diagnóstico */}
-        <section className="mt-16 pt-10 border-t border-slate-200">
-          <div className="rounded-2xl bg-gradient-to-br from-[#0E1620] to-[#16273A] text-white p-8 sm:p-12 shadow-xl relative overflow-hidden text-center sm:text-left">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-[#1A73E8]/10 rounded-full blur-3xl pointer-events-none" />
-            
-            <div className="relative z-10 max-w-2xl space-y-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1A73E8] block">
-                Pronto para o próximo nível?
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                Transforme o desafio da sua organização numa história de sucesso.
-              </h3>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                Descubra como uma intervenção de engenharia especializada com Alex Seles pode garantir previsibilidade técnica, modernizar sistemas legados e acelerar resultados mensuráveis.
-              </p>
-
-              <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(true)}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                >
-                  <span>Solicitar Diagnóstico Técnico</span>
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </button>
-
-                <Link
-                  to="/para-empresas#solucoes-empresas"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-lg border border-white/20 hover:bg-white/10 text-slate-200 text-xs sm:text-sm font-semibold transition-all flex items-center justify-center"
-                >
-                  Ver Outros Casos de Sucesso
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 5. Próxima História de Sucesso */}
+        {/* 4. Próxima História de Sucesso */}
         {nextCase && (
-          <section className="pt-8 border-t border-slate-200">
+          <section className="mt-16 pt-10 border-t border-slate-200">
             <div className="flex items-center justify-between mb-6">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                 Próxima História de Sucesso
@@ -444,12 +405,6 @@ export const CasoDeSucesso = () => {
         )}
 
       </div>
-
-      {/* Modal Corporativa de Diagnóstico Global */}
-      <CorporateDiagnosisModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </main>
   );
 };
