@@ -8,7 +8,7 @@ import continentalLogo from '../../assets/clients/continental.svg';
 import msxiLogo from '../../assets/clients/msxi.png';
 import iefpLogo from '../../assets/clients/iefp.png';
 import segurancaSocialLogo from '../../assets/clients/seguranca-social.png';
-import aimaLogo from '../../assets/clients/aima.png';
+import arteLogo from '../../assets/clients/arte.svg';
 
 export const CorporateClientsSection = () => {
   const [activeClientId, setActiveClientId] = useState(null);
@@ -82,11 +82,11 @@ export const CorporateClientsSection = () => {
       category: 'Organismo de Estado & Segurança Social'
     },
     {
-      id: 'aima',
-      name: 'AIMA',
-      logo: aimaLogo,
+      id: 'arte',
+      name: 'ARTE',
+      logo: arteLogo,
       heightClass: 'h-6 sm:h-7',
-      category: 'Agência para a Integração, Migrações e Asilo'
+      category: 'Agência para a Reforma Tecnológica do Estado'
     }
   ];
 

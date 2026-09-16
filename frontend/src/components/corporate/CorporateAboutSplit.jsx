@@ -41,7 +41,7 @@ export const CorporateAboutSplit = () => {
               </p>
 
               <p>
-                Especialista em liderar <strong className="text-[#163758]">transformações digitais complexas</strong> e projetos estratégicos em multinacionais e instituições de referência como <strong className="text-[#163758]">Capgemini</strong>, <strong className="text-[#163758]">TIVIT</strong>, <strong className="text-[#163758]">ACT Digital</strong>, <strong className="text-[#163758]">Ford Motor Company</strong>, <strong className="text-[#163758]">Stellantis</strong>, <strong className="text-[#163758]">Continental Pneus</strong>, <strong className="text-[#163758]">MSX International</strong>, <strong className="text-[#163758]">IEFP</strong>, <strong className="text-[#163758]">Segurança Social</strong> e <strong className="text-[#163758]">AIMA</strong>.
+                Especialista em liderar <strong className="text-[#163758]">transformações digitais complexas</strong> e projetos estratégicos em multinacionais e instituições de referência como <strong className="text-[#163758]">Capgemini</strong>, <strong className="text-[#163758]">TIVIT</strong>, <strong className="text-[#163758]">ACT Digital</strong>, <strong className="text-[#163758]">Ford Motor Company</strong>, <strong className="text-[#163758]">Stellantis</strong>, <strong className="text-[#163758]">Continental Pneus</strong>, <strong className="text-[#163758]">MSX International</strong>, <strong className="text-[#163758]">IEFP</strong>, <strong className="text-[#163758]">Segurança Social</strong> e <strong className="text-[#163758]">ARTE</strong>.
               </p>
 
               <p>

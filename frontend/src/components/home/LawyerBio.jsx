@@ -54,7 +54,7 @@ export const LawyerBio = () => {
                 Engenheiro Informático e mestre em Engenharia Informática, com mais de 20 anos de experiência em gestão de programas estratégicos e projetos em equipas multifuncionais de desenvolvimento de software em setores de alta criticidade como telecomunicações, banca, automóvel e setor público. Possui as certificações PMP®, SAFe® 6 Agilist, ITIL® 4, PSMII™, PSMI™, PSPOI™ entre outras.
               </p>
               <p>
-                Especialista em liderar transformações digitais complexas e projetos estratégicos em multinacionais e instituições de referência como Capgemini, TIVIT, ACT Digital, Ford Motor Company, Stellantis, Continental Pneus, MSX International, IEFP, Segurança Social e AIMA.
+                Especialista em liderar transformações digitais complexas e projetos estratégicos em multinacionais e instituições de referência como Capgemini, TIVIT, ACT Digital, Ford Motor Company, Stellantis, Continental Pneus, MSX International, IEFP, Segurança Social e ARTE.
               </p>
               <p>
                 Em Portugal, é membro do PMI (Project Management Institute) e Embaixador ITIL, destaca-se também como influenciador digital, com uma rede de mais de 62 mil seguidores no LinkedIn, assessorando empresas e profissionais em transição de carreira e governança de IA.
