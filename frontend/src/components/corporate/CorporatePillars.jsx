@@ -15,7 +15,6 @@ import modernizacaoImg from '../../assets/corporate/solucao-modernizacao.jpg';
 import automacaoIaImg from '../../assets/corporate/solucao-automacao-ia.jpg';
 import governancaAgilImg from '../../assets/corporate/solucao-governanca-agil.jpg';
 import capacitacaoLiderancaImg from '../../assets/corporate/solucao-capacitacao-lideranca.jpg';
-import ctaConsultoriaImg from '../../assets/corporate/cta-impacto-consultoria.jpg';
 
 export const CorporatePillars = ({ onOpenModal }) => {
   const [selectedPillar, setSelectedPillar] = useState(null);
@@ -115,47 +114,6 @@ export const CorporatePillars = ({ onOpenModal }) => {
     <section id="solucoes-empresas" className="py-20 sm:py-28 bg-[#F8FAFC] text-[#163758] border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Banner CTA Split de Alto Impacto (Antes dos Pilares) */}
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-md p-7 sm:p-10 lg:p-12 mb-16 lg:mb-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
-            {/* Coluna Esquerda: Texto + CTA */}
-            <div className="lg:col-span-7 space-y-5 text-left">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#163758] tracking-tight leading-tight font-sans">
-                Transforme rapidamente as suas Ideias em Impacto!
-              </h2>
-
-              <p className="text-sm sm:text-base text-[#475569] leading-relaxed font-sans text-pretty">
-                Precisa de software à medida? Descubra como posso ajudar a sua empresa a escalar o seu negócio e a aumentar a quota de mercado (<span className="italic font-medium">market share</span>). A combinação de mais de 25 anos de experiência e know-how técnico traduz-se em intervenções estratégicas para modernizar sistemas, automatizar operações com IA e garantir previsibilidade na engenharia de software e metodologias ágeis — dando vida à sua visão, rigorosamente dentro do prazo e do orçamento.
-              </p>
-
-              {/* Botão de CTA */}
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => handleOpenDiagnosis(null)}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-md hover:shadow-lg transform active:scale-95"
-                >
-                  <span>Solicitar Diagnóstico Técnico</span>
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-
-            {/* Coluna Direita: Imagem Editorial */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-xl overflow-hidden border border-slate-200/90 shadow-lg aspect-[4/3] group">
-                <img
-                  src={ctaConsultoriaImg}
-                  alt="Consultoria Estratégica em Engenharia de Software e IA"
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-
-          </div>
-        </div>
 
         {/* Cabeçalho da Secção de Soluções */}
         <div className="max-w-3xl space-y-3 mb-10 sm:mb-12 text-left">
