@@ -8,12 +8,14 @@ import {
   Cpu, 
   Bot, 
   GitMerge, 
-  GraduationCap 
+  GraduationCap,
+  Sparkles
 } from 'lucide-react';
 import modernizacaoImg from '../../assets/corporate/solucao-modernizacao.jpg';
 import automacaoIaImg from '../../assets/corporate/solucao-automacao-ia.jpg';
 import governancaAgilImg from '../../assets/corporate/solucao-governanca-agil.jpg';
 import capacitacaoLiderancaImg from '../../assets/corporate/solucao-capacitacao-lideranca.jpg';
+import ctaConsultoriaImg from '../../assets/corporate/cta-impacto-consultoria.jpg';
 
 export const CorporatePillars = ({ onOpenModal }) => {
   const [selectedPillar, setSelectedPillar] = useState(null);
@@ -23,17 +25,18 @@ export const CorporatePillars = ({ onOpenModal }) => {
       id: 'transformacao-digital-sdlc',
       image: modernizacaoImg,
       icon: Cpu,
-      badge: 'Discovery & Modernização',
-      title: 'Transformação Digital & Modernização de Sistemas',
-      summary: 'Modernização de arquiteturas legadas, acessibilidade digital (normas WCAG) e aceleração do SDLC para expansão de quota de mercado.',
+      badge: 'Produto & Engenharia',
+      title: 'Transformação Digital, Design UX/UI & Modernização de Sistemas',
+      summary: 'Product Discovery e Design UX/UI centrado no utilizador, prototipagem ágil (PoC/MVP), acessibilidade (normas WCAG) e modernização de arquiteturas legadas para escalar a presença digital e a faturação.',
+      tags: ['Design UX/UI', 'Product Discovery & MVP', 'Modernização de Legados', 'Acessibilidade WCAG'],
       comment: 'Iniciamos com Product Discovery e Design Thinking para mapear necessidades reais e validamos hipóteses com Protótipos, PoC e MVP ágil. Desenvolvemos ecossistemas acessíveis (normas WCAG), modernizamos sistemas legados e estruturamos o SDLC para expandir a sua presença digital, market share e faturação.',
       pain: 'Organizações reféns de sistemas obsoletos, processos analógicos ou plataformas web estáticas que não convertem, desenvolvendo software sem pesquisa prévia de utilizadores, sem acessibilidade digital e sem prototipagem, resultando em desperdício orçamental, baixa adoção e perda diária de quota de mercado.',
-      solution: 'Abordagem ponta a ponta: Product Discovery e Design Thinking; Protótipos navegáveis, PoCs técnicas e MVPs ágeis para mitigação de risco; Acessibilidade Digital plena (WCAG / a11y), arquitetura moderna de software e estruturação do SDLC, conectando a capacidade técnica a metas de faturação.',
-      technologies: ['Design Thinking & Discovery', 'Protótipos Navegáveis', 'PoC & MVP Ágil', 'Acessibilidade (WCAG / a11y)', 'Plataformas SaaS & Apps', 'Modernização de Legados & SDLC'],
+      solution: 'Abordagem ponta a ponta: Product Discovery e Design UX/UI avançado; Protótipos navegáveis, PoCs técnicas e MVPs ágeis para mitigação de risco; Acessibilidade Digital plena (WCAG / a11y), arquitetura moderna de software e estruturação do SDLC, conectando a capacidade técnica a metas de faturação.',
+      technologies: ['Design UX/UI & Prototipagem', 'Product Discovery & Design Thinking', 'PoC & MVP Ágil', 'Acessibilidade (WCAG / a11y)', 'Plataformas SaaS & Cloud Apps', 'Modernização de Legados & SDLC'],
       deliverables: [
-        'Imersão em Design Thinking, Product Discovery e pesquisa com utilizadores',
-        'Construção de Protótipos navegáveis, PoCs de viabilidade e MVPs ágeis',
-        'Desenvolvimento inclusivo com conformidade de Acessibilidade (normas WCAG)',
+        'Imersão em Design Thinking, Design UX/UI e pesquisa aprofundada com utilizadores',
+        'Construção de Protótipos navegáveis de alta fidelidade, PoCs de viabilidade e MVPs ágeis',
+        'Desenvolvimento inclusivo com conformidade total de Acessibilidade (normas WCAG)',
         'Estruturação moderna de SDLC, arquitetura escalável e alinhamento a metas de faturação'
       ],
       impact: 'Mitigação total de risco com MVP/PoC, conformidade de acessibilidade e expansão de market share.'
@@ -44,7 +47,8 @@ export const CorporatePillars = ({ onOpenModal }) => {
       icon: Bot,
       badge: 'Automação & IA',
       title: 'Automação de Processos & Inteligência Artificial',
-      summary: 'Eliminação de rotinas manuais com n8n, webhooks e integração prática de agentes inteligentes e IA generativa na engenharia e operações.',
+      summary: 'Eliminação de rotinas manuais com orquestração avançada n8n, webhooks e integração prática de agentes inteligentes e IA generativa na engenharia e operações.',
+      tags: ['Orquestração n8n', 'Agentes Autónomos & LLMs', 'Integração de APIs', 'Automação CI/CD'],
       comment: 'Eliminamos rotinas manuais e operacionais repetitivas orquestrando fluxos avançados com n8n, webhooks e integrações de APIs. Incorporamos Inteligência Artificial generativa e agentes inteligentes de forma segura no atendimento, na análise de dados e na engenharia, acelerando o seu time-to-market.',
       pain: 'Equipas afogadas em tarefas manuais, operacionais e repetitivas (passagem manual de dados, relatórios dispersos, atendimento lento e validações manuais), gerando custos excessivos, lentidão e erros humanos recorrentes.',
       solution: 'Orquestração avançada de processos com n8n, webhooks e integrações de APIs conectando sistemas legados a ferramentas modernas sem atrito. Adoção prática de IA generativa e agentes inteligentes na operação e na engenharia (code reviews, testes automatizados, triagem e relatórios), eliminando tarefas manuais.',
@@ -61,18 +65,20 @@ export const CorporatePillars = ({ onOpenModal }) => {
       id: 'governanca-agil-metodos',
       image: governancaAgilImg,
       icon: GitMerge,
-      badge: 'Governação & Agilidade',
-      title: 'Governação Ágil & Métodos de Entrega (SAFe / Scrum / ITIL)',
-      summary: 'Auditoria de maturidade técnica, implementação de Jira/DevOps e treino prático em métodos ágeis com métricas reais de produtividade.',
+      badge: 'Métodos & Governação',
+      title: 'Governação de Entregas & Metodologias (Ágil, Híbrido e Preditivo)',
+      summary: 'Auditoria completa à maturidade técnica, implementação e treino em metodologias ágeis, híbridas ou preditivas (SAFe, Scrum, ITIL) e aplicação prática de ferramentas (Jira, Azure DevOps).',
+      tags: ['Auditoria de Maturidade', 'Metodologias Ágeis, Híbridas & Preditivas', 'Jira & Azure DevOps', 'Treino de Metodologias'],
       comment: 'Auditoria completa à maturidade técnica, implementação prática de ferramentas (Jira / Azure DevOps) e treino intensivo das equipas em métodos ágeis consolidados (SAFe, Scrum e ITIL). Métricas reais de produtividade (Lead Time, Cycle Time) e transparência absoluta para a administração.',
       pain: 'Prazos de entrega sistematicamente ultrapassados, ausência de visibilidade para a administração executiva, atrito constante entre o negócio e a engenharia, e falta de processos padronizados.',
-      solution: 'Intervenção estruturada em três etapas: Auditoria de Maturidade (estrangulamentos), Implementação Prática de Ferramentas (Jira, Azure DevOps e automação de fluxos) e Treino Intensivo de Equipas (SAFe, Scrum e ITIL), com métricas reais de produtividade e transparência para a gestão.',
-      technologies: ['SAFe (Scaled Agile)', 'Scrum & Kanban', 'ITIL 4 Framework', 'Jira Software & DevOps', 'Métricas de Fluxo & CFD', 'Gestão de Dependências'],
+      solution: 'Intervenção estruturada: Auditoria técnica de maturidade; implementação e treino prático das equipas em metodologias ágeis, híbridas ou preditivas (SAFe, Scrum e ITIL); e parametrização/aplicação prática de ferramentas de mercado (Jira, Azure DevOps) com métricas reais de produtividade e transparência executiva.',
+      technologies: ['Metodologias Ágeis, Híbridas & Preditivas', 'SAFe (Scaled Agile)', 'Scrum & Kanban', 'ITIL 4 Framework', 'Jira Software & Azure DevOps', 'Métricas de Fluxo & CFD'],
       deliverables: [
         'Auditoria completa aos processos de entrega e maturidade técnica',
-        'Configuração e parametrização profissional de ferramentas (Jira / Azure DevOps)',
-        'Treino prático das equipas e líderes em ritos ágeis funcionais',
-        'Dashboards executivos com métricas preditivas de produtividade'
+        'Implementação de metodologias adequadas (ágeis, híbridas ou preditivas)',
+        'Parametrização e aplicação prática de ferramentas (Jira / Azure DevOps)',
+        'Treino intensivo das equipas nas metodologias e ritos funcionais',
+        'Dashboards executivos com métricas preditivas de produtividade (Lead Time, Cycle Time)'
       ],
       impact: 'Mais de 90% de previsibilidade nas sprints e transparência executiva total.'
     },
@@ -80,17 +86,18 @@ export const CorporatePillars = ({ onOpenModal }) => {
       id: 'capacitacao-lideranca',
       image: capacitacaoLiderancaImg,
       icon: GraduationCap,
-      badge: 'In-Company & Mentoria',
-      title: 'Capacitação In-Company & Mentoria de Liderança Técnica',
-      summary: 'Programas intensivos de up-skilling técnico para equipas e mentoria executiva 1:1 para líderes sobre arquitetura e tomada de decisão.',
+      badge: 'Capacitação & Mentoria',
+      title: 'Skill-Up Técnico In-Company & Mentoria de Liderança',
+      summary: 'Programa intensivo In-Company de Skill-Up e aceleração técnica para equipas de desenvolvimento e mentoria executiva 1:1 para Tech Leads sobre arquitetura e tomada de decisão.',
+      tags: ['Skill-Up Técnico', 'Programa Intensivo In-Company', 'Mentoria 1:1 Tech Leads', 'Presencial ou Remoto'],
       comment: 'Programas acelerados de up-skilling técnico para equipas de desenvolvimento e sessões de mentoria executiva 1:1 para Tech Leads e gestores sobre arquitetura, governança e tomada de decisão. Formações disponíveis em formato presencial In-Company ou 100% online remoto.',
       pain: 'Elevada rotatividade de engenheiros, carência de profissionais seniores no mercado, estagnação técnica de programadores juniores/plenos e líderes técnicos promovidos sem formação estratégica em gestão e tomada de decisão.',
-      solution: 'Programas corporativos intensivos em formato In-Company (presencial) ou Online Executivo (remoto). Programas práticos de up-skilling técnico para equipas (código limpo, arquitetura, testes e IA) e mentoria individual/grupal para lideranças sobre tomada de decisão técnica e gestão de engenharia.',
-      technologies: ['Formato In-Company', 'Formato Online Remoto', 'Up-skilling de Equipas', 'Mentoria Executiva 1:1', 'Engenharia de Software', 'Tomada de Decisão Técnica'],
+      solution: 'Programa intensivo In-Company (presencial) ou Online Executivo (remoto): formação prática de Skill-Up técnico para equipas de software (código limpo, arquitetura, testes e IA) e sessões de mentoria executiva 1:1 para Tech Leads e gestores sobre tomada de decisão técnica e gestão de engenharia.',
+      technologies: ['Skill-Up Técnico para Equipas', 'Formato Presencial In-Company', 'Formato Online Remoto', 'Mentoria Executiva 1:1', 'Engenharia de Software', 'Tomada de Decisão Técnica'],
       deliverables: [
-        'Programas de up-skilling técnico desenhados à medida da stack da empresa',
-        'Formações presenciais In-Company ou em formato digital remoto',
-        'Sessões de mentoria individual para Tech Leads e gestores de engenharia',
+        'Programas intensivos de Skill-Up técnico à medida da stack da empresa',
+        'Workshops presenciais In-Company ou em formato digital remoto',
+        'Sessões de mentoria individual 1:1 para Tech Leads e gestores de engenharia',
         'Avaliação contínua de evolução técnica e planos de carreira de TI'
       ],
       impact: 'Retenção de talento crítico e autonomização das lideranças técnicas.'
@@ -108,57 +115,157 @@ export const CorporatePillars = ({ onOpenModal }) => {
     <section id="solucoes-empresas" className="py-20 sm:py-28 bg-[#F8FAFC] text-[#163758] border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Cabeçalho da Secção: Estilo Editorial & Consultoria Executiva */}
-        <div className="max-w-3xl space-y-3 mb-12 sm:mb-14 text-left">
+        {/* Banner CTA Split de Alto Impacto (Antes dos Pilares) */}
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-md p-7 sm:p-10 lg:p-12 mb-16 lg:mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Coluna Esquerda: Texto + CTA */}
+            <div className="lg:col-span-7 space-y-5 text-left">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1557B0] bg-blue-50 border border-blue-100 px-3 py-1 rounded-md inline-block">
+                Consultoria & Engenharia de Software
+              </span>
+              
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#163758] tracking-tight leading-tight font-sans">
+                Transforme rapidamente as suas Ideias em Impacto!
+              </h2>
+
+              <p className="text-sm sm:text-base text-[#475569] leading-relaxed font-sans text-pretty">
+                Precisa de software à medida? Descubra como posso ajudar a sua empresa a escalar o seu negócio e a aumentar a quota de mercado (<span className="italic font-medium">market share</span>). A combinação de mais de 25 anos de experiência e know-how técnico traduz-se em intervenções estratégicas para modernizar sistemas, automatizar operações com IA e garantir previsibilidade na engenharia de software e metodologias ágeis — dando vida à sua visão, rigorosamente dentro do prazo e do orçamento.
+              </p>
+
+              {/* Botão de CTA + Garantias */}
+              <div className="pt-2 space-y-3">
+                <button
+                  type="button"
+                  onClick={() => handleOpenDiagnosis(null)}
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-md hover:shadow-lg transform active:scale-95"
+                >
+                  <span>Solicitar Diagnóstico Técnico</span>
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </button>
+
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500 pt-1">
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>Sem compromisso inicial</span>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>Análise executiva e técnica</span>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>Resposta em 24h</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Coluna Direita: Imagem Editorial com Badge de Autoridade */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-xl overflow-hidden border border-slate-200/90 shadow-lg aspect-[4/3] group">
+                <img
+                  src={ctaConsultoriaImg}
+                  alt="Consultoria Estratégica em Engenharia de Software e IA"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-lg bg-slate-900/85 backdrop-blur-sm border border-white/10 text-white text-left space-y-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#93C5FD] block">
+                    Mais de 25 anos de experiência
+                  </span>
+                  <p className="text-xs text-slate-200 font-medium leading-snug">
+                    Consultoria de alto nível em organizações como Capgemini, Ford, Stellantis, Continental e ARTE.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Cabeçalho da Secção de Soluções */}
+        <div className="max-w-3xl space-y-3 mb-10 sm:mb-12 text-left">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500 font-sans block">
+            Áreas de Atuação
+          </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl text-[#163758] font-extrabold tracking-tight text-left font-sans">
-            Soluções e Serviços
+            Soluções e Serviços de Engenharia
           </h2>
           <p className="text-base sm:text-lg text-[#536773] leading-relaxed font-sans text-pretty text-left">
-            Intervenções estratégicas para modernizar sistemas, automatizar operações com IA e garantir previsibilidade na engenharia de software.
+            Intervenções especializadas para empresas que necessitam de elevar a maturidade técnica das suas equipas, automatizar fluxos críticos e obter previsibilidade no desenvolvimento de software.
           </p>
         </div>
 
-        {/* Grelha de Soluções Estilo Capgemini (4 Cartões com Imagem e Hierarquia Limpa) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
-          {pillars.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => setSelectedPillar(item)}
-              className="bg-white rounded-xl border border-slate-200/90 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden cursor-pointer hover:-translate-y-1 text-left"
-            >
-              <div>
-                {/* Imagem Temática no Topo com Zoom Suave */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+        {/* Grelha de Soluções com Padrão Enterprise UI/UX (2x2 Horizontal, com Tags e Ícones - Distinto de Blog) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {pillars.map((item, index) => {
+            const IconComponent = item.icon;
+            return (
+              <div
+                key={item.id}
+                onClick={() => setSelectedPillar(item)}
+                className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-xl hover:border-[#1A73E8]/60 transition-all duration-300 flex flex-col sm:flex-row overflow-hidden group cursor-pointer text-left transform hover:-translate-y-1"
+              >
+                {/* Lado Esquerdo: Imagem + Badge de Índice + Overlay com Ícone */}
+                <div className="sm:w-5/12 relative aspect-[16/10] sm:aspect-auto sm:min-h-[260px] overflow-hidden bg-slate-900 shrink-0">
                   <img
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#163758]/50 via-transparent to-transparent opacity-30 group-hover:opacity-10 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/25 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/30" />
+                  
+                  {/* Número de Solução (01, 02, 03, 04) */}
+                  <div className="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-md bg-slate-950/75 backdrop-blur-xs border border-white/15 text-white font-mono text-xs font-bold shadow-xs">
+                    {`0${index + 1}`}
+                  </div>
+
+                  {/* Ícone no Canto Inferior Esquerdo da Imagem */}
+                  <div className="absolute bottom-3.5 left-3.5 w-10 h-10 rounded-lg bg-white/90 backdrop-blur-xs text-[#1A73E8] border border-white/40 flex items-center justify-center shadow-md">
+                    <IconComponent className="w-5 h-5" aria-hidden="true" />
+                  </div>
                 </div>
 
-                {/* Corpo do Cartão: Título Forte + Resumo */}
-                <div className="p-5 sm:p-6 space-y-2.5">
-                  <h3 className="text-base sm:text-lg font-bold text-[#163758] group-hover:text-[#1A73E8] transition-colors leading-snug">
-                    {item.title}
-                  </h3>
+                {/* Lado Direito: Conteúdo de Serviço & Tags de Especialidade */}
+                <div className="sm:w-7/12 p-6 sm:p-7 flex flex-col justify-between space-y-4">
+                  <div className="space-y-2.5">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#1557B0] block">
+                      {item.badge}
+                    </span>
 
-                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-sans line-clamp-3">
-                    {item.summary}
-                  </p>
+                    <h3 className="text-lg sm:text-xl font-bold text-[#163758] group-hover:text-[#1A73E8] transition-colors leading-snug">
+                      {item.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-sans line-clamp-3">
+                      {item.summary}
+                    </p>
+
+                    {/* Pills de Especialidade (Identificador Imediato de Solução Técnica) */}
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {item.tags.map((tag, tIdx) => (
+                        <span 
+                          key={tIdx} 
+                          className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200/90"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Rodapé do Card com Link Interativo */}
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-[#1A73E8] group-hover:text-[#1557B0]">
+                    <span>Ver Dossiê Técnico & Entregáveis</span>
+                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200" aria-hidden="true" />
+                  </div>
                 </div>
               </div>
-
-              {/* Rodapé do Cartão com Link Elegante e Seta Animada */}
-              <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-2">
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-[#1A73E8] group-hover:text-[#1557B0]">
-                  <span>Explorar solução</span>
-                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200" aria-hidden="true" />
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Modal Limpa de Detalhes da Solução (Estilo Mais Quadrado e Corporativo) */}
