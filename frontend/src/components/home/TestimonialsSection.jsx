@@ -5,7 +5,6 @@ import carolinaImg from '../../assets/carolinaughoa.jpeg';
 import fabioImg from '../../assets/fabio.jpg';
 import joseImg from '../../assets/joseconceicao.jpg';
 import louisImg from '../../assets/louismenezes.jpg';
-import marianaImg from '../../assets/mariana.jpg';
 
 export const testimonials = [
   {
@@ -22,9 +21,9 @@ export const testimonials = [
   },
   {
     name: 'Fábio Santos',
-    role: 'Product Owner',
+    role: 'IT Project Manager',
     image: fabioImg,
-    quote: 'Vindo da área de administração tradicional, sentia grande dificuldade em posicionar a minha experiência para o mercado tech. Com a mentoria do Alex Seles, reestruturei totalmente a minha abordagem, dominei a gestão ágil de produto com Scrum e conquistei a minha primeira oportunidade como Product Owner numa consultora multinacional.'
+    quote: 'Com a mentoria do Alex Seles, reestruturei totalmente o meu posicionamento para a liderança de projetos em tecnologia. Aprendi a coordenar equipas multidisciplinares, alinhar prazos com metodologias ágeis e garantir previsibilidade técnica de ponta a ponta. Conquistei a minha vaga como IT Project Manager com total segurança.'
   },
   {
     name: 'José Conceição',
@@ -34,15 +33,15 @@ export const testimonials = [
   },
   {
     name: 'Louis Menezes',
-    role: 'Cloud & DevOps Engineer',
+    role: 'Service Manager',
     image: louisImg,
-    quote: 'O direcionamento do Alex para certificações internacionais de nuvem e arquiteturas modernas encurtou em vários meses a minha transição. Ele ensina exatamente o que as grandes empresas exigem em ambientes de produção de alta disponibilidade. O retorno do investimento na mentoria foi imediato.'
+    quote: 'O direcionamento do Alex em gestão de serviços de TI (ITIL 4), governação operacional e gestão contínua de SLAs foi um acelerador brutal para a minha carreira. Ensina o que as multinacionais realmente exigem em ambientes críticos. Hoje atuo como Service Manager com elevada autonomia e maturidade técnica.'
   },
   {
     name: 'Mariana Carvalho',
-    role: 'Product Designer (UX/UI)',
-    image: marianaImg,
-    quote: 'A mentoria com o Alex Seles foi o verdadeiro divisor de águas na minha carreira. Aprendi a construir portfólios orientados a métricas de negócio, acessibilidade digital WCAG e validação de produto. Hoje atuo como Product Designer remota para projetos internacionais com plena autonomia e confiança.'
+    role: 'Scrum Master',
+    image: null,
+    quote: 'A mentoria com o Alex Seles foi determinante para a minha evolução e transição para o universo ágil. Com a sua facilitação e mentoria prática, dominei os ritos, a remoção de impedimentos e o desenvolvimento de equipas de alta performance. Hoje atuo com confiança como Scrum Master em projetos de impacto.'
   }
 ];
 
@@ -161,12 +160,21 @@ export const TestimonialsSection = () => {
 
                 {/* Bloco de Autor: Foto, Nome e Cargo */}
                 <div className="mt-6 pt-5 border-t border-slate-200/80 flex items-center gap-3.5">
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-[#1A73E8]/30 shadow-2xs shrink-0 group-hover:border-[#1A73E8] transition-colors"
-                    loading="lazy"
-                  />
+                  {item.image ? (
+                    <img 
+                      src={item.image} 
+                      alt={item.name} 
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-[#1A73E8]/30 shadow-2xs shrink-0 group-hover:border-[#1A73E8] transition-colors"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div 
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-50 border-2 border-[#1A73E8]/30 text-[#1A73E8] font-bold text-sm sm:text-base flex items-center justify-center shadow-2xs shrink-0 group-hover:border-[#1A73E8] transition-colors"
+                      aria-label={item.name}
+                    >
+                      {item.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                    </div>
+                  )}
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-[#163758] leading-tight font-sans">
                       {item.name}
