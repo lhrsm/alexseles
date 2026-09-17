@@ -27,9 +27,9 @@ export const testimonials = [
   },
   {
     name: 'José Conceição',
-    role: 'Data & DPO Specialist',
+    role: 'IT Project Manager',
     image: joseImg,
-    quote: 'Com formação em Direito, a mentoria estratégica do Alex permitiu-me migrar com total segurança para a área de privacidade e governação de dados (DPO e RGPD). A sua visão executiva e acompanhamento cirúrgico foram cruciais para converter anos de bagagem jurídica numa vantagem competitiva no setor digital.'
+    quote: 'A mentoria executiva do Alex Seles foi determinante para a minha consolidação como IT Project Manager. O seu método prático permitiu-me estruturar processos de entrega de valor, gerir equipas ágeis e assegurar previsibilidade técnica em projetos complexos. Uma orientação que transforma a carreira de qualquer profissional.'
   },
   {
     name: 'Louis Menezes',
