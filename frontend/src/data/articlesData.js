@@ -1,7 +1,7 @@
 import sentidoDaVidaImg from '../assets/SentidoDaVida.png';
 import superandoDesafiosImg from '../assets/SuperandoDEsafios.png';
 import migrandoCarreiraImg from '../assets/migrandoCarreiraSoftware.png';
-import bolachaMalditaImg from '../assets/alexseles.png';
+import bolachaMalditaImg from '../assets/bolacha-maldita.jpg';
 
 export const articlesData = [
   {
