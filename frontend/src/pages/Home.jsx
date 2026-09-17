@@ -1,5 +1,6 @@
 import React from 'react';
 import { Hero } from '../components/home/Hero';
+import { TestimonialsSection } from '../components/home/TestimonialsSection';
 import { CareerTransitionsSection } from '../components/home/CareerTransitionsSection';
 import { AboutSplit } from '../components/home/AboutSplit';
 import { ArticlesFeed } from '../components/home/ArticlesFeed';
@@ -43,13 +44,16 @@ export const Home = () => {
       {/* 2ª Secção: Estagnado na carreira? Perdido na transição para TI? (Cinza) */}
       <Hero />
 
-      {/* 3ª Secção: Artigos e orientações (Branco) */}
+      {/* 3ª Secção: Depoimentos & Histórias Reais de Transição (Branco) */}
+      <TestimonialsSection />
+
+      {/* 4ª Secção: Artigos e orientações (Cinza) */}
       <ArticlesFeed />
 
-      {/* 4ª Secção: Sobre Alex Seles (Cinza - por último, antes do CTA) */}
+      {/* 5ª Secção: Sobre Alex Seles (Branco - antes do CTA) */}
       <AboutSplit />
 
-      {/* 5ª Secção: Preparado para acelerar a sua transição? (Branco - CTA Final) */}
+      {/* 6ª Secção: Preparado para acelerar a sua transição? (Cinza - CTA Final) */}
       <CtaSection />
     </main>
   );

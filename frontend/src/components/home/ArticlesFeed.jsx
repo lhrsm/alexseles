@@ -17,7 +17,7 @@ export const ArticlesFeed = () => {
   }, []);
 
   return (
-    <section id="conteudos" className="py-20 sm:py-28 bg-white text-[#163758] border-b border-slate-200/80">
+    <section id="conteudos" className="py-20 sm:py-28 bg-[#F8FAFC] text-[#163758] border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="max-w-3xl mb-14">
@@ -33,7 +33,7 @@ export const ArticlesFeed = () => {
         </div>
 
         {featured.length === 0 ? (
-          <div className="bg-[#F8FAFC] border border-slate-200/90 rounded-xl p-10 text-center max-w-xl mx-auto space-y-3 shadow-xs">
+          <div className="bg-white border border-slate-200/90 rounded-xl p-10 text-center max-w-xl mx-auto space-y-3 shadow-xs">
             <div className="w-12 h-12 rounded-full bg-blue-50 text-[#1A73E8] flex items-center justify-center mx-auto text-lg">
               <i className="fa-solid fa-newspaper" aria-hidden="true"></i>
             </div>
@@ -50,7 +50,7 @@ export const ArticlesFeed = () => {
               {featured.map((post) => (
                 <article 
                   key={post.id}
-                  className="bg-[#F8FAFC] border border-slate-200/90 rounded-xl overflow-hidden flex flex-col justify-between hover:border-[#1A73E8] hover:shadow-md transition-all group"
+                  className="bg-white border border-slate-200/90 rounded-xl overflow-hidden flex flex-col justify-between hover:border-[#1A73E8] hover:shadow-md transition-all group"
                 >
                   {post.image && (
                     <Link to={`/central-de-conhecimento/${post.slug}`} className="block overflow-hidden aspect-[16/9] bg-slate-900 w-full">

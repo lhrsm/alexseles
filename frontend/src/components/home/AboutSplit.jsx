@@ -3,7 +3,7 @@ import alexSelesImg from '../../assets/alexseles.png';
 
 export const AboutSplit = () => {
   return (
-    <section id="sobre-alex" className="py-20 sm:py-28 bg-[#F8FAFC] text-[#163758] border-b border-slate-200/80 scroll-mt-20">
+    <section id="sobre-alex" className="py-20 sm:py-28 bg-white text-[#163758] border-b border-slate-200/80 scroll-mt-20">
       <span id="escritorio" className="sr-only" aria-hidden="true" />
       <span id="sobre" className="sr-only" aria-hidden="true" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,14 +12,14 @@ export const AboutSplit = () => {
           
           {/* Lado Esquerdo: Card de Perfil de Alex Seles */}
           <div className="lg:col-span-5 lg:sticky lg:top-28">
-            <div className="relative rounded-2xl overflow-hidden shadow-xl bg-white border border-slate-200/90">
+            <div className="relative rounded-2xl overflow-hidden shadow-xl bg-[#F8FAFC] border border-slate-200/90">
               <img 
                 src={alexSelesImg} 
                 alt="Alex Seles - Mentor de Carreira e TI"
                 className="w-full h-[450px] sm:h-[480px] object-cover object-top"
                 loading="lazy"
               />
-              <div className="p-5 bg-white border-t border-slate-100 text-center space-y-1">
+              <div className="p-5 bg-[#F8FAFC] border-t border-slate-200/70 text-center space-y-1">
                 <span className="font-sans text-xl font-bold text-[#163758] block">Alex Seles</span>
                 <span className="text-xs font-semibold text-[#1557B0] block">
                   Engenheiro Informático e Mestre em Engenharia Informática

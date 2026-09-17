@@ -97,7 +97,7 @@ export const CtaSection = () => {
   };
 
   return (
-    <section id="contato" className="py-20 sm:py-28 bg-white text-[#163758] border-t border-slate-200/80">
+    <section id="contato" className="py-20 sm:py-28 bg-[#F8FAFC] text-[#163758] border-t border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           
@@ -116,7 +116,7 @@ export const CtaSection = () => {
 
           {/* Lado Direito: Formulário de Inscrição na Lista */}
           <div className="lg:col-span-6">
-            <div className="bg-[#F8FAFC] border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs">
               {isSubmitted ? (
                 <div className="text-center py-6 space-y-3">
                   <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-xl font-bold">
