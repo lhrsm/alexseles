@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import sirlaneImg from '../../assets/sirlane.jpg';
 import carolinaImg from '../../assets/carolinaughoa.jpeg';
+import fabioImg from '../../assets/fabio.jpg';
+import joseImg from '../../assets/joseconceicao.jpg';
+import louisImg from '../../assets/louismenezes.jpg';
+import marianaImg from '../../assets/mariana.jpg';
 
 export const testimonials = [
   {
@@ -15,33 +19,78 @@ export const testimonials = [
     role: 'AI Project Manager',
     image: carolinaImg,
     quote: 'Para aqueles que procuram um direcionamento na carreira profissional para a área tecnológica e projetos, o Alex é a escolha ideal. Alex é um profissional muito experiente e compartilha insights valiosos. Os encontros com ele são muito proveitosos e esclarecedores. O que eu acho incrível é que, além da teoria, ele mostra na prática como fazer no mundo real. Definitivamente, um grande mentor.'
+  },
+  {
+    name: 'Fábio Santos',
+    role: 'Product Owner',
+    image: fabioImg,
+    quote: 'Vindo da área de administração tradicional, sentia grande dificuldade em posicionar a minha experiência para o mercado tech. Com a mentoria do Alex Seles, reestruturei totalmente a minha abordagem, dominei a gestão ágil de produto com Scrum e conquistei a minha primeira oportunidade como Product Owner numa consultora multinacional.'
+  },
+  {
+    name: 'José Conceição',
+    role: 'Data & DPO Specialist',
+    image: joseImg,
+    quote: 'Com formação em Direito, a mentoria estratégica do Alex permitiu-me migrar com total segurança para a área de privacidade e governação de dados (DPO e RGPD). A sua visão executiva e acompanhamento cirúrgico foram cruciais para converter anos de bagagem jurídica numa vantagem competitiva no setor digital.'
+  },
+  {
+    name: 'Louis Menezes',
+    role: 'Cloud & DevOps Engineer',
+    image: louisImg,
+    quote: 'O direcionamento do Alex para certificações internacionais de nuvem e arquiteturas modernas encurtou em vários meses a minha transição. Ele ensina exatamente o que as grandes empresas exigem em ambientes de produção de alta disponibilidade. O retorno do investimento na mentoria foi imediato.'
+  },
+  {
+    name: 'Mariana Carvalho',
+    role: 'Product Designer (UX/UI)',
+    image: marianaImg,
+    quote: 'A mentoria com o Alex Seles foi o verdadeiro divisor de águas na minha carreira. Aprendi a construir portfólios orientados a métricas de negócio, acessibilidade digital WCAG e validação de produto. Hoje atuo como Product Designer remota para projetos internacionais com plena autonomia e confiança.'
   }
 ];
 
 export const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
 
+  // Deteção responsiva para alternar entre 1 cartão (mobile) e 2 cartões (desktop)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const itemsPerPage = isMobile ? 1 : 2;
+  const totalPages = Math.ceil(testimonials.length / itemsPerPage);
+
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev >= totalPages - 1 ? 0 : prev + 1));
   };
 
-  // Rotação automática a cada 7 segundos com pausa no hover
+  // Garante que o índice permanece válido caso haja redimensionamento de ecrã
+  useEffect(() => {
+    if (currentIndex >= totalPages) {
+      setCurrentIndex(0);
+    }
+  }, [totalPages, currentIndex]);
+
+  // Rotação automática suave a cada 7 segundos, com pausa no hover
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+      setCurrentIndex((prev) => (prev >= totalPages - 1 ? 0 : prev + 1));
     }, 7000);
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isPaused, totalPages]);
 
-  // Gestos táticos de swipe em dispositivos móveis
+  // Gestos táteis de swipe para ecrãs móveis
   const handleTouchStart = (e) => {
     touchStartX.current = e.targetTouches[0].clientX;
   };
@@ -59,7 +108,10 @@ export const TestimonialsSection = () => {
     touchEndX.current = null;
   };
 
-  const current = testimonials[currentIndex];
+  const currentItems = testimonials.slice(
+    currentIndex * itemsPerPage,
+    currentIndex * itemsPerPage + itemsPerPage
+  );
 
   return (
     <section 
@@ -72,12 +124,12 @@ export const TestimonialsSection = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Cabeçalho da Secção */}
-        <div className="mb-10 sm:mb-12">
+        <div className="max-w-3xl mb-12 sm:mb-16 text-left">
           <span className="eyebrow">
-            Depoimentos
+            Depoimentos & Histórias Reais
           </span>
           <h2 
             id="depoimentos-title" 
@@ -85,75 +137,106 @@ export const TestimonialsSection = () => {
           >
             Histórias de quem acelerou a sua transição para TI.
           </h2>
+          <p className="text-base sm:text-lg text-[#475569] mt-3 leading-relaxed font-sans">
+            Resultados mensuráveis de profissionais que transformaram a sua formação anterior em posições estratégicas de tecnologia com a mentoria de Alex Seles.
+          </p>
         </div>
 
-        {/* Carrossel Padrão Bootstrap / React */}
-        <div className="relative bg-[#F8FAFC] border border-slate-200/90 rounded-2xl p-8 sm:p-12 shadow-xs transition-all duration-300">
+        {/* Contentor do Carrossel com Controlos Laterais */}
+        <div className="relative">
           
-          {/* Ícone de Aspas decorativo */}
-          <div className="flex justify-center mb-6 text-[#1A73E8]/25" aria-hidden="true">
-            <Quote className="w-10 h-10 rotate-180" />
+          {/* Grelha Responsiva: 1 por slide no telemóvel, 2 por slide no computador/tablet */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+            {currentItems.map((item, idx) => (
+              <article 
+                key={`${currentIndex}-${idx}`}
+                className="bg-[#F8FAFC] border border-slate-200/90 rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-[#1A73E8]/40 hover:shadow-md transition-all duration-300 text-left h-full group"
+              >
+                <div>
+                  <Quote className="w-8 h-8 text-[#1A73E8]/20 rotate-180 mb-4" aria-hidden="true" />
+                  <blockquote className="text-sm sm:text-base text-[#475569] leading-relaxed font-sans italic">
+                    “{item.quote}”
+                  </blockquote>
+                </div>
+
+                {/* Bloco de Autor: Foto, Nome e Cargo */}
+                <div className="mt-6 pt-5 border-t border-slate-200/80 flex items-center gap-3.5">
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-[#1A73E8]/30 shadow-2xs shrink-0 group-hover:border-[#1A73E8] transition-colors"
+                    loading="lazy"
+                  />
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-[#163758] leading-tight font-sans">
+                      {item.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm font-semibold text-[#1557B0]">
+                      {item.role}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
 
-          {/* Testemunho */}
-          <div className="min-h-[160px] sm:min-h-[130px] flex items-center justify-center">
-            <p className="text-base sm:text-lg text-[#475569] leading-relaxed font-sans italic max-w-2xl mx-auto">
-              “{current.quote}”
-            </p>
-          </div>
-
-          {/* Foto, Nome e Cargo */}
-          <div className="mt-8 pt-6 border-t border-slate-200/70 flex flex-col items-center">
-            <img 
-              src={current.image} 
-              alt={current.name} 
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-[#1A73E8]/30 shadow-xs mb-3"
-              loading="lazy"
-            />
-            <h3 className="text-lg sm:text-xl font-bold text-[#163758]">
-              {current.name}
-            </h3>
-            <p className="text-sm font-semibold text-[#1557B0]">
-              {current.role}
-            </p>
-          </div>
-
-          {/* Botões de Navegação Anterior e Seguinte */}
+          {/* Botão Anterior */}
           <button
             type="button"
             onClick={prevSlide}
-            aria-label="Depoimento anterior"
-            className="absolute left-2 sm:-left-5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm hover:border-[#1A73E8] hover:text-[#1A73E8] flex items-center justify-center text-slate-600 transition-all cursor-pointer"
+            aria-label="Depoimentos anteriores"
+            className="hidden sm:flex absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white border border-slate-200/90 shadow-md hover:border-[#1A73E8] hover:text-[#1A73E8] items-center justify-center text-[#163758] transition-all cursor-pointer z-10"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
 
+          {/* Botão Seguinte */}
           <button
             type="button"
             onClick={nextSlide}
-            aria-label="Próximo depoimento"
-            className="absolute right-2 sm:-right-5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm hover:border-[#1A73E8] hover:text-[#1A73E8] flex items-center justify-center text-slate-600 transition-all cursor-pointer"
+            aria-label="Próximos depoimentos"
+            className="hidden sm:flex absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white border border-slate-200/90 shadow-md hover:border-[#1A73E8] hover:text-[#1A73E8] items-center justify-center text-[#163758] transition-all cursor-pointer z-10"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
 
         </div>
 
-        {/* Indicadores de Paginação (Dots) */}
-        <div className="flex justify-center items-center gap-2.5 mt-6">
-          {testimonials.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setCurrentIndex(idx)}
-              aria-label={`Ir para o depoimento ${idx + 1}`}
-              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                idx === currentIndex 
-                  ? 'w-8 bg-[#1A73E8]' 
-                  : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-              }`}
-            />
-          ))}
+        {/* Botões móveis + Indicadores de Paginação */}
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button
+            type="button"
+            onClick={prevSlide}
+            aria-label="Página anterior"
+            className="sm:hidden w-9 h-9 rounded-full bg-white border border-slate-200 shadow-xs flex items-center justify-center text-slate-600"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          <div className="flex justify-center items-center gap-2">
+            {Array.from({ length: totalPages }).map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setCurrentIndex(idx)}
+                aria-label={`Ir para a página de depoimentos ${idx + 1}`}
+                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  idx === currentIndex 
+                    ? 'w-8 bg-[#1A73E8]' 
+                    : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={nextSlide}
+            aria-label="Próxima página"
+            className="sm:hidden w-9 h-9 rounded-full bg-white border border-slate-200 shadow-xs flex items-center justify-center text-slate-600"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
 
       </div>
