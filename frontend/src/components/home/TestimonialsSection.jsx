@@ -11,7 +11,7 @@ export const testimonials = [
     name: 'Sirlane Fernandes',
     role: 'Scrum Master',
     image: sirlaneImg,
-    quote: 'Tive a honra de conhecer o trabalho do Alex Seles desde o nascimento da iTRecruiter, participando de lives e bootcamps que tiveram um impacto enorme na minha trajetória profissional. Um sonho que parecia não ser possível foi-se aproximando graças à orientação de um mestre dedicado, generoso e sincero. Fui orientada a tirar as certificações PSM I e PSPO I, a reformular o meu currículo e a tornar o meu LinkedIn estratégico. Alcancei a vaga que almejava como Scrum Master. Mais do que um mentor nesta caminhada, ganhei um amigo para a vida.'
+    quote: 'Comecei participando de lives e bootcamps que tiveram um impacto enorme na minha trajetória profissional. Um sonho que parecia não ser possível foi-se aproximando graças à orientação de um mestre dedicado, generoso e sincero. Fui orientada a tirar as certificações PSM I e PSPO I, a reformular o meu currículo e a tornar o meu LinkedIn estratégico. Alcancei a vaga que almejava como Scrum Master. Mais do que um mentor nesta caminhada, ganhei um amigo para a vida.'
   },
   {
     name: 'Carolina Uchôa',
