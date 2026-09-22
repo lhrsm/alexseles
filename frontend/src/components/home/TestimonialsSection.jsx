@@ -23,7 +23,7 @@ export const testimonials = [
     name: 'Fábio Santos',
     role: 'IT Project Manager',
     image: fabioImg,
-    quote: 'Com a mentoria do Alex Seles, reestruturei totalmente o meu posicionamento para a liderança de projetos em tecnologia. Aprendi a coordenar equipas multidisciplinares, alinhar prazos com metodologias ágeis e garantir previsibilidade técnica de ponta a ponta. Conquistei a minha vaga como IT Project Manager com total segurança.'
+    quote: 'Quando defini que buscaria no mercado internacional a minha próxima oportunidade profissional, comecei a procurar quem me pudesse apoiar nessa jornada. Conheci o Alex e a sua mentoria, e não tive dúvidas de que me daria uma base melhor formatada para seguir nos meus objetivos. Identificámos os gaps que eu podia melhorar e fui seguindo as suas dicas para melhor me posicionar no mercado, tudo de forma ajustada e passo a passo. Sem dúvida, foi uma ajuda fundamental.'
   },
   {
     name: 'José Conceição',
@@ -41,7 +41,7 @@ export const testimonials = [
     name: 'Mariana Carvalho',
     role: 'Scrum Master',
     image: null,
-    quote: 'A mentoria com o Alex Seles foi determinante para a minha evolução e transição para o universo ágil. Com a sua facilitação e mentoria prática, dominei os ritos, a remoção de impedimentos e o desenvolvimento de equipas de alta performance. Hoje atuo com confiança como Scrum Master em projetos de impacto.'
+    quote: 'Gostei muito da mentoria com o Alex. Falámos bastante sobre Inteligência Artificial, agentes e vibe coding, e essa conversa deu-me o impulso que precisava para começar a criar os meus próprios agentes de IA para o trabalho e a vida pessoal. Foi o empurrão que me faltava para deixar a curiosidade e começar a construir coisas. O Alex é muito acessível e adaptou a mentoria aos meus objetivos específicos. Saí com muitas ideias e motivação para pôr tudo em prática. Recomendo sem dúvida!'
   }
 ];
 
