@@ -2,7 +2,14 @@ import './chat.css';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 const API = (import.meta.env.VITE_RP1_CHAT_API || 'https://unpurified-braiden-hazy.ngrok-free.dev').replace(/\/$/, '');
-const TOKEN_KEY = 'rp1_chat_token';
+// ?com=beatriz abre o chat da comunidade PM Unlocked (link no fim das publicações dos grupos); sem nada, atende a Inês
+const ENTRY = new URLSearchParams(window.location.search).get('com') === 'beatriz' ? 'beatriz' : 'ines';
+const TOKEN_KEY = ENTRY === 'beatriz' ? 'rp1_chat_token_beatriz' : 'rp1_chat_token';
+const WELCOME = ENTRY === 'beatriz'
+  ? { title: 'Fale com a Beatriz', text: 'Comunidade PM Unlocked: artigos, certificações, carreira em TI e migrar para Portugal.', team: ['beatriz'],
+      consent: 'a Beatriz, assistente digital (inteligência artificial) da comunidade PM Unlocked, que pode passar a conversa a uma pessoa da equipa,' }
+  : { title: 'Fale com a equipa da RP1', text: 'Informações, propostas, apoio ou uma reunião. Respondemos em segundos.', team: ['ines', 'joao', 'rita'],
+      consent: 'assistentes digitais (inteligência artificial) da RP1, que podem passar a conversa a uma pessoa da equipa,' };
 // O domínio gratuito do ngrok mostra uma página de aviso a quem abre no navegador; este cabeçalho evita-a nos pedidos
 const HEADERS = { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': '1' };
 
@@ -70,17 +77,17 @@ function Welcome({ onStart, busy, error }) {
     <main className="welcome">
       <div className="welcome-card">
         <img src="/chat/rp1.svg" alt="RP1" className="welcome-logo" />
-        <h1>Fale com a equipa da RP1</h1>
-        <p className="muted">Informações, propostas, apoio ou uma reunião. Respondemos em segundos.</p>
+        <h1>{WELCOME.title}</h1>
+        <p className="muted">{WELCOME.text}</p>
         <div className="team-row" aria-hidden="true">
-          {['ines', 'joao', 'rita'].map(a => <img key={a} src={`/chat/avatars/${a}.jpg`} alt="" />)}
+          {WELCOME.team.map(a => <img key={a} src={`/chat/avatars/${a}.jpg`} alt="" />)}
         </div>
         <form onSubmit={(e) => { e.preventDefault(); if (agree) onStart(name.trim()); }}>
           <label htmlFor="w-name">Como se chama? <span className="muted">(opcional)</span></label>
           <input id="w-name" value={name} onChange={e => setName(e.target.value)} autoComplete="name" maxLength={60} placeholder="O seu nome" />
           <label className="check">
             <input type="checkbox" checked={agree} onChange={e => setAgree(e.target.checked)} />
-            <span>Percebo que vou falar com <strong>assistentes digitais</strong> (inteligência artificial) da RP1, que podem passar a conversa a uma pessoa da equipa, e aceito que as mensagens fiquem guardadas para me responderem.</span>
+            <span>Percebo que vou falar com {WELCOME.consent} e aceito que as mensagens fiquem guardadas para me responderem.</span>
           </label>
           {error && <div className="error" role="alert">{error}</div>}
           <button type="submit" className="btn-start" disabled={!agree || busy}>{busy ? 'A abrir…' : 'Começar conversa'}</button>
@@ -233,7 +240,7 @@ export function ChatApp() {
   }, []);
 
   useEffect(() => {
-    document.title = 'Fale com a equipa da RP1';
+    document.title = WELCOME.title;
     const robots = document.createElement('meta');
     robots.name = 'robots';
     robots.content = 'noindex, nofollow';
@@ -251,7 +258,7 @@ export function ChatApp() {
     setBusy(true);
     setError(null);
     try {
-      const c = await call('/api/public/chat/start', { method: 'POST', body: JSON.stringify({ name, consent: true }) });
+      const c = await call('/api/public/chat/start', { method: 'POST', body: JSON.stringify({ name, consent: true, agent: ENTRY }) });
       keepToken(c.token);
       setConv(c);
     } catch (e) { setError(e.message); } finally { setBusy(false); }

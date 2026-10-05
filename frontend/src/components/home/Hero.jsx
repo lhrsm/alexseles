@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PreQualificationModal } from '../pre-qualification';
 
 export const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Link direto para a Pré-Qualificação (por exemplo o que a Beatriz envia no chat): www.alexseles.online/?pre-qualificacao
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('pre-qualificacao')) setIsModalOpen(true);
+  }, []);
 
   return (
     <section 
