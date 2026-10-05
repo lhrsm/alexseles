@@ -25,6 +25,27 @@ async function call(path, options = {}) {
   return data;
 }
 
+/* Links nas mensagens: clicáveis, abrem noutra janela (sem HTML: só texto e elementos React) */
+const URL_RE = /(https?:\/\/[^\s<>"')\]]+)/g;
+function linkify(text) {
+  return String(text || '').split(URL_RE).map((part, i) => {
+    if (i % 2 === 0) return part;
+    const clean = part.replace(/[.,;:!?]+$/, '');
+    const tail = part.slice(clean.length);
+    let label = clean;
+    try {
+      const u = new URL(clean);
+      label = (u.hostname.replace(/^www\./, '') + u.pathname).replace(/\/$/, '');
+      if (label.length > 48) label = `${label.slice(0, 45)}…`;
+    } catch { /* fica o texto completo */ }
+    return (
+      <React.Fragment key={i}>
+        <a href={clean} target="_blank" rel="noopener noreferrer">{label}</a>{tail}
+      </React.Fragment>
+    );
+  });
+}
+
 const time = (iso) => (iso ? new Date(iso).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }) : '');
 const dayLabel = (iso) => {
   const d = new Date(iso);
@@ -190,7 +211,7 @@ function Chat({ initial, onLost }) {
                 <div className={`row ${m.role === 'visitor' ? 'out' : 'in'}`}>
                   <div className={`bubble ${m.role === 'visitor' ? 'bubble-out' : 'bubble-in'}`}>
                     {m.role !== 'visitor' && <div className={`sender sender-${m.role}`}>{a ? a.name : conv.human_name || 'Equipa'}</div>}
-                    <span className="text">{m.text}</span>
+                    <span className="text">{linkify(m.text)}</span>
                     <span className="meta">
                       {time(m.at)}
                       {m.role === 'visitor' && <Ticks read={!m.pending && lastReplyAt > m.at} />}

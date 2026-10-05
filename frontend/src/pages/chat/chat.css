@@ -157,3 +157,6 @@
 .wa .composer textarea:focus-visible, .wa .send:focus-visible, .wa .quick button:focus-visible, .wa .icon-btn:focus-visible, .wa .btn-start:focus-visible {
   outline: 2px solid var(--accent); outline-offset: 2px;
 }
+
+.wa .bubble a { color: #027eb5; text-decoration: underline; word-break: break-word; }
+@media (prefers-color-scheme: dark) { .wa .bubble a { color: #53bdeb; } }
