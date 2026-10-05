@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
-import { FloatingContact } from './components/layout/FloatingContact';
 import { ScrollToTop } from './components/layout/ScrollToTop';
 import { recordPageView } from './services/analyticsService';
 
@@ -162,7 +161,6 @@ export function App() {
           </Routes>
         </div>
 
-        <FloatingContact />
         <Footer />
         <CookieConsentBanner />
       </div>
