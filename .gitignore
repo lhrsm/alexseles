@@ -28,3 +28,8 @@ scratch/
 __pycache__/
 *.pyc
 *.pyo
+
+# Folhas com dados de pessoas (leads, contactos): nunca no git nem na pasta public
+*.xlsx
+*.xls
+*.csv

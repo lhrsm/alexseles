@@ -14,6 +14,7 @@ Disallow: /backoffice
 Disallow: /admin
 Disallow: /login
 Disallow: /dashboard
+Disallow: /chat
 
 # Motores de Pesquisa Oficiais
 User-agent: Googlebot
@@ -22,6 +23,7 @@ Disallow: /backoffice
 Disallow: /admin
 Disallow: /login
 Disallow: /dashboard
+Disallow: /chat
 
 User-agent: Googlebot-Image
 Allow: /assets/
@@ -33,6 +35,7 @@ Disallow: /backoffice
 Disallow: /admin
 Disallow: /login
 Disallow: /dashboard
+Disallow: /chat
 
 User-agent: Applebot
 Allow: /

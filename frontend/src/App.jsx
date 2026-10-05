@@ -83,8 +83,12 @@ import { TermosUso } from './pages/TermosUso';
 import { ParaEmpresas } from './pages/ParaEmpresas';
 import { CasoDeSucesso } from './pages/CasoDeSucesso';
 import { CookieConsentBanner } from './components/common/CookieConsentBanner';
+import { ChatApp } from './pages/chat/ChatApp';
 
 export function App() {
+  // O chat da RP1 é uma página à parte: ecrã inteiro, sem menu, rodapé nem aviso de cookies
+  if (window.location.pathname.replace(/\/$/, '') === '/chat') return <ChatApp />;
+
   return (
     <Router>
       <ScrollToTop />

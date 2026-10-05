@@ -22,6 +22,11 @@ const template = fs.readFileSync(templatePath, 'utf-8');
 
 const routes = [
   {
+    path: 'chat',
+    title: 'Fale com a equipa da RP1',
+    description: 'Converse com a equipa da RP1: informações, propostas, apoio ou uma reunião.'
+  },
+  {
     path: 'para-empresas',
     title: 'Alex Seles • Soluções Corporativas | Transformação Digital, Automação, IA & Governação de TI',
     description: 'Acelere a maturidade tecnológica da sua empresa. Transformação digital, automação de processos, integração segura de IA e capacitação estratégica de equipas de TI com Alex Seles.'
