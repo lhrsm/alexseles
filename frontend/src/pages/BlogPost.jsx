@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { getArticleBySlug, getAllArticles } from '../data/articlesData';
+import { getArticleBySlug, getAllArticles, loadRemoteArticles, remoteArticlesState } from '../data/articlesData';
 import { MetaTags } from '../components/seo/MetaTags';
 import { ArticleJsonLd } from '../components/seo/JsonLd';
 import DOMPurify from 'dompurify';
 
 export const BlogPost = () => {
   const { slug } = useParams();
+  const [, setVersion] = useState(0);
+
+  useEffect(() => {
+    const refresh = () => setVersion((v) => v + 1);
+    window.addEventListener('mc_articles_updated', refresh);
+    loadRemoteArticles();
+    return () => window.removeEventListener('mc_articles_updated', refresh);
+  }, []);
+
   const rawArticle = getArticleBySlug(slug);
 
   if (!rawArticle) {
+    // Pode ser um artigo publicado no Supabase que ainda está a carregar
+    if (['idle', 'loading'].includes(remoteArticlesState())) {
+      return (
+        <main id="main-content" className="py-16 bg-white text-[#163758] min-h-screen" aria-busy="true">
+          <div className="max-w-3xl mx-auto px-4 text-sm text-[#536773]">A carregar o artigo…</div>
+        </main>
+      );
+    }
     return <Navigate to="/central-de-conhecimento" replace />;
   }
 
@@ -109,6 +126,15 @@ export const BlogPost = () => {
                   loading="eager"
                 />
               </div>
+            )}
+            {article.image && article.imageCredit && (
+              <p className="-mt-6 text-[11px] text-slate-500 text-right">
+                Foto de{' '}
+                <a href={article.imageCredit.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-[#1A73E8]">
+                  {article.imageCredit.author}
+                </a>{' '}
+                no Unsplash
+              </p>
             )}
 
             {/* Lead */}

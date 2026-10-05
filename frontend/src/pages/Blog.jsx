@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllArticles } from '../data/articlesData';
+import { getAllArticles, loadRemoteArticles } from '../data/articlesData';
 import { MetaTags } from '../components/seo/MetaTags';
 
 export const Blog = () => {
@@ -11,6 +11,7 @@ export const Blog = () => {
   useEffect(() => {
     const refresh = () => setAllArticles(getAllArticles());
     window.addEventListener('mc_articles_updated', refresh);
+    loadRemoteArticles();
     return () => window.removeEventListener('mc_articles_updated', refresh);
   }, []);
 

@@ -1,6 +1,6 @@
 import sentidoDaVidaImg from '../assets/SentidoDaVida.png';
 import superandoDesafiosImg from '../assets/SuperandoDEsafios.png';
-import migrandoCarreiraImg from '../assets/migrandoCarreiraSoftware.png';
+import certificacaoImg from '../assets/certificacao-gestao-projetos.jpg';
 import bolachaMalditaImg from '../assets/bolacha-maldita.jpg';
 
 export const articlesData = [
@@ -147,33 +147,39 @@ export const articlesData = [
     ]
   },
   {
-    id: 'artigo-7134-migrando-de-carreira-em-software-dicas-para-um-sucesso-estrategico',
+    id: 'psm-pmp-ou-safe-que-certificacao-escolher-em-gestao-de-projetos',
     number: 3,
-    title: 'Migrando de Carreira em Software: Dicas para um Sucesso Estratégico!',
-    h1: 'Migrando de Carreira em Software: Dicas para um Sucesso Estratégico!',
-    slug: 'artigo-7134-migrando-de-carreira-em-software-dicas-para-um-sucesso-estrategico',
-    image: migrandoCarreiraImg,
+    title: 'PSM, PMP ou SAFe: que certificação escolher para crescer em gestão de projetos?',
+    h1: 'PSM, PMP ou SAFe: que certificação escolher para crescer em gestão de projetos?',
+    slug: 'psm-pmp-ou-safe-que-certificacao-escolher-em-gestao-de-projetos',
+    image: certificacaoImg,
+    imageCredit: {
+      author: 'Vadim Bozhko',
+      url: 'https://unsplash.com/photos/person-writing-in-notebook-at-desk-lbO1iCnbTW0'
+    },
     category: 'Carreira & TI',
     categorySlug: 'carreira-ti',
-    metaDescription: 'Dicas práticas e estratégicas para profissionais que desejam migrar para o desenvolvimento de software e tecnologia com segurança, método e aceleração por mentoria.',
+    metaDescription: 'PSM I, PSPO, CAPM, PMP ou SAFe? Um guia prático para escolher a certificação certa em gestão de projetos e agilidade, de acordo com a sua experiência e o seu objetivo.',
     keywords: [
-      'Migração de Carreira',
-      'Engenharia de Software',
-      'Desenvolvimento de Software',
-      'Transição para TI',
-      'Mentoria de Carreira',
-      'Alex Seles',
-      'Carreira em Tecnologia'
+      'Certificação em Gestão de Projetos',
+      'PSM I',
+      'PSPO',
+      'PMP',
+      'CAPM',
+      'SAFe',
+      'Scrum',
+      'Alex Seles'
     ],
     h2Subtitles: [
-      'O cenário da transição para o desenvolvimento de software',
-      'Identificação e valorização de competências transferíveis',
-      'Construção de uma base técnica sólida e projetos no GitHub',
-      'Mentoria especializada, networking e posicionamento no LinkedIn'
+      'Primeiro o objetivo, depois a sigla',
+      'Scrum.org: PSM I e PSPO para começar no ágil',
+      'PMI: CAPM para quem começa e PMP para quem já lidera projetos',
+      'SAFe: agilidade em grandes organizações',
+      'Como estudar sem perder tempo nem dinheiro'
     ],
-    wordCount: '520 palavras',
-    readingTime: '5 min de leitura',
-    publishedAt: '2026-09-08',
+    wordCount: '620 palavras',
+    readingTime: '4 min de leitura',
+    publishedAt: '2026-10-05',
     author: {
       name: 'Alex Seles',
       role: 'Head de Inovação & Tecnologia | Mentor de Carreira TI',
@@ -181,35 +187,42 @@ export const articlesData = [
     },
     sections: [
       {
-        subtitle: 'O cenário da transição para o desenvolvimento de software',
+        subtitle: 'Primeiro o objetivo, depois a sigla',
         paragraphs: [
-          'A transição de carreira para a engenharia e desenvolvimento de software é uma das decisões mais recompensadoras da atualidade, mas exige um planeamento minucioso, resiliência e clareza sobre os objetivos a médio e longo prazo.',
-          'Com a constante evolução da inteligência artificial e a procura contínua por software confiável, as empresas não procuram apenas quem escreve código, mas profissionais capazes de resolver problemas reais de negócio com arquitetura limpa e visão crítica.'
+          'Uma das perguntas que mais recebo na mentoria é "qual certificação devo tirar primeiro?". A resposta depende menos da fama da sigla e mais de três perguntas: em que tipo de projetos quer trabalhar, que experiência já tem e que vagas quer conquistar nos próximos 12 meses.',
+          'Abra dez anúncios da função que procura (Project Manager, Scrum Master, Product Owner ou PMO) e anote as certificações que aparecem. Esse pequeno estudo de mercado vale mais do que qualquer ranking genérico.'
         ]
       },
       {
-        subtitle: 'Identificação e valorização de competências transferíveis',
+        subtitle: 'Scrum.org: PSM I e PSPO para começar no ágil',
         paragraphs: [
-          'Muitos profissionais sentem a síndrome do impostor ao recomeçar, ignorando que as suas experiências anteriores em áreas como finanças, gestão, atendimento, engenharia ou educação constituem uma enorme vantagem competitiva.',
-          'Capacidade de comunicação, pensamento analítico, negociação de requisitos e trabalho colaborativo sob métodos ágeis (Scrum, Kanban) são qualidades raras em iniciantes e colocam o profissional em transição num patamar diferenciado perante os recrutadores.'
+          'O PSM I (Professional Scrum Master) é muitas vezes a porta de entrada para quem vem de outra área. O curso não é obrigatório e o exame é feito online: 80 perguntas em 60 minutos, com 85% de respostas certas para passar. A certificação não expira.',
+          'Se o seu caminho é o produto (backlog, valor para o cliente, prioridades), o PSPO (Professional Scrum Product Owner) segue o mesmo modelo. Os níveis seguintes, como o PSM II e o PSPO II, fazem sentido quando já tem prática real com equipas Scrum.'
         ]
       },
       {
-        subtitle: 'Construção de uma base técnica sólida e projetos no GitHub',
+        subtitle: 'PMI: CAPM para quem começa e PMP para quem já lidera projetos',
         paragraphs: [
-          'O maior erro de quem migra para software é tentar aprender dez tecnologias ao mesmo tempo. A chave do sucesso consiste em selecionar uma base sólida — como o ecossistema JavaScript/TypeScript, Python ou Java —, compreendendo lógica profunda, estruturas de dados, consumo de APIs e controlo de versão com Git.',
-          'Em vez de criar apenas projetos genéricos de tutoriais, desenvolva soluções que resolvam necessidades autênticas do dia a dia e documente o processo com READMEs detalhados no seu repositório GitHub.'
+          'O PMP (Project Management Professional) continua a ser uma das certificações mais pedidas em gestão de projetos, sobretudo em empresas grandes e projetos internacionais. Exige experiência comprovada a liderar projetos (36 meses com licenciatura, 60 meses sem) e 35 horas de formação em gestão de projetos. O exame tem 180 perguntas em 230 minutos e a certificação renova-se a cada 3 anos.',
+          'Sem essa experiência, o CAPM (Certified Associate in Project Management) é o primeiro passo no mesmo ecossistema: pede 23 horas de formação e mostra que domina os fundamentos, sejam preditivos, ágeis ou híbridos.'
         ]
       },
       {
-        subtitle: 'Mentoria especializada, networking e posicionamento no LinkedIn',
+        subtitle: 'SAFe: agilidade em grandes organizações',
         paragraphs: [
-          'Ter uma marca pessoal bem calibrada no LinkedIn e participar ativamente em comunidades técnicas encurta significativamente o tempo até à primeira oportunidade. Apresente a sua história de transição com consistência e foco nos resultados.',
-          'Contar com o acompanhamento de um mentor experiente ajuda a calibrar o currículo para sistemas ATS, direcionar esforços para certificações relevantes e evitar os erros mais comuns na jornada rumo a cargos de destaque em tecnologia.'
+          'Em bancos, seguradoras, telecomunicações e outras empresas com muitas equipas a trabalhar no mesmo produto, o SAFe (Scaled Agile Framework) aparece cada vez mais nas vagas. O SAFe Agilist, obtido depois do curso Leading SAFe, é o ponto de partida mais comum para líderes, gestores de projeto e PMO.',
+          'Para quem quer ser Scrum Master nesse contexto, o SAFe Scrum Master junta a base do Scrum com a coordenação entre equipas. Vale a pena sobretudo se as empresas que procura já usam o modelo.'
+        ]
+      },
+      {
+        subtitle: 'Como estudar sem perder tempo nem dinheiro',
+        paragraphs: [
+          'Escolha uma certificação de cada vez e marque a data do exame logo no início: um prazo concreto mantém o estudo constante. Use os materiais oficiais (Scrum Guide, PMBOK e Exam Content Outline do PMI, materiais da Scaled Agile) e faça simulados até estar confortavelmente acima da nota mínima.',
+          'Os requisitos, os preços e o formato dos exames mudam com alguma frequência. Antes de se inscrever, confirme sempre no site oficial: scrum.org, pmi.org e scaledagile.com.'
         ]
       }
     ],
-    practicalTip: 'Foque em dominar os fundamentos antes de se perder em frameworks da moda. Participe ativamente em comunidades e busque mentorias para acelerar a sua maturidade profissional.'
+    practicalTip: 'Comece pela certificação que aparece mais nas vagas que quer conquistar: muitas vezes PSM I ou CAPM para entrar, PMP ou SAFe para dar o salto. Junte-se à comunidade Certificação PM para trocar dúvidas e materiais de estudo.'
   },
   {
     id: 'artigo-3918-bolacha-maldita',
@@ -341,15 +354,72 @@ export const getDeletedArticleIds = () => {
   return [];
 };
 
+// ─── Artigos publicados no Supabase (backoffice e Beatriz), visíveis a todos os visitantes ───
+let remoteArticles = [];
+let remoteState = 'idle'; // idle | loading | ready | failed
+let remotePromise = null;
+
+const mapRemoteArticle = (item) => {
+  const rawSections = Array.isArray(item.sections) ? item.sections : [];
+  return normalizeArticle({
+    id: item.id,
+    title: item.title,
+    h1: item.title,
+    slug: item.slug,
+    category: item.category || 'Carreira & TI',
+    categorySlug: item.category_slug || 'carreira-ti',
+    metaDescription: item.meta_description || 'Artigo e orientação profissional desenvolvida por Alex Seles.',
+    readingTime: item.reading_time || '5 min de leitura',
+    publishedAt: item.created_at ? new Date(item.created_at).toISOString().split('T')[0] : undefined,
+    isCustom: true,
+    author: { name: 'Alex Seles', role: 'Head de Inovação & Tecnologia | Embaixador ITIL' },
+    image: (rawSections[0] && rawSections[0].image) || item.image || null,
+    sections: rawSections,
+    practicalTip: item.practical_tip || undefined
+  });
+};
+
+export const remoteArticlesState = () => remoteState;
+
+/** Carrega uma vez os artigos publicados; se o Supabase falhar, o blog continua com os artigos do site. */
+export const loadRemoteArticles = () => {
+  if (remotePromise) return remotePromise;
+  remoteState = 'loading';
+  remotePromise = import('../lib/supabase')
+    .then(({ supabase }) => supabase
+      .from('artigos')
+      .select('id,title,slug,category,category_slug,reading_time,meta_description,practical_tip,sections,status,created_at')
+      .eq('status', 'Publicado')
+      .order('created_at', { ascending: false }))
+    .then(({ data, error }) => {
+      if (error) throw error;
+      remoteArticles = (Array.isArray(data) ? data : []).filter((item) => item && item.slug && item.title).map(mapRemoteArticle);
+      remoteState = 'ready';
+    })
+    .catch(() => {
+      remoteState = 'failed';
+    })
+    .finally(() => {
+      if (typeof window !== 'undefined') window.dispatchEvent(new Event('mc_articles_updated'));
+    });
+  return remotePromise;
+};
+
 export const getAllArticles = () => {
   const custom = getCustomArticles();
   const deletedIds = getDeletedArticleIds();
   const customIds = new Set(custom.map((c) => c.id));
-  const activeCustom = custom.filter((c) => !deletedIds.includes(c.id));
-  const activeBuiltIn = articlesData
-    .map(normalizeArticle)
-    .filter((a) => !customIds.has(a.id) && !deletedIds.includes(a.id));
-  return [...activeCustom, ...activeBuiltIn];
+  const builtIn = articlesData.map(normalizeArticle);
+  const builtInIds = new Set(builtIn.map((a) => a.id));
+  const builtInSlugs = new Set(builtIn.map((a) => a.slug));
+  // Uma cópia guardada no navegador com o mesmo endereço de um artigo do site não aparece em duplicado
+  const activeCustom = custom.filter((c) => !deletedIds.includes(c.id) && (builtInIds.has(c.id) || !builtInSlugs.has(c.slug)));
+  const activeBuiltIn = builtIn.filter((a) => !customIds.has(a.id) && !deletedIds.includes(a.id));
+  // Os artigos do site (com as imagens próprias) têm prioridade; do Supabase entram só os que ainda não existem, à frente por serem os mais recentes
+  const localSlugs = new Set([...activeCustom, ...activeBuiltIn].map((a) => a.slug));
+  const seen = new Set();
+  const activeRemote = remoteArticles.filter((a) => !deletedIds.includes(a.id) && !localSlugs.has(a.slug) && !seen.has(a.slug) && seen.add(a.slug));
+  return [...activeRemote, ...activeCustom, ...activeBuiltIn];
 };
 
 export const getArticleBySlug = (slug) => {

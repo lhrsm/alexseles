@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
@@ -24,37 +24,32 @@ function PageViewTracker() {
   return null;
 }
 
-import { getUsers } from './services/backofficeService';
+import { getAdminSession, clearAdminCache } from './services/backofficeService';
+import { supabase } from './lib/supabase';
 
-// Guarda de segurança de autenticação do Backoffice
+// Guarda do Backoffice: exige sessão do Supabase Auth de um administrador ativo (verificado na base de dados).
+// Os dados continuam protegidos pelas regras RLS mesmo que alguém contorne este ecrã.
 function ProtectedRoute({ children }) {
-  const session = sessionStorage.getItem('mc_admin_session');
-  if (!session) {
-    return <Navigate to="/login" replace />;
-  }
-  try {
-    const parsed = JSON.parse(session);
-    if (!parsed.token || !parsed.expiresAt || parsed.expiresAt < Date.now()) {
-      sessionStorage.removeItem('mc_admin_session');
-      return <Navigate to="/login" replace />;
-    }
+  const [state, setState] = useState('checking'); // 'checking' | 'ok' | 'denied'
 
-    const activeUsers = getUsers();
-    const sessionEmail = (parsed.user || '').trim().toLowerCase();
-
-    if (activeUsers && activeUsers.length > 0) {
-      const found = activeUsers.find(
-        (u) => (u.email || '').trim().toLowerCase() === sessionEmail
-      );
-      if (found && found.status === 'Inativo') {
-        sessionStorage.removeItem('mc_admin_session');
-        return <Navigate to="/login" replace />;
+  useEffect(() => {
+    let alive = true;
+    getAdminSession()
+      .then((s) => { if (alive) setState(s ? 'ok' : 'denied'); })
+      .catch(() => { if (alive) setState('denied'); });
+    const { data } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT' && alive) {
+        clearAdminCache();
+        setState('denied');
       }
-    }
-  } catch (e) {
-    sessionStorage.removeItem('mc_admin_session');
-    return <Navigate to="/login" replace />;
+    });
+    return () => { alive = false; data?.subscription?.unsubscribe(); };
+  }, []);
+
+  if (state === 'checking') {
+    return <div className="min-h-[50vh] flex items-center justify-center text-sm text-slate-500" role="status">A verificar acesso…</div>;
   }
+  if (state === 'denied') return <Navigate to="/login" replace />;
   return children;
 }
 

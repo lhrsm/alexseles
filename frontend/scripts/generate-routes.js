@@ -67,9 +67,9 @@ const routes = [
     description: 'Superar o medo de começar do zero em tecnologia, a barreira do inglês e a falta de experiência prévia para alcançar cargos de gestão em TI.'
   },
   {
-    path: 'central-de-conhecimento/artigo-7134-migrando-de-carreira-em-software-dicas-para-um-sucesso-estrategico',
-    title: 'Migrando de Carreira em Software: Dicas para um Sucesso Estratégico! | Alex Seles',
-    description: 'Dicas práticas e estratégicas para profissionais que desejam migrar para o desenvolvimento de software e tecnologia com segurança, método e aceleração por mentoria.'
+    path: 'central-de-conhecimento/psm-pmp-ou-safe-que-certificacao-escolher-em-gestao-de-projetos',
+    title: 'PSM, PMP ou SAFe: que certificação escolher para crescer em gestão de projetos? | Alex Seles',
+    description: 'PSM I, PSPO, CAPM, PMP ou SAFe? Um guia prático para escolher a certificação certa em gestão de projetos e agilidade, de acordo com a sua experiência e o seu objetivo.'
   },
   {
     path: 'central-de-conhecimento/artigo-3918-bolacha-maldita',
@@ -118,6 +118,38 @@ const routes = [
   }
 ];
 
+// Artigos publicados no Supabase (backoffice e Beatriz): página estática com título e descrição próprios.
+// A chave é a pública (a mesma que o site usa no navegador). Se o Supabase falhar, a construção continua.
+const SUPABASE_URL = (process.env.VITE_SUPABASE_URL || 'https://olpxtxcreseibkiwvlnc.supabase.co').replace(/\/$/, '');
+const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_jG-WP0m35Db9WvRzuCsCBQ_uTJ6oAE9';
+const escapeAttr = (s) => String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const remoteArticles = [];
+
+try {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/artigos?select=title,slug,meta_description,created_at&status=eq.Publicado&order=created_at.desc`, {
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
+    signal: AbortSignal.timeout(15000)
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const rows = await res.json();
+  const known = new Set(routes.map((r) => r.path));
+  for (const row of Array.isArray(rows) ? rows : []) {
+    if (!row || !row.title || !/^[a-z0-9-]+$/.test(row.slug || '')) continue;
+    const routePath = `central-de-conhecimento/${row.slug}`;
+    if (known.has(routePath)) continue;
+    known.add(routePath);
+    remoteArticles.push(row);
+    routes.push({
+      path: routePath,
+      title: escapeAttr(`${row.title} | Alex Seles`),
+      description: escapeAttr(row.meta_description || 'Artigo e orientação profissional de Alex Seles.')
+    });
+  }
+  console.log(`[ROTAS] ${remoteArticles.length} artigo(s) novo(s) do Supabase.`);
+} catch (err) {
+  console.warn(`[AVISO] Não foi possível ler os artigos do Supabase (${err.message}). A construção continua sem eles.`);
+}
+
 console.log('[ROTAS] A gerar ficheiros HTML estáticos para cada rota canónica...');
 
 routes.forEach((route) => {
@@ -148,3 +180,26 @@ routes.forEach((route) => {
 });
 
 console.log(`[SUCESSO] ${routes.length} rotas estáticas pré-geradas com sucesso no dist.`);
+
+// Sitemap: acrescenta os artigos do Supabase que ainda não estão lá (só no dist; o ficheiro em public não muda)
+const sitemapPath = path.join(distDir, 'sitemap.xml');
+if (remoteArticles.length && fs.existsSync(sitemapPath)) {
+  let sitemap = fs.readFileSync(sitemapPath, 'utf-8');
+  const entries = remoteArticles
+    .map((row) => ({ loc: `https://www.alexseles.online/central-de-conhecimento/${row.slug}`, lastmod: String(row.created_at || '').slice(0, 10) }))
+    .filter((e) => !sitemap.includes(`<loc>${e.loc}</loc>`))
+    .map((e) => `  <url>
+    <loc>${e.loc}</loc>
+${e.lastmod ? `    <lastmod>${e.lastmod}</lastmod>
+` : ''}    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+`);
+  if (entries.length) {
+    sitemap = sitemap.replace('</urlset>', `  <!-- Artigos do Supabase -->
+${entries.join(String.fromCharCode(10))}
+</urlset>`);
+    fs.writeFileSync(sitemapPath, sitemap, 'utf-8');
+    console.log(`[PASS] Sitemap: ${entries.length} artigo(s) acrescentado(s).`);
+  }
+}

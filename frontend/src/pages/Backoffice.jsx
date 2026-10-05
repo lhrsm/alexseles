@@ -14,7 +14,10 @@ import {
   deleteCustomArticle,
   fetchSupabaseContacts,
   fetchSupabaseArticles,
-  fetchSupabaseUsers
+  fetchSupabaseUsers,
+  signOutAdmin,
+  getAdminSession,
+  sendPasswordSetupEmail
 } from '../services/backofficeService';
 import { getAllArticles } from '../data/articlesData';
 import { 
@@ -40,7 +43,6 @@ export const Backoffice = () => {
   const [newUser, setNewUser] = useState({
     nome: '',
     email: '',
-    senha: '',
     perfil: 'Administrador'
   });
   const [userSuccessMsg, setUserSuccessMsg] = useState(null);
@@ -137,15 +139,14 @@ export const Backoffice = () => {
   // Manipuladores de Usuários
   const handleAddUser = async (e) => {
     e.preventDefault();
-    if (!newUser.nome || !newUser.email || !newUser.senha) return;
+    if (!newUser.nome || !newUser.email) return;
     try {
       const updated = await saveUser(newUser);
       setUsers(updated);
-      setUserSuccessMsg(`Utilizador ${newUser.nome} gravado com sucesso no Supabase e no sistema!`);
+      setUserSuccessMsg(`Utilizador ${newUser.nome} gravado. Se ainda não tiver conta no Supabase Auth, crie-a no painel (Authentication → Add user) ou use "Enviar email de senha".`);
       setNewUser({
         nome: '',
         email: '',
-        senha: '',
         perfil: 'Administrador'
       });
       setTimeout(() => setUserSuccessMsg(null), 4000);
@@ -162,15 +163,10 @@ export const Backoffice = () => {
         setUsers(updated);
 
         // Se o utilizador atual estiver a excluir a sua própria conta ativa, encerra a sessão imediatamente
-        const sessionStr = sessionStorage.getItem('mc_admin_session');
-        if (sessionStr && userToDelete) {
-          try {
-            const sessionObj = JSON.parse(sessionStr);
-            if ((sessionObj.user || '').trim().toLowerCase() === (userToDelete.email || '').trim().toLowerCase()) {
-              sessionStorage.removeItem('mc_admin_session');
-              navigate('/login');
-            }
-          } catch (e) {}
+        const current = await getAdminSession();
+        if (!current || (current.email || '').trim().toLowerCase() === (userToDelete?.email || '').trim().toLowerCase()) {
+          await signOutAdmin();
+          navigate('/login');
         }
       } catch (err) {
         console.error('Erro ao eliminar utilizador:', err);
@@ -437,14 +433,7 @@ export const Backoffice = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={async () => {
-                const sessionStr = sessionStorage.getItem('mc_admin_session');
-                if (sessionStr && supabase) {
-                  try {
-                    const token = JSON.parse(sessionStr).token;
-                    if (token) await supabase.rpc('revogar_sessao_admin', { p_token: token });
-                  } catch (e) {}
-                }
-                sessionStorage.removeItem('mc_admin_session');
+                await signOutAdmin();
                 navigate('/login');
               }}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-white/10 hover:bg-[#1A73E8] text-xs font-semibold text-white transition-colors"
@@ -1549,18 +1538,10 @@ export const Backoffice = () => {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-semibold text-[#163758] mb-1">
-                      Senha Provisória ou Definitiva <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="password"
-                      required
-                      value={newUser.senha}
-                      onChange={(e) => setNewUser({ ...newUser, senha: e.target.value })}
-                      placeholder="••••••••"
-                      className="w-full px-3.5 py-2 text-xs border border-[#CCD4DA] rounded focus:outline-none focus:border-[#1A73E8]"
-                    />
+                  <div className="p-3 rounded bg-slate-50 border border-[#CCD4DA] text-[11px] text-[#536773] leading-relaxed">
+                    As senhas já não ficam guardadas no site. Depois de gravar, crie o acesso no painel do Supabase
+                    (<strong>Authentication → Users → Add user</strong>, com o mesmo email) ou carregue em
+                    <strong> Enviar email de senha</strong> na lista, para a pessoa definir a sua própria senha.
                   </div>
 
                   <div>
@@ -1626,14 +1607,28 @@ export const Backoffice = () => {
                             setNewUser({
                               nome: u.nome,
                               email: u.email,
-                              senha: '',
                               perfil: u.perfil || 'Administrador'
                             });
                           }}
                           className="text-xs text-[#1A73E8] hover:underline font-semibold"
-                          title="Carregar para alterar senha ou perfil"
+                          title="Carregar para alterar nome ou perfil"
                         >
-                          Editar / Senha
+                          Editar
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            const ok = await sendPasswordSetupEmail(u.email);
+                            setUserSuccessMsg(ok
+                              ? `Email para definir a senha enviado para ${u.email} (só chega se a conta já existir no Supabase Auth).`
+                              : 'Não foi possível enviar o email. Tente de novo dentro de alguns minutos.');
+                            setTimeout(() => setUserSuccessMsg(null), 6000);
+                          }}
+                          className="text-xs text-[#1A73E8] hover:underline font-semibold"
+                          title="Enviar à pessoa um email para definir ou mudar a senha"
+                        >
+                          Enviar email de senha
                         </button>
 
                         <button

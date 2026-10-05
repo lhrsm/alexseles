@@ -2,18 +2,6 @@
 // Alex Seles • Mentoria de Carreira & TI
 import { supabase } from '../lib/supabase';
 
-export const computeSHA256 = async (str) => {
-  if (!str) return '';
-  if (typeof crypto !== 'undefined' && crypto.subtle) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(str);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-  }
-  return str;
-};
-
 const STORAGE_KEYS = {
   ARTICLES: 'mc_custom_articles',
   USERS: 'mc_users',
@@ -21,18 +9,8 @@ const STORAGE_KEYS = {
   CONTACTS: 'mc_contacts',
 };
 
-// Utilizador padrão do sistema (Cifrado com SHA-256)
-const DEFAULT_USERS = [
-  {
-    id: 'user-admin',
-    nome: 'Alex Seles',
-    email: import.meta.env.VITE_ADMIN_USER || 'contato@alexseles.online',
-    senha_hash: import.meta.env.VITE_ADMIN_PASSWORD_HASH || '53b8c393d55e9f20d846a06793c54b8c1e0f1f55da0465cb9359f65e81be7531',
-    perfil: 'Head de Inovação & Mentoria',
-    status: 'Ativo',
-    dataCadastro: new Date().toLocaleDateString('pt-BR')
-  }
-];
+// Sem utilizadores embutidos no código: a lista vem da tabela admin_users (só visível a administradores autenticados)
+const DEFAULT_USERS = [];
 
 // Métricas iniciais
 const DEFAULT_METRICS = {
@@ -44,7 +22,56 @@ const DEFAULT_METRICS = {
 
 const DEFAULT_CONTACTS = [];
 
-// --- GESTÃO DE UTILIZADORES (SINCRONIZAÇÃO TOTAL COM SUPABASE ADMIN_USERS) ---
+// --- SESSÃO DE ADMINISTRADOR (SUPABASE AUTH) ---
+// A senha é verificada pelo Supabase Auth; o acesso aos dados é garantido pelas regras RLS da base de dados
+// (função is_admin), e não por este código, que corre no navegador.
+
+export const signInAdmin = async (email, password) => {
+  const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+  if (error) return { ok: false, reason: 'credenciais' };
+  const { data: isAdmin, error: rpcError } = await supabase.rpc('is_admin');
+  if (rpcError || !isAdmin) {
+    await supabase.auth.signOut();
+    return { ok: false, reason: 'sem_permissao' };
+  }
+  return { ok: true };
+};
+
+export const clearAdminCache = () => {
+  try {
+    [STORAGE_KEYS.USERS, STORAGE_KEYS.CONTACTS].forEach((k) => localStorage.removeItem(k));
+    sessionStorage.removeItem('mc_admin_session');
+  } catch (e) {
+    // sem armazenamento
+  }
+};
+
+export const signOutAdmin = async () => {
+  clearAdminCache();
+  try {
+    await supabase.auth.signOut();
+  } catch (e) {
+    // a sessão local é limpa de qualquer forma
+  }
+};
+
+/** Email do administrador com sessão válida, ou null (sem sessão, expirada ou sem permissão). */
+export const getAdminSession = async () => {
+  const { data } = await supabase.auth.getSession();
+  const session = data?.session;
+  if (!session) return null;
+  const { data: isAdmin, error } = await supabase.rpc('is_admin');
+  if (error || !isAdmin) return null;
+  return { email: session.user?.email || '' };
+};
+
+export const sendPasswordSetupEmail = async (email) => {
+  const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/login` : undefined;
+  const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
+  return !error;
+};
+
+// --- GESTÃO DE UTILIZADORES (LISTA ADMIN_USERS; AS SENHAS FICAM NO SUPABASE AUTH) ---
 export const getUsers = () => {
   try {
     const data = localStorage.getItem(STORAGE_KEYS.USERS);
@@ -52,7 +79,7 @@ export const getUsers = () => {
     const parsed = JSON.parse(data);
     // Blindagem de Segurança: expurgar qualquer senha em texto puro legada
     return parsed.map((u) => {
-      const { senha, ...safeUser } = u;
+      const { senha, senha_hash, ...safeUser } = u;
       return safeUser;
     });
   } catch (e) {
@@ -65,7 +92,7 @@ export const fetchSupabaseUsers = async () => {
   try {
     const { data, error } = await supabase
       .from('admin_users')
-      .select('*')
+      .select('id, email, nome, perfil, status, created_at')
       .order('created_at', { ascending: true });
 
     if (!error && Array.isArray(data) && data.length > 0) {
@@ -73,7 +100,6 @@ export const fetchSupabaseUsers = async () => {
         id: u.id,
         nome: u.nome || 'Administrador',
         email: u.email,
-        senha_hash: u.senha_hash,
         perfil: u.perfil || 'Administrador',
         status: u.status || 'Ativo',
         dataCadastro: u.created_at ? new Date(u.created_at).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR')
@@ -94,8 +120,11 @@ export const fetchSupabaseUsers = async () => {
 export const saveUser = async (user) => {
   const users = getUsers();
   const trimmedEmail = (user.email || '').trim().toLowerCase();
-  const rawSenha = (user.senha || '').trim();
-  const senhaHash = rawSenha ? await computeSHA256(rawSenha) : user.senha_hash;
+  const row = {
+    nome: user.nome,
+    perfil: user.perfil || 'Administrador',
+    status: user.status || 'Ativo'
+  };
 
   // 1. Grava / Atualiza no Supabase (tabela admin_users)
   if (supabase) {
@@ -106,28 +135,9 @@ export const saveUser = async (user) => {
         .ilike('email', trimmedEmail);
 
       if (existing && existing.length > 0) {
-        const updatePayload = {
-          nome: user.nome,
-          perfil: user.perfil || 'Administrador',
-          status: user.status || 'Ativo'
-        };
-        if (senhaHash) {
-          updatePayload.senha_hash = senhaHash;
-        }
-        await supabase
-          .from('admin_users')
-          .update(updatePayload)
-          .eq('id', existing[0].id);
+        await supabase.from('admin_users').update(row).eq('id', existing[0].id);
       } else {
-        await supabase
-          .from('admin_users')
-          .insert([{
-            nome: user.nome,
-            email: (user.email || '').trim(),
-            senha_hash: senhaHash,
-            perfil: user.perfil || 'Administrador',
-            status: user.status || 'Ativo'
-          }]);
+        await supabase.from('admin_users').insert([{ ...row, email: (user.email || '').trim() }]);
       }
     } catch (err) {
       console.warn('Erro ao persistir utilizador no Supabase:', err);
@@ -135,6 +145,7 @@ export const saveUser = async (user) => {
   }
 
   // 2. Grava no cache local
+  const { senha: _s, senha_hash: _h, ...clean } = user;
   const existingIndex = users.findIndex(
     (u) => (u.email || '').trim().toLowerCase() === trimmedEmail
   );
@@ -142,27 +153,15 @@ export const saveUser = async (user) => {
   let updated;
   if (existingIndex >= 0) {
     updated = [...users];
-    const { senha: _s, ...cleanExisting } = updated[existingIndex];
-    updated[existingIndex] = {
-      ...cleanExisting,
-      ...user,
-      email: (user.email || '').trim(),
-      senha_hash: senhaHash || cleanExisting.senha_hash,
-      status: user.status || 'Ativo'
-    };
-    delete updated[existingIndex].senha;
+    updated[existingIndex] = { ...updated[existingIndex], ...clean, email: (user.email || '').trim(), status: user.status || 'Ativo' };
   } else {
-    const { senha: _s, ...cleanNew } = user;
-    const newUser = {
-      ...cleanNew,
+    updated = [{
+      ...clean,
       email: (user.email || '').trim(),
-      senha_hash: senhaHash,
       id: user.id || `user-${Date.now()}`,
       dataCadastro: new Date().toLocaleDateString('pt-BR'),
       status: user.status || 'Ativo'
-    };
-    delete newUser.senha;
-    updated = [newUser, ...users];
+    }, ...users];
   }
 
   localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(updated));
@@ -223,27 +222,8 @@ export const fetchSupabaseContacts = async () => {
   if (!supabase) return getContacts();
 
   try {
-    const sessionStr = sessionStorage.getItem('mc_admin_session');
-    let sessionToken = null;
-    if (sessionStr) {
-      try {
-        sessionToken = JSON.parse(sessionStr).token;
-      } catch (e) {}
-    }
-
-    let data = null;
-    let error = null;
-
-    // Se possui token de sessão ativa, requisita via RPC autenticada no banco
-    if (sessionToken) {
-      const rpcRes = await supabase.rpc('obter_contatos_admin', { p_token: sessionToken });
-      data = rpcRes.data;
-      error = rpcRes.error;
-    } else {
-      const queryRes = await supabase.from('contatos').select('*').order('created_at', { ascending: false });
-      data = queryRes.data;
-      error = queryRes.error;
-    }
+    // Só um administrador autenticado consegue ler (regras RLS da tabela contatos)
+    const { data, error } = await supabase.from('contatos').select('*').order('created_at', { ascending: false });
 
     if (!error && Array.isArray(data)) {
       const mapped = data.map((item) => ({

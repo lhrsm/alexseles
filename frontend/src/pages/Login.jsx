@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MetaTags } from '../components/seo/MetaTags';
-import { supabase } from '../lib/supabase';
-import { getUsers, fetchSupabaseUsers } from '../services/backofficeService';
-
-async function computeSHA256(str) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(str);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-}
+import { signInAdmin, fetchSupabaseUsers } from '../services/backofficeService';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -28,7 +19,7 @@ export const Login = () => {
     setMessage(null);
 
     const emailInput = loginData.identificador.trim();
-    const senhaInput = loginData.senha.trim();
+    const senhaInput = loginData.senha;
 
     // 0. Proteção Anti-Força Bruta: Bloqueio progressivo de tentativas excessivas
     const now = Date.now();
@@ -44,69 +35,22 @@ export const Login = () => {
     }
 
     try {
-      let authSuccessful = false;
-      let sessionToken = null;
-      let expiresAt = Date.now() + 8 * 60 * 60 * 1000;
+      // A senha é verificada pelo Supabase Auth; só entra quem também estiver ativo em admin_users
+      const result = await signInAdmin(emailInput, senhaInput);
 
-      // 1. Autenticação prioritária no Banco de Dados (PostgreSQL / Supabase RPC)
-      if (supabase) {
-        try {
-          const { data: rpcRes, error: rpcErr } = await supabase.rpc('autenticar_admin', {
-            p_email: emailInput,
-            p_senha: senhaInput
-          });
-
-          if (!rpcErr && rpcRes && rpcRes.success) {
-            authSuccessful = true;
-            sessionToken = rpcRes.token;
-            expiresAt = rpcRes.expires_at || expiresAt;
-          }
-        } catch (serverErr) {
-          console.warn('Servidor Supabase indisponível, avaliando utilizadores locais...', serverErr);
-        }
-      }
-
-      // 2. Validação estrita com Utilizadores Registados no Sistema (getUsers)
-      if (!authSuccessful) {
-        const registeredUsers = getUsers();
-        const matchedUser = registeredUsers.find(
-          (u) => (u.email || '').trim().toLowerCase() === emailInput.toLowerCase()
-        );
-
-        if (matchedUser && matchedUser.status !== 'Inativo') {
-          const inputHash = await computeSHA256(senhaInput);
-          const userHash = matchedUser.senha_hash || (matchedUser.senha ? await computeSHA256(matchedUser.senha) : null);
-
-          const isPasswordValid = 
-            (matchedUser.senha && senhaInput === matchedUser.senha) ||
-            (userHash && inputHash === userHash) ||
-            (matchedUser.senha && inputHash === matchedUser.senha);
-
-          if (isPasswordValid) {
-            authSuccessful = true;
-            sessionToken = `mc_sec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-          }
-        }
-      }
-
-      if (authSuccessful && sessionToken) {
+      if (result.ok) {
         // Limpa tentativas após sucesso
         localStorage.removeItem('mc_login_attempts');
         localStorage.removeItem('mc_login_lock');
-
-        // Atualiza a cache de utilizadores no armazenamento local
         fetchSupabaseUsers().catch(() => {});
-
-        sessionStorage.setItem('mc_admin_session', JSON.stringify({
-          user: emailInput,
-          token: sessionToken,
-          expiresAt: expiresAt
-        }));
-
-        setTimeout(() => {
-          setLoading(false);
-          navigate('/backoffice');
-        }, 300);
+        setLoading(false);
+        navigate('/backoffice');
+      } else if (result.reason === 'sem_permissao') {
+        setLoading(false);
+        setMessage({
+          type: 'error',
+          text: 'Esta conta não tem acesso ao backoffice ou está inativa.'
+        });
       } else {
         // Registra tentativa falha e calcula bloqueio se exceder 5 tentativas
         const attempts = JSON.parse(localStorage.getItem('mc_login_attempts') || '[]');

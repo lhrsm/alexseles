@@ -8,7 +8,7 @@ export const ArticlesFeed = () => {
   useEffect(() => {
     const loadArticles = () => {
       const all = getAllArticles();
-      setFeatured(all.slice(0, 6));
+      setFeatured(all.slice(0, 3)); // na página inicial só 3; todos em /central-de-conhecimento
     };
 
     loadArticles();
