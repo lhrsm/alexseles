@@ -217,3 +217,8 @@
 /* Manifesto: caixa do vídeo (components/landing/Manifesto.jsx) */
 .mf-box { box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 182, 39, 0.06), 0 0 80px rgba(255, 182, 39, 0.08); }
 
+
+/* Vídeo do manifesto: cabe inteiro no ecrã (16:9 limitado pela altura visível, sem o cabeçalho de 80px) e fica centrado */
+@media (min-width: 640px) {
+  .mf-fit { width: min(100%, calc((100svh - 16rem) * 16 / 9)); }
+}

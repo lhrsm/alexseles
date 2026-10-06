@@ -152,15 +152,12 @@ export const Manifesto = () => {
   return (
     <section id="manifesto" tabIndex={-1} aria-labelledby="manifesto-titulo"
       className="relative scroll-mt-20 bg-[#0C0E12] text-[#F4F2EE] outline-none">
-      <div className="mx-auto w-full max-w-[80rem] px-5 py-20 sm:px-8 md:py-28 lg:px-10 lg:py-32">
-        <div className="max-w-[46rem]">
-          <p className="mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.14em] text-[#FFB627]">Manifesto</p>
-          <h2 id="manifesto-titulo" className="font-display text-[clamp(2.25rem,4.6vw,4rem)] font-extrabold leading-[1.08] tracking-tight text-[#FFB627]">
-            O que nos une
+      <div className="mx-auto w-full max-w-[80rem] px-5 pb-20 pt-8 sm:px-8 md:pb-28 md:pt-10 lg:px-10 lg:pb-32">
+        {/* Só uma linha de título, alinhada com a caixa: ao carregar em "Manifesto" no menu, o título e o vídeo cabem inteiros no ecrã */}
+        <div className="mf-fit mx-auto">
+          <h2 id="manifesto-titulo" className="font-display text-[clamp(1.375rem,2.4vw,2.125rem)] font-extrabold leading-tight tracking-tight lg:whitespace-nowrap">
+            Oito princípios da <span className="text-[#FFB627]">PM Unlocked</span> para crescer em comunidade.
           </h2>
-          <p className="mt-5 max-w-[44ch] text-[1.0625rem] leading-[1.6] text-[#A9AFB8] md:text-lg">
-            Oito princípios da PM Unlocked para crescer em comunidade.
-          </p>
           {/* Atalho para quem usa leitor de ecrã ou teclado: aparece ao receber foco */}
           <a href="#manifesto-video" onClick={listenNarrated}
             className="sr-only focus:not-sr-only focus:mt-4 focus:inline-flex focus:h-12 focus:items-center focus:rounded-full focus:bg-[#FFB627] focus:px-5 focus:font-semibold focus:text-[#0C0E12] focus:outline-none">
@@ -169,7 +166,7 @@ export const Manifesto = () => {
         </div>
 
         {/* A caixa com o vídeo: toda a largura do conteúdo; em ecrãs muito largos alarga até ~1440px; no telemóvel de margem a margem */}
-        <figure id="manifesto-video" ref={boxRef} className="relative -mx-5 mt-10 sm:mx-0 md:mt-12 2xl:-mx-[7.5rem]">
+        <figure id="manifesto-video" ref={boxRef} className="mf-fit relative mx-auto -mx-5 mt-5 sm:mx-auto md:mt-6">
           <div className="mf-box relative aspect-video overflow-hidden rounded-[14px] border border-white/10 bg-[#0C0E12] sm:rounded-[24px]">
             <video ref={videoRef} className="absolute inset-0 h-full w-full object-cover"
               poster={VIDEO.poster} muted loop playsInline preload="metadata"
