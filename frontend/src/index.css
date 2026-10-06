@@ -184,3 +184,30 @@
   animation-play-state: paused;
 }
 
+
+/* Página inicial (comunidade PM Unlocked): as secções reaproveitadas seguem o mesmo visual (âmbar escuro em fundo claro, 5.7:1) */
+.landing .eyebrow { color: #8A5300; letter-spacing: 0.14em; }
+.landing .section-title { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; font-weight: 800; letter-spacing: -0.02em; color: #14161A; }
+.landing .btn-copper { background-color: #14161A; border-radius: 9999px; min-height: 48px; }
+.landing .btn-copper:hover { background-color: #000; }
+.landing a:focus-visible, .landing button:focus-visible { outline: 2px solid #8A5300; outline-offset: 2px; }
+.landing .bg-\[\#0C0E12\] a:focus-visible, .landing .bg-\[\#0C0E12\] button:focus-visible,
+.landing .bg-\[\#15181E\] a:focus-visible, .landing .bg-\[\#15181E\] button:focus-visible,
+.landing .bg-\[\#14161A\] a:focus-visible { outline-color: #FFB627; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+.landing #conteudos > div { max-width: 80rem; }
+
+/* Hero da página inicial: H1 em 2 linhas fixas ao lado do astronauta (até 620px renderizados: o ficheiro tem 511px,
+   mais do que isto desfoca). O capacete começa a 11% do topo do ficheiro, por isso a imagem sobe 11% da sua largura
+   para o topo do capacete ficar alinhado com o topo das letras do H1; a imagem acaba no fundo da secção. */
+.hero-title { font-size: clamp(2.75rem, 10vw, 4.5rem); }
+@media (min-width: 1024px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr) min(620px, 43vw); align-items: start; column-gap: 2.5rem; }
+  .hero-title { font-size: clamp(2.75rem, 3.65vw, 3.3rem); }
+  .hero-art > picture { width: min(620px, 43vw); }
+  .hero-art { margin-top: calc(min(620px, 43vw) * -0.11 + 0.55rem); align-self: start; }
+}

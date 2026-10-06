@@ -31,7 +31,6 @@
     
     <!-- Security Directives -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()" />
     
@@ -140,13 +139,7 @@
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3LQEJL9G7"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-Q3LQEJL9G7');
-    </script>
+    <script src="/gtag-init.js"></script>
   </head>
   <body class="bg-[#FFFFFF] text-[#163758] font-sans antialiased selection:bg-[#1A73E8] selection:text-white">
     <div id="root"></div>

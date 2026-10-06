@@ -1,60 +1,65 @@
-import React from 'react';
-import { Hero } from '../components/home/Hero';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { TestimonialsSection } from '../components/home/TestimonialsSection';
-import { CareerTransitionsSection } from '../components/home/CareerTransitionsSection';
-import { AboutSplit } from '../components/home/AboutSplit';
 import { ArticlesFeed } from '../components/home/ArticlesFeed';
-import { CtaSection } from '../components/home/CtaSection';
+import { LandingHero, Belief, CommunitySection, AboutAlex, Manifesto, ClosingCta } from '../components/landing/Landing';
+import { PreQualificationModal } from '../components/pre-qualification';
 import { LegalServiceJsonLd } from '../components/seo/JsonLd';
 import { MetaTags } from '../components/seo/MetaTags';
 
 export const Home = () => {
+  const location = useLocation();
+  const [preQualOpen, setPreQualOpen] = useState(false);
+  const openPreQual = () => setPreQualOpen(true);
+
+  // Link direto para a Pré-Qualificação (por exemplo o que a Beatriz envia no chat): www.alexseles.online/?pre-qualificacao
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('pre-qualificacao')) setPreQualOpen(true);
+  }, []);
+
+  // Chegada a partir de outra página com /#comunidade, /#sobre, /#manifesto: vai à secção
+  useEffect(() => {
+    const id = location.hash.replace('#', '');
+    if (!id) return undefined;
+    const t = setTimeout(() => document.getElementById(id)?.scrollIntoView(), 60);
+    return () => clearTimeout(t);
+  }, [location.hash]);
+
   return (
-    <main id="main-content">
+    <main id="main-content" className="landing">
       <MetaTags
-        title="Alex Seles | Mentoria de Carreira e Tecnologia em TI"
-        description="Acelere a sua transição para tecnologia e alcance cargos de liderança em TI com a mentoria estratégica de Alex Seles. Mais de 20 anos de experiência internacional."
+        title="Alex Seles | Comunidade PM Unlocked, Mentoria de Carreira e Gestão de Projetos em TI"
+        description="Comunidade gratuita de gestão de projetos com Alex Seles: vagas, certificações PSM, PMP e SAFe, transição para TI e migrar para Portugal. Mentoria individual para acelerar a carreira."
         keywords={[
           "alex seles",
+          "pm unlocked",
+          "comunidade gestão de projetos",
+          "vagas project manager portugal",
+          "certificação psm pspo pmp safe",
           "mentoria de carreira ti",
           "transicao de carreira tecnologia",
-          "inteligencia artificial na gestao de projetos",
-          "ia aplicada a ti",
-          "lideranca executiva em ti",
-          "ceo ti",
-          "cto",
-          "head de tecnologia",
-          "head de inovacao",
+          "migrar para portugal ti",
           "gestao de projetos pmp",
           "metodologias ageis scrum kanban",
-          "certificacao psm pspo",
           "itil 4",
-          "engenheiro informatico alex seles",
-          "mentoria alex seles",
-          "curriculo ats",
-          "linkedin estrategico ti"
+          "mentoria alex seles"
         ]}
         canonicalPath="/"
       />
       <LegalServiceJsonLd />
-      
-      {/* 1ª Secção: Carrossel de Mapeamento por Formação (ecrã grande, 1 imagem por vez) */}
-      <CareerTransitionsSection />
 
-      {/* 2ª Secção: Estagnado na carreira? Perdido na transição para TI? (Cinza) */}
-      <Hero />
-
-      {/* 3ª Secção: Depoimentos & Histórias Reais de Transição (Branco) */}
+      <LandingHero onPreQual={openPreQual} />
+      <Belief />
+      <CommunitySection />
+      <AboutAlex onPreQual={openPreQual} />
+      <Manifesto />
+      <div id="artigos" className="scroll-mt-20">
+        <ArticlesFeed />
+      </div>
       <TestimonialsSection />
+      <ClosingCta onPreQual={openPreQual} />
 
-      {/* 4ª Secção: Artigos e orientações (Cinza) */}
-      <ArticlesFeed />
-
-      {/* 5ª Secção: Sobre Alex Seles (Branco - antes do CTA) */}
-      <AboutSplit />
-
-      {/* 6ª Secção: Preparado para acelerar a sua transição? (Cinza - CTA Final) */}
-      <CtaSection />
+      <PreQualificationModal isOpen={preQualOpen} onClose={() => setPreQualOpen(false)} />
     </main>
   );
 };

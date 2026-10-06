@@ -31,6 +31,7 @@ export const CookieConsentBanner = () => {
       );
     } catch (e) {}
     setIsVisible(false);
+    window.dispatchEvent(new Event('cookie-consent-answered'));
   };
 
   const handleAcceptNecessary = () => {
@@ -45,6 +46,7 @@ export const CookieConsentBanner = () => {
       );
     } catch (e) {}
     setIsVisible(false);
+    window.dispatchEvent(new Event('cookie-consent-answered'));
   };
 
   if (!isVisible) return null;

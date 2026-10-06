@@ -239,7 +239,7 @@ export const BlogPost = () => {
                 Agende uma sessão diagnóstica com Alex Seles e acelere a sua evolução em tecnologia, metodologias ágeis e liderança.
               </p>
               <Link
-                to="/contato"
+                to="/?pre-qualificacao"
                 className="btn-copper w-full justify-center"
               >
                 <span>Falar com Alex Seles</span>

@@ -4,6 +4,14 @@
       "source": "/(.*)",
       "headers": [
         {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://olpxtxcreseibkiwvlnc.supabase.co wss://olpxtxcreseibkiwvlnc.supabase.co https://unpurified-braiden-hazy.ngrok-free.dev https://n8n.srv1469659.hstgr.cloud https://formsubmit.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
           "key": "X-Content-Type-Options",
           "value": "nosniff"
         },
@@ -12,22 +20,229 @@
           "value": "DENY"
         },
         {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
         },
         {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=63072000; includeSubDomains; preload"
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "0"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/para-empresas",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/empresas",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/b2b",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/casos-de-sucesso",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/casos-de-sucesso/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/historias-de-sucesso/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/cases/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/transicao-de-carreira",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/transicao",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/servicos",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/transicao-estrategica-fundamentos-tecnicos",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/fundamentos-tecnicos",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/fase-01",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/fase-02",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/fase-03",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/governanca-produto-metodos-entrega",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/governanca",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/mentoria-carreira-lideranca",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/lideranca",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/gestao-projetos-agil-preditivos",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/gestao-de-projetos",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-marca-pessoal-ats",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/o-escritorio",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/sobre",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/sobre-alex",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/direito-do-trabalho",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/direito-previdenciario",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/direito-civil",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/direito-de-familia",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/familia",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/direito-das-sucessoes",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/sucessoes",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/direito-de-propriedade",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/propriedade",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/direito-contratual",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/contratual",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/parcerias",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/estagios",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/contato",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "rewrites": [

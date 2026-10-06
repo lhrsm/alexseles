@@ -27,31 +27,6 @@ const routes = [
     description: 'Converse com a equipa da RP1: informações, propostas, apoio ou uma reunião.'
   },
   {
-    path: 'para-empresas',
-    title: 'Alex Seles • Soluções Corporativas | Transformação Digital, Automação, IA & Governação de TI',
-    description: 'Acelere a maturidade tecnológica da sua empresa. Transformação digital, automação de processos, integração segura de IA e capacitação estratégica de equipas de TI com Alex Seles.'
-  },
-  {
-    path: 'transicao-de-carreira',
-    title: 'Transição de Carreira para TI | Mentoria Estratégica com Alex Seles',
-    description: 'Recomeçar na tecnologia é perfeitamente possível. Encurta a tua rota e migra com segurança com a mentoria individual de Alex Seles.'
-  },
-  {
-    path: 'transicao-estrategica-fundamentos-tecnicos',
-    title: 'Fundamentos Técnicos em TI: Ciclo de Desenvolvimento de Software (SDLC) & Inteligência Artificial | Alex Seles',
-    description: 'Mentoria individual para acelerar a sua transição para TI, dominar Inteligência Artificial aplicada na gestão de projetos e dominar os fundamentos da engenharia de software.'
-  },
-  {
-    path: 'governanca-produto-metodos-entrega',
-    title: 'Governação, Produto & Métodos de Entrega em TI | Alex Seles',
-    description: 'Mentoria individual em tecnologia com Alex Seles cobrindo Segurança da Informação, DPO & RGPD/LGPD, Design Thinking e Metodologias Preditivas (Waterfall) e Ágeis (Scrum & Kanban).'
-  },
-  {
-    path: 'linkedin-marca-pessoal-ats',
-    title: 'Transforme o LinkedIn num Íman para Recrutadores e Tenha o Currículo Aprovado em ATS | Alex Seles',
-    description: 'Transforme o seu perfil do LinkedIn num íman para recrutadores e crie um currículo calibrado para superar os filtros automatizados de IA dos sistemas ATS.'
-  },
-  {
     path: 'central-de-conhecimento',
     title: 'Central de Conhecimento | Artigos e Orientações Técnicas de Alex Seles',
     description: 'Artigos, tendências de mercado, orientações de liderança ágil, Inteligência Artificial e gestão de carreira em TI produzidos por Alex Seles.'
@@ -77,11 +52,6 @@ const routes = [
     description: 'O insucesso começou com uma simples bolacha que quase arruinou minha carreira: lições reais de processos seletivos e transição corporativa em TI.'
   },
   {
-    path: 'contato',
-    title: 'Contacto & Agendamento de Mentoria | Alex Seles',
-    description: 'Agende a sua sessão individual de diagnóstico de carreira com Alex Seles. Transição para tecnologia, liderança executiva em TI e aceleração profissional.'
-  },
-  {
     path: 'politica-de-privacidade',
     title: 'Política de Privacidade | Alex Seles',
     description: 'Termos de privacidade e proteção de dados pessoais em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD) e LGPD.'
@@ -90,31 +60,6 @@ const routes = [
     path: 'termos-de-uso',
     title: 'Termos de Utilização | Alex Seles',
     description: 'Termos e condições gerais de utilização do sítio oficial e serviços de mentoria de Alex Seles.'
-  },
-  {
-    path: 'casos-de-sucesso',
-    title: 'Histórias de Sucesso & Engenharia de Software | Alex Seles',
-    description: 'Dos desafios dos clientes aos resultados excecionais. Casos reais de intervenção técnica em organizações como IEFP, ARTE, Capgemini e TIVIT.'
-  },
-  {
-    path: 'casos-de-sucesso/iefp',
-    title: 'IEFP: Transformação Digital Inclusiva & Selo de Acessibilidade Web | Alex Seles',
-    description: 'Como uma intervenção de engenharia de software e desenho centrado no utilizador democratizou o acesso aos serviços de emprego e formação para todos os cidadãos portugueses.'
-  },
-  {
-    path: 'casos-de-sucesso/arte',
-    title: 'ARTE: Otimização de Experiência no ePortugal & Selo de Ouro AMA em Usabilidade | Alex Seles',
-    description: 'Redução do abandono de formulários, melhoria da experiência e conquista do selo de ouro da AMA em usabilidade e acessibilidade.'
-  },
-  {
-    path: 'casos-de-sucesso/tivit',
-    title: 'TIVIT: Migração Crítica de Data Center para Cloud & Sistema IoT Seguro | Alex Seles',
-    description: 'Migração de data center para cloud e sistema IoT seguro em câmaras frias: +45% no EBITDA, 0 incidentes e 100% de conformidade de SLA.'
-  },
-  {
-    path: 'casos-de-sucesso/capgemini',
-    title: 'Capgemini: Modernização de Sistemas Críticos & Engenharia Ágil em Larga Escala | Alex Seles',
-    description: 'Modernização de arquiteturas críticas e engenharia ágil com redução de 60% no time-to-market e alta disponibilidade operacional.'
   }
 ];
 

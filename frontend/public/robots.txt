@@ -1,19 +1,13 @@
 User-agent: *
 Allow: /
-Allow: /transicao-de-carreira
-Allow: /transicao-estrategica-fundamentos-tecnicos
-Allow: /governanca-produto-metodos-entrega
-Allow: /linkedin-marca-pessoal-ats
 Allow: /central-de-conhecimento
 Allow: /central-de-conhecimento/
-Allow: /contato
 Allow: /politica-de-privacidade
 Allow: /termos-de-uso
 Allow: /assets/
 Disallow: /backoffice
 Disallow: /admin
 Disallow: /login
-Disallow: /dashboard
 Disallow: /chat
 
 # Motores de Pesquisa Oficiais
@@ -22,7 +16,6 @@ Allow: /
 Disallow: /backoffice
 Disallow: /admin
 Disallow: /login
-Disallow: /dashboard
 Disallow: /chat
 
 User-agent: Googlebot-Image
@@ -34,7 +27,6 @@ Allow: /
 Disallow: /backoffice
 Disallow: /admin
 Disallow: /login
-Disallow: /dashboard
 Disallow: /chat
 
 User-agent: Applebot

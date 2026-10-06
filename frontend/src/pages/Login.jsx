@@ -207,12 +207,12 @@ export const Login = () => {
               <p className="text-xs text-[#63717C]">
                 Precisa de autorização de acesso?
               </p>
-              <Link 
-                to="/contato" 
+              <a
+                href="mailto:contato@alexseles.online"
                 className="inline-block mt-2 text-xs font-semibold text-[#1A73E8] hover:underline"
               >
-                Solicitar à administração do escritório →
-              </Link>
+                Pedir acesso por email →
+              </a>
             </div>
           </div>
 
