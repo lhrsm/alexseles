@@ -1,16 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MetaTags } from '../components/seo/MetaTags';
+import { PAGES } from '../config/seo';
 
 export const TermosUso = () => {
   return (
     <main id="main-content" className="py-16 sm:py-24 bg-white text-[#163758] min-h-screen">
-      <MetaTags
-        title="Termos de Utilização | Alex Seles - Mentoria de Carreira & TI"
-        description="Termos de utilização, diretrizes de conduta e condições gerais de prestação dos serviços de mentoria executiva em tecnologia de Alex Seles."
-        keywords={["termos de utilizacao", "mentoria ti", "condicoes gerais", "alex seles"]}
-        canonicalPath="/termos-de-uso"
-      />
+      <MetaTags title={PAGES['termos-de-uso'].title} description={PAGES['termos-de-uso'].description} canonicalPath="/termos-de-uso" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         

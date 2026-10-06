@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MetaTags } from '../components/seo/MetaTags';
+import { PAGES } from '../config/seo';
 import { signInAdmin, fetchSupabaseUsers } from '../services/backofficeService';
 
 export const Login = () => {
@@ -85,11 +86,7 @@ export const Login = () => {
 
   return (
     <main id="main-content" className="min-h-[85vh] py-16 sm:py-24 bg-[#F8FAFC] flex items-center justify-center">
-      <MetaTags
-        title="Acesso ao Sistema • Alex Seles"
-        description="Acesso restrito ao sistema de gestão e backoffice de Alex Seles."
-        canonicalPath="/login"
-      />
+      <MetaTags title={PAGES.login.title} description={PAGES.login.description} canonicalPath="/login" noIndex />
 
       <div className="w-full max-w-md mx-auto px-4 sm:px-6">
         

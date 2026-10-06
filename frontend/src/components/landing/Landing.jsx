@@ -1,5 +1,6 @@
 import React from 'react';
 import { PODCAST_URL } from '../../config/social';
+import { COMMUNITY_GROUPS, COMMUNITY_TOTAL } from '../../config/community';
 import heroPng from '../../assets/landing/introduction-visual.png';
 import heroWebp from '../../assets/landing/introduction-visual.webp';
 import aboutPng from '../../assets/landing/about-visual.png';
@@ -29,27 +30,9 @@ const h2 = 'font-display text-[clamp(2.25rem,4.6vw,4rem)] font-extrabold leading
 const eyebrow = 'mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.14em]';
 const body = 'text-[1.0625rem] leading-[1.6] md:text-lg';
 
-export const COMMUNITY_TOTAL = 'mais de 400';
-
-const CARDS = [
-  { name: 'PM Unlocked Hub', what: 'Gestão de projetos no dia a dia: métodos, liderança e boas práticas.', when: 'Seg. a sex., 10h', url: 'https://chat.whatsapp.com/HVCrMHci5hm6IO5SoC3y6S', action: 'Entrar no grupo', where: 'o WhatsApp' },
-  { name: 'Vagas PM', what: 'Vagas de Project Manager, PMO, Scrum Master e Product Owner em Portugal e remoto.', when: 'Seg. a sex., 11h30 e 16h30', url: 'https://chat.whatsapp.com/I5SbQ22zGQvCfBuNEUM9gM', action: 'Entrar no grupo', where: 'o WhatsApp' },
-  { name: 'Certificação PM', what: 'Dicas para preparar os exames PSM, PSPO, CAPM, PMP e SAFe.', when: 'Seg. a sex., 13h', url: 'https://chat.whatsapp.com/EzMny9VBJPdKdjIRxF8Jfk', action: 'Entrar no grupo', where: 'o WhatsApp' },
-  { name: 'Migrar para Portugal', what: 'Vistos, arrendamento e a vida em Portugal, sempre com fontes.', when: 'Seg. a sex., 15h', url: 'https://chat.whatsapp.com/HF5xGDnuBtl0aTGCWPA2JC', action: 'Entrar no grupo', where: 'o WhatsApp' },
-  { name: 'Career Tips', what: 'Para quem quer mudar para TI: dicas práticas e o que esperar do caminho.', when: 'Seg. a sex., 18h', url: 'https://chat.whatsapp.com/LlIthRC5cnmDLkNxDwjJw5', action: 'Entrar no grupo', where: 'o WhatsApp' },
-  { name: 'Podcast PM Unlocked', what: 'Episódios de até 3 minutos sobre carreira e migrar para Portugal.', when: 'Novos episódios durante a semana', url: PODCAST_URL, action: 'Ouvir no Spotify', where: 'o Spotify' },
-];
-
-const MANIFESTO = [
-  ['Participar', 'Quem aparece, pergunta e responde é lembrado quando surgem oportunidades.'],
-  ['Partilhar', 'Uma vaga, um link ou um erro que já cometeu podem poupar meses a outra pessoa.'],
-  ['Ajudar primeiro', 'Ajudar sem esperar retorno é a forma mais rápida de construir uma rede que responde.'],
-  ['Aprender em público', 'Mostrar o que está a estudar cria confiança e atrai quem está no mesmo caminho.'],
-  ['Conexões genuínas', 'Dez relações reais valem mais do que mil contactos que não se lembram de si.'],
-  ['Celebrar conquistas', 'Uma certificação, uma entrevista, um primeiro emprego: tudo conta e merece ser dito.'],
-  ['Consistência', 'Um pouco todos os dias vence o esforço intenso de uma semana só.'],
-  ['Ética', 'Respeito, verdade e confidencialidade, dentro e fora do grupo.'],
-];
+// Os grupos vêm de config/community.js (mesma fonte do JSON-LD e do llms.txt)
+export { COMMUNITY_TOTAL };
+const CARDS = COMMUNITY_GROUPS;
 
 const Picture = ({ webp, png, alt, size, width, height, eager = false, className = '', frameClassName = '' }) => (
   <picture className={`block ${frameClassName}`}>
@@ -178,26 +161,8 @@ export const AboutAlex = ({ onPreQual }) => (
   </section>
 );
 
-/* 4. Manifesto */
-export const Manifesto = () => (
-  <section id="manifesto" tabIndex={-1} className={`scroll-mt-20 bg-[#0C0E12] ${sectionY} text-[#F4F2EE] outline-none`} aria-labelledby="manifesto-titulo">
-    <div className={container}>
-      <p className={`${eyebrow} text-[#FFB627]`}>Manifesto</p>
-      <h2 id="manifesto-titulo" className={`max-w-4xl ${h2}`}>O que nos une na PM Unlocked.</h2>
-      <ol className="mt-16 grid gap-x-16 gap-y-12 md:grid-cols-2" role="list">
-        {MANIFESTO.map(([title, text], i) => (
-          <li key={title} className="flex gap-6 border-t border-white/10 pt-8">
-            <span aria-hidden="true" className="font-display text-4xl font-extrabold tabular-nums text-[#FFB627]">{String(i + 1).padStart(2, '0')}</span>
-            <div>
-              <h3 className="text-2xl font-bold"><span className="sr-only">{i + 1}. </span>{title}</h3>
-              <p className={`mt-3 max-w-[55ch] text-[#A9AFB8] ${body}`}>{text}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-);
+/* 4. Manifesto: interativo, em components/landing/Manifesto.jsx */
+export { Manifesto } from './Manifesto';
 
 /* 7. Fecho (a Beatriz tem o seu próprio botão fixo no canto) */
 export const ClosingCta = ({ onPreQual }) => (

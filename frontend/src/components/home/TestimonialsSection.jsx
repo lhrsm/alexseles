@@ -3,7 +3,6 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import sirlaneImg from '../../assets/sirlane.jpg';
 import carolinaImg from '../../assets/carolinaughoa.jpeg';
 import fabioImg from '../../assets/fabio.jpg';
-import joseImg from '../../assets/joseconceicao.jpg';
 import louisImg from '../../assets/louismenezes.jpg';
 
 export const testimonials = [
@@ -24,12 +23,6 @@ export const testimonials = [
     role: 'IT Project Manager',
     image: fabioImg,
     quote: 'Quando defini que buscaria no mercado internacional a minha próxima oportunidade profissional, comecei a procurar quem me pudesse apoiar nessa jornada. Conheci o Alex e a sua mentoria, e não tive dúvidas de que me daria uma base melhor formatada para seguir nos meus objetivos. Identificámos os gaps que eu podia melhorar e fui seguindo as suas dicas para melhor me posicionar no mercado, tudo de forma ajustada e passo a passo. Sem dúvida, foi uma ajuda fundamental.'
-  },
-  {
-    name: 'José Conceição',
-    role: 'IT Project Manager',
-    image: joseImg,
-    quote: 'A mentoria executiva do Alex Seles foi determinante para a minha consolidação como IT Project Manager. O seu método prático permitiu-me estruturar processos de entrega de valor, gerir equipas ágeis e assegurar previsibilidade técnica em projetos complexos. Uma orientação que transforma a carreira de qualquer profissional.'
   },
   {
     name: 'Louis Menezes',

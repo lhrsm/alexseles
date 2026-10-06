@@ -1,84 +1,54 @@
 import { useEffect } from 'react';
+import { OG_IMAGE, OG_IMAGE_ALT, PAGES, SITE_NAME, LOCALE, absoluteUrl } from '../../config/seo';
 
-const setOrUpdateMeta = (attr, key, content) => {
+const setMeta = (attr, key, content) => {
   if (!content) return;
-  let element = document.querySelector(`meta[${attr}="${key}"]`);
-  if (!element) {
-    element = document.createElement('meta');
-    element.setAttribute(attr, key);
-    document.head.appendChild(element);
+  let el = document.querySelector(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
   }
-  element.setAttribute('content', content);
+  el.setAttribute('content', content);
 };
 
-export const MetaTags = ({
-  title,
-  description,
-  keywords,
-  canonicalPath = '',
-  image = 'https://www.alexseles.online/assets/alexseles.png',
-  type = 'website',
-  noIndex = false
-}) => {
+/**
+ * Atualiza título, descrição, canonical, Open Graph e Twitter ao navegar no site (o HTML de cada rota já sai
+ * pré-gerado com os mesmos valores; ver scripts/generate-routes.js). Títulos e descrições vêm de config/seo.js.
+ * O título é usado tal como vem (sem acrescentar nada).
+ */
+export const MetaTags = ({ title, description, canonicalPath = '', image, imageAlt, type = 'website', noIndex = false }) => {
   useEffect(() => {
-    // 1. Title
-    const fullTitle = title 
-      ? (title.includes('Alex Seles') ? title : `${title} | Alex Seles`) 
-      : 'Alex Seles | Mentoria de Carreira TI, Transição & Liderança Executiva';
-    document.title = fullTitle;
+    const finalTitle = title || PAGES[''].title;
+    const finalDescription = description || PAGES[''].description;
+    const url = absoluteUrl(canonicalPath);
+    const img = image ? (String(image).startsWith('http') ? image : absoluteUrl(String(image))) : OG_IMAGE;
 
-    // 2. Meta Description
-    if (description) {
-      setOrUpdateMeta('name', 'description', description);
-      setOrUpdateMeta('property', 'og:description', description);
-      setOrUpdateMeta('name', 'twitter:description', description);
+    document.title = finalTitle;
+    setMeta('name', 'description', finalDescription);
+    setMeta('property', 'og:title', finalTitle);
+    setMeta('property', 'og:description', finalDescription);
+    setMeta('property', 'og:type', type);
+    setMeta('property', 'og:url', url);
+    setMeta('property', 'og:site_name', SITE_NAME);
+    setMeta('property', 'og:locale', LOCALE);
+    setMeta('property', 'og:image', img);
+    setMeta('property', 'og:image:alt', imageAlt || (img === OG_IMAGE ? OG_IMAGE_ALT : finalTitle));
+    setMeta('name', 'twitter:card', 'summary_large_image');
+    setMeta('name', 'twitter:title', finalTitle);
+    setMeta('name', 'twitter:description', finalDescription);
+    setMeta('name', 'twitter:image', img);
+    const robots = noIndex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+    setMeta('name', 'robots', robots);
+
+    let link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      document.head.appendChild(link);
     }
-
-    // 3. Meta Keywords
-    if (keywords) {
-      const kwString = Array.isArray(keywords) ? keywords.join(', ') : keywords;
-      setOrUpdateMeta('name', 'keywords', kwString);
-    }
-
-    // 4. Social Titles & Types
-    setOrUpdateMeta('property', 'og:title', fullTitle);
-    setOrUpdateMeta('name', 'twitter:title', fullTitle);
-    setOrUpdateMeta('property', 'og:type', type);
-    setOrUpdateMeta('property', 'og:site_name', 'Alex Seles - Carreira & TI');
-    setOrUpdateMeta('property', 'og:locale', 'pt_PT');
-
-    // 5. Images
-    if (image) {
-      const fullImgUrl = image.startsWith('http') ? image : `https://www.alexseles.online${image.startsWith('/') ? '' : '/'}${image}`;
-      setOrUpdateMeta('property', 'og:image', fullImgUrl);
-      setOrUpdateMeta('name', 'twitter:image', fullImgUrl);
-      setOrUpdateMeta('name', 'twitter:card', 'summary_large_image');
-    }
-
-    // 6. Robots / Indexing Directives
-    if (noIndex) {
-      setOrUpdateMeta('name', 'robots', 'noindex, nofollow');
-      setOrUpdateMeta('name', 'googlebot', 'noindex, nofollow');
-    } else {
-      setOrUpdateMeta('name', 'robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
-      setOrUpdateMeta('name', 'googlebot', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
-    }
-
-    // 7. Canonical & Open Graph URL
-    const baseUrl = 'https://www.alexseles.online';
-    const cleanPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
-    const fullCanonicalUrl = `${baseUrl}${cleanPath === '/' ? '' : cleanPath}`;
-
-    let canonicalLink = document.querySelector('link[rel="canonical"]');
-    if (!canonicalLink) {
-      canonicalLink = document.createElement('link');
-      canonicalLink.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonicalLink);
-    }
-    canonicalLink.setAttribute('href', fullCanonicalUrl);
-    setOrUpdateMeta('property', 'og:url', fullCanonicalUrl);
-
-  }, [title, description, keywords, canonicalPath, image, type, noIndex]);
+    link.setAttribute('href', url);
+  }, [title, description, canonicalPath, image, imageAlt, type, noIndex]);
 
   return null;
 };

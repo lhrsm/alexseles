@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllArticles, loadRemoteArticles } from '../data/articlesData';
 import { MetaTags } from '../components/seo/MetaTags';
+import { PAGES } from '../config/seo';
 
 export const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -36,24 +37,7 @@ export const Blog = () => {
 
   return (
     <main id="main-content" className="py-16 bg-white text-[#163758] min-h-screen">
-      <MetaTags
-        title="Central de Conhecimento | Artigos e Orientações Técnicas de Alex Seles"
-        description="Artigos, tendências de mercado, orientações de liderança ágil, Inteligência Artificial e gestão de carreira em TI produzidos por Alex Seles."
-        keywords={[
-          "artigos tecnologia ti",
-          "carreira em ti",
-          "lideranca agil",
-          "alex seles artigos",
-          "sentido da vida carreira ti",
-          "superando desafios em ti",
-          "gestão de projetos software",
-          "inteligencia artificial na gestao",
-          "itil 4 portugal",
-          "transicao de carreira ti blog",
-          "certificacoes psm pspo pmp"
-        ]}
-        canonicalPath="/central-de-conhecimento"
-      />
+      <MetaTags title={PAGES['central-de-conhecimento'].title} description={PAGES['central-de-conhecimento'].description} canonicalPath="/central-de-conhecimento" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         

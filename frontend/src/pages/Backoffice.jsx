@@ -406,11 +406,7 @@ export const Backoffice = () => {
 
   return (
     <div className="min-h-screen bg-[#F3F5F7] text-[#163758] flex flex-col font-sans">
-      <MetaTags
-        title="Backoffice & Gestão | Alex Seles"
-        description="Painel administrativo de atendimento, métricas e publicação de acervo técnico."
-        canonicalPath="/backoffice"
-      />
+      <MetaTags title="Backoffice | RP1 Academy" description="Área reservada à equipa." canonicalPath="/backoffice" noIndex />
 
       {/* Topo do Backoffice */}
       <header className="bg-[#0E1620] text-white border-b border-white/10 sticky top-0 z-40">

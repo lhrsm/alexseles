@@ -33,3 +33,9 @@ __pycache__/
 *.xlsx
 *.xls
 *.csv
+
+# Vídeo do manifesto: fotogramas temporários da gravação
+frontend/tools/manifesto-video/out/frames-*/
+
+# Ficheiros de trabalho do vídeo do Manifesto (fotogramas, áudio, narração e versão vertical para redes)
+frontend/tools/manifesto-video/out/

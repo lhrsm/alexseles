@@ -1,89 +1,49 @@
+# robots.txt · www.alexseles.online
+# Tudo o que é público pode ser rastreado. Ficam de fora o chat, a área reservada e o backoffice.
+# Para mudar a política dos robôs de IA, edite só a secção "Robôs de IA" (ver README, secção SEO e ficheiros para IA).
+
 User-agent: *
 Allow: /
-Allow: /central-de-conhecimento
-Allow: /central-de-conhecimento/
-Allow: /politica-de-privacidade
-Allow: /termos-de-uso
-Allow: /assets/
+Disallow: /chat
+Disallow: /login
 Disallow: /backoffice
 Disallow: /admin
-Disallow: /login
-Disallow: /chat
+Disallow: /dashboard
 
-# Motores de Pesquisa Oficiais
-User-agent: Googlebot
-Allow: /
-Disallow: /backoffice
-Disallow: /admin
-Disallow: /login
-Disallow: /chat
-
-User-agent: Googlebot-Image
-Allow: /assets/
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-Disallow: /backoffice
-Disallow: /admin
-Disallow: /login
-Disallow: /chat
-
-User-agent: Applebot
-Allow: /
-
+# ─── Robôs de IA ───
+# Pesquisa e resposta com citação da fonte: permitidos (trazem visitas e citam o site).
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Google-Extended
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /chat
+Disallow: /login
+Disallow: /backoffice
+Disallow: /admin
+Disallow: /dashboard
 
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Allow: /
-
-User-agent: YandexBot
-Allow: /
-
-# Rastreadores de IA Generativa & Motores de Resposta (GEO / AIO)
+# Treino de modelos: permitidos por opção (mais presença da marca nas respostas das IAs).
+# Para bloquear o treino, troque "Allow: /" por "Disallow: /" neste bloco.
 User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
 User-agent: ClaudeBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Bytespider
-Allow: /
-
 User-agent: CCBot
-Allow: /
-
-User-agent: cohere-ai
-Allow: /
-
 User-agent: meta-externalagent
 Allow: /
+Disallow: /chat
+Disallow: /login
+Disallow: /backoffice
+Disallow: /admin
+Disallow: /dashboard
 
-# Sitemap Oficial do Site
+# Recolha agressiva sem benefício para o site
+User-agent: Bytespider
+Disallow: /
+
 Sitemap: https://www.alexseles.online/sitemap.xml
 
-# Arquivos de Padronização para Grandes Modelos de Linguagem (LLMs)
-# Formato padrão: https://llmstxt.org/
-# https://www.alexseles.online/llms.txt
-# https://www.alexseles.online/llms-full.txt
-
-# Política de Segurança e Divulgação de Vulnerabilidades (RFC 9116)
-# https://www.alexseles.online/.well-known/security.txt
-# https://www.alexseles.online/security.txt
-
-# Informações de Autoria e Tecnologias (humanstxt.org)
-# https://www.alexseles.online/humans.txt
-# https://www.alexseles.online/human.txt
+# Ficheiros para IA (llmstxt.org): https://www.alexseles.online/llms.txt e https://www.alexseles.online/llms-full.txt

@@ -151,6 +151,7 @@ export const articlesData = [
     number: 3,
     title: 'PSM, PMP ou SAFe: que certificação escolher para crescer em gestão de projetos?',
     h1: 'PSM, PMP ou SAFe: que certificação escolher para crescer em gestão de projetos?',
+    seoTitle: 'PSM, PMP ou SAFe: que certificação escolher?',
     slug: 'psm-pmp-ou-safe-que-certificacao-escolher-em-gestao-de-projetos',
     image: certificacaoImg,
     imageCredit: {

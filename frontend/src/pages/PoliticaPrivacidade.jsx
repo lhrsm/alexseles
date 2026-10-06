@@ -1,25 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MetaTags } from '../components/seo/MetaTags';
+import { PAGES } from '../config/seo';
 
 export const PoliticaPrivacidade = () => {
   return (
     <main id="main-content" className="py-16 sm:py-24 bg-white text-[#163758] min-h-screen">
-      <MetaTags
-        title="Política de Privacidade e Proteção de Dados (RGPD & LGPD) | Alex Seles"
-        description="Termos formais de privacidade, tratamento confidencial e proteção de dados pessoais em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD - UE 2016/679) e a LGPD."
-        keywords={[
-          "politica de privacidade",
-          "rgpd",
-          "gdpr",
-          "lgpd",
-          "protecao de dados",
-          "dpo",
-          "seguranca da informacao",
-          "alex seles"
-        ]}
-        canonicalPath="/politica-de-privacidade"
-      />
+      <MetaTags title={PAGES['politica-de-privacidade'].title} description={PAGES['politica-de-privacidade'].description} canonicalPath="/politica-de-privacidade" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         

@@ -1,21 +1,16 @@
-/* TEAM */
-Mentor & Autor: Alex Seles
-Cargo: Head de Inovacao e Tecnologia | Mentor de Carreira e Lideranca em TI
-Formacao: Engenheiro Informatico e Mestre em Engenharia Informatica
-Credenciais: PMP(R), SAFe(R) 6 Agilist, ITIL(R) 4 Ambassador, PSM II(TM), PSM I(TM), PSPO I(TM)
-Localizacao: Portugal / Internacional
+/* EQUIPA */
+Autor: Alex Seles
+Cargo: Head de Inovação & Tecnologia | Mentor de Carreira TI
+Formação: Engenheiro Informático e mestre em Engenharia Informática
+Certificações: PMP®, SAFe® 6 Agilist, ITIL® 4, PSM II™, PSM I™, PSPO I™
+Comunidade: PM Unlocked (RP1 Academy)
 LinkedIn: https://www.linkedin.com/in/alex-seles/
-Contacto: mailto:contato@alexseles.online
-Sitio Oficial: https://www.alexseles.online
-
-/* THANKS */
-Comunidade: Mais de 62.000 profissionais e conexoes no LinkedIn
-Mentorados: Profissionais em transicao de carreira e desenvolvimento de lideranca executiva
-Entidades de Referencia: ARTE, IEFP, Seguranca Social, PMI, Scrum.org
+Contacto: contato@alexseles.online
+Localização: Portugal
 
 /* SITE */
-Ultima Atualizacao: 2026-09-08
-Normas e Padroes: HTML5, CSS3, JavaScript (ES Modules), RFC 9116 (security.txt), llmstxt.org (llms.txt), Schema.org (JSON-LD), humanstxt.org
-Tecnologias: React, Vite, Tailwind CSS, FontAwesome, Supabase, n8n
-Idiomas: Portugues de Portugal (pt-PT)
-Conformidade: Regulamento Geral sobre a Protecao de Dados (RGPD / UE) e LGPD (Brasil)
+Última atualização: 2026-10-06
+Idioma: português europeu (pt-PT)
+Normas: HTML5, WCAG 2.2 AA, Schema.org (JSON-LD), llmstxt.org (llms.txt), RFC 9116 (security.txt), humanstxt.org
+Tecnologias: React, Vite, Tailwind CSS, Supabase, Vercel
+Conformidade: RGPD (UE) e LGPD (Brasil)

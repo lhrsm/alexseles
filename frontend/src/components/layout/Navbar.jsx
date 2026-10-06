@@ -91,10 +91,11 @@ export const Navbar = () => {
   const renderItem = (item, mobile = false) => {
     const current = isCurrent(item);
     const base = mobile
-      ? `block rounded-lg px-4 py-3 text-lg font-semibold ${current ? 'text-[#FFB627] bg-white/5' : 'text-[#F4F2EE] hover:bg-white/5'}`
-      : `relative inline-flex items-center h-11 px-1 text-base font-medium transition-colors ${current ? 'text-white' : 'text-[#A9AFB8] hover:text-white'}`;
+      ? `block rounded-lg px-4 py-3 text-lg font-semibold underline-offset-8 decoration-2 decoration-[#FFB627] hover:text-[#FFB627] hover:underline ${current ? 'text-[#FFB627] bg-white/5' : 'text-[#F4F2EE] hover:bg-white/5'}`
+      // Ao passar o rato (ou com o foco do teclado): texto amarelo e sublinhado amarelo
+      : `group relative inline-flex items-center h-11 px-1 text-base font-medium transition-colors hover:text-[#FFB627] focus-visible:text-[#FFB627] ${current ? 'text-white' : 'text-[#A9AFB8]'}`;
     const underline = !mobile && (
-      <span aria-hidden="true" className={`absolute left-1 right-1 bottom-1 h-0.5 rounded-full bg-[#FFB627] transition-opacity ${current ? 'opacity-100' : 'opacity-0'}`} />
+      <span aria-hidden="true" className={`absolute left-1 right-1 bottom-1 h-0.5 rounded-full bg-[#FFB627] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 ${current ? 'opacity-100' : 'opacity-0'}`} />
     );
     if (item.to) {
       return (

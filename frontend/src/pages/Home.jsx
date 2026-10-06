@@ -4,8 +4,8 @@ import { TestimonialsSection } from '../components/home/TestimonialsSection';
 import { ArticlesFeed } from '../components/home/ArticlesFeed';
 import { LandingHero, Belief, CommunitySection, AboutAlex, Manifesto, ClosingCta } from '../components/landing/Landing';
 import { PreQualificationModal } from '../components/pre-qualification';
-import { LegalServiceJsonLd } from '../components/seo/JsonLd';
 import { MetaTags } from '../components/seo/MetaTags';
+import { PAGES } from '../config/seo';
 
 export const Home = () => {
   const location = useLocation();
@@ -27,26 +27,7 @@ export const Home = () => {
 
   return (
     <main id="main-content" className="landing">
-      <MetaTags
-        title="Alex Seles | Comunidade PM Unlocked, Mentoria de Carreira e Gestão de Projetos em TI"
-        description="Comunidade gratuita de gestão de projetos com Alex Seles: vagas, certificações PSM, PMP e SAFe, transição para TI e migrar para Portugal. Mentoria individual para acelerar a carreira."
-        keywords={[
-          "alex seles",
-          "pm unlocked",
-          "comunidade gestão de projetos",
-          "vagas project manager portugal",
-          "certificação psm pspo pmp safe",
-          "mentoria de carreira ti",
-          "transicao de carreira tecnologia",
-          "migrar para portugal ti",
-          "gestao de projetos pmp",
-          "metodologias ageis scrum kanban",
-          "itil 4",
-          "mentoria alex seles"
-        ]}
-        canonicalPath="/"
-      />
-      <LegalServiceJsonLd />
+      <MetaTags title={PAGES[''].title} description={PAGES[''].description} canonicalPath="/" />
 
       <LandingHero onPreQual={openPreQual} />
       <Belief />

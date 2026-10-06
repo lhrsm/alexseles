@@ -3,6 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import { getArticleBySlug, getAllArticles, loadRemoteArticles, remoteArticlesState } from '../data/articlesData';
 import { MetaTags } from '../components/seo/MetaTags';
 import { ArticleJsonLd } from '../components/seo/JsonLd';
+import { articleTitle, clampDescription } from '../config/seo';
 import DOMPurify from 'dompurify';
 
 export const BlogPost = () => {
@@ -74,10 +75,10 @@ export const BlogPost = () => {
   return (
     <main id="main-content" className="py-16 bg-white text-[#163758] min-h-screen">
       <MetaTags
-        title={article.h1 || article.title}
-        description={article.metaDescription}
-        keywords={article.keywords}
+        title={articleTitle(article.h1 || article.title, article.seoTitle)}
+        description={clampDescription(article.metaDescription)}
         image={article.image}
+        imageAlt={article.h1 || article.title}
         type="article"
         canonicalPath={`/central-de-conhecimento/${article.slug}`}
       />

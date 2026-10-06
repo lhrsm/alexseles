@@ -1,14 +1,9 @@
-# Politica de Divulgacao de Vulnerabilidades e Seguranca (RFC 9116)
-# Alex Seles - Mentoria de Carreira e Tecnologia em TI
-# https://www.alexseles.online
-
+# Política de divulgação de vulnerabilidades (RFC 9116) · www.alexseles.online
 Contact: mailto:contato@alexseles.online
-Expires: 2027-09-08T00:00:00.000Z
+Expires: 2027-10-06T00:00:00.000Z
 Preferred-Languages: pt, en
 Canonical: https://www.alexseles.online/.well-known/security.txt
 Policy: https://www.alexseles.online/politica-de-privacidade
-Acknowledgments: https://www.alexseles.online/#sobre
 
-# Caso identifique uma potencial vulnerabilidade ou questao de ciberseguranca,
-# solicitamos que reporte com brevidade atraves dos canais de contacto indicados.
-# Comprometemo-nos a responder e analisar o incidente com diligencia tecnica e responsabilidade.
+# Se encontrar uma vulnerabilidade, contacte-nos por email com os pormenores.
+# Respondemos com a maior brevidade possível e pedimos que não divulgue o problema antes de estar corrigido.

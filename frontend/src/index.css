@@ -5,10 +5,14 @@
 @tailwind utilities;
 
 @layer base {
+  /* overflow-x: clip corta o que sai para o lado sem criar uma área de scroll própria (com "hidden", o
+     position: sticky deixa de funcionar). Navegadores antigos ficam com "hidden". */
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
-    overflow-y: auto;
+  }
+  @supports (overflow: clip) {
+    html, body { overflow-x: clip; }
   }
   
   body {
@@ -16,8 +20,6 @@
     color: #163758;
     font-family: 'Inter', Arial, sans-serif;
     line-height: 1.65;
-    overflow-x: hidden;
-    overflow-y: auto;
     min-height: 100vh;
   }
 
@@ -211,3 +213,7 @@
   .hero-art > picture { width: min(620px, 43vw); }
   .hero-art { margin-top: calc(min(620px, 43vw) * -0.11 + 0.55rem); align-self: start; }
 }
+
+/* Manifesto: caixa do vídeo (components/landing/Manifesto.jsx) */
+.mf-box { box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 182, 39, 0.06), 0 0 80px rgba(255, 182, 39, 0.08); }
+

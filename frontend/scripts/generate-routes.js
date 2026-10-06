@@ -1,150 +1,355 @@
 /**
- * Script de Pré-geração de Rotas Estáticas para SPAs
- * Garante que caminhos diretos (como /central-de-conhecimento/...) existam
- * fisicamente na pasta dist, eliminando 100% dos erros 404 em qualquer servidor (Vercel, Netlify, Apache, Nginx).
+ * Depois do `vite build`: gera o SEO estático do site a partir de src/config/seo.js e dos artigos.
+ *
+ * - HTML próprio para cada rota (título, descrição, canonical, Open Graph, Twitter e JSON-LD no <head>),
+ *   para o Google e as IAs lerem sem JavaScript. Inclui a página inicial (dist/index.html).
+ * - sitemap.xml só com as páginas indexáveis e a data real de cada uma (artigos com imagem).
+ * - llms.txt e llms-full.txt (padrão llmstxt.org) com o conteúdo atual do site.
+ *
+ * Artigos: os do código (src/data/articlesData.js) e os publicados no Supabase. Se o Supabase falhar, a construção continua.
  */
 
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
+import {
+  SITE_URL, SITE_NAME, LOCALE, LANG, OG_IMAGE, OG_IMAGE_ALT, POSITIONING, PAGES, KEYWORDS, CONTACT_EMAIL,
+  PERSON, ORGANIZATION, WEBSITE, absoluteUrl, articleTitle, clampDescription, articleDate, articleJsonLd,
+} from '../src/config/seo.js';
+import { COMMUNITY_GROUPS, COMMUNITY_TOTAL } from '../src/config/community.js';
+import { SOCIAL_LINKS } from '../src/config/social.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const distDir = path.resolve(__dirname, '..', 'dist');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(__dirname, '..');
+const distDir = path.join(root, 'dist');
 const templatePath = path.join(distDir, 'index.html');
 
 if (!fs.existsSync(templatePath)) {
-  console.error('[ERRO] dist/index.html nao encontrado. Execute o build do Vite primeiro.');
+  console.error('[ERRO] dist/index.html não encontrado. Execute primeiro o build do Vite.');
   process.exit(1);
 }
-
 const template = fs.readFileSync(templatePath, 'utf-8');
+if (!template.includes('<!--SEO:START-->') || !template.includes('<!--SEO:END-->')) {
+  console.error('[ERRO] Faltam os marcadores <!--SEO:START--> e <!--SEO:END--> no index.html.');
+  process.exit(1);
+}
+const today = new Date().toISOString().slice(0, 10);
+const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const jsonForHtml = (obj) => JSON.stringify(obj).replace(/</g, '\\u003c');
 
-const routes = [
-  {
-    path: 'chat',
-    title: 'Fale com a equipa da RP1',
-    description: 'Converse com a equipa da RP1: informações, propostas, apoio ou uma reunião.'
-  },
-  {
-    path: 'central-de-conhecimento',
-    title: 'Central de Conhecimento | Artigos e Orientações Técnicas de Alex Seles',
-    description: 'Artigos, tendências de mercado, orientações de liderança ágil, Inteligência Artificial e gestão de carreira em TI produzidos por Alex Seles.'
-  },
-  {
-    path: 'central-de-conhecimento/descubra-o-sentido-da-vida-e-potencialize-sua-carreira-em-ti',
-    title: 'Descubra o Sentido da Vida e Potencialize sua Carreira em TI | Alex Seles',
-    description: 'O sentido da vida sob a ótica de Viktor Frankl aplicado à tecnologia: por que a carreira não deve ser o único motivo da nossa existência e como o equilíbrio potencializa o crescimento profissional.'
-  },
-  {
-    path: 'central-de-conhecimento/superando-desafios-no-caminho-para-uma-carreira-em-ti',
-    title: 'Superando Desafios no Caminho para uma Carreira em TI | Alex Seles',
-    description: 'Superar o medo de começar do zero em tecnologia, a barreira do inglês e a falta de experiência prévia para alcançar cargos de gestão em TI.'
-  },
-  {
-    path: 'central-de-conhecimento/psm-pmp-ou-safe-que-certificacao-escolher-em-gestao-de-projetos',
-    title: 'PSM, PMP ou SAFe: que certificação escolher para crescer em gestão de projetos? | Alex Seles',
-    description: 'PSM I, PSPO, CAPM, PMP ou SAFe? Um guia prático para escolher a certificação certa em gestão de projetos e agilidade, de acordo com a sua experiência e o seu objetivo.'
-  },
-  {
-    path: 'central-de-conhecimento/artigo-3918-bolacha-maldita',
-    title: 'Bolacha maldita! | Alex Seles',
-    description: 'O insucesso começou com uma simples bolacha que quase arruinou minha carreira: lições reais de processos seletivos e transição corporativa em TI.'
-  },
-  {
-    path: 'politica-de-privacidade',
-    title: 'Política de Privacidade | Alex Seles',
-    description: 'Termos de privacidade e proteção de dados pessoais em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD) e LGPD.'
-  },
-  {
-    path: 'termos-de-uso',
-    title: 'Termos de Utilização | Alex Seles',
-    description: 'Termos e condições gerais de utilização do sítio oficial e serviços de mentoria de Alex Seles.'
+// ─── Artigos do código: lê articlesData.js sem o Vite (os imports das imagens passam a nomes de ficheiro) ───
+async function loadStaticArticles() {
+  const src = fs.readFileSync(path.join(root, 'src/data/articlesData.js'), 'utf-8');
+  const code = src
+    .replace(/^import\s+(\w+)\s+from\s+['"]([^'"]+)['"];?/gm, (_m, name, file) => `const ${name} = '__IMG__${path.basename(file)}';`)
+    .replace(/^import\s+.*$/gm, '');
+  const tmp = path.join(__dirname, '.tmp-articles.mjs');
+  fs.writeFileSync(tmp, code, 'utf-8');
+  try {
+    const mod = await import(`${pathToFileURL(tmp).href}?t=${Date.now()}`);
+    return mod.articlesData || [];
+  } finally {
+    fs.rmSync(tmp, { force: true });
   }
-];
+}
 
-// Artigos publicados no Supabase (backoffice e Beatriz): página estática com título e descrição próprios.
-// A chave é a pública (a mesma que o site usa no navegador). Se o Supabase falhar, a construção continua.
+// Caminho final (com hash) de uma imagem dos artigos, procurado em dist/assets
+const assetFiles = fs.existsSync(path.join(distDir, 'assets')) ? fs.readdirSync(path.join(distDir, 'assets')) : [];
+const builtImage = (value) => {
+  if (!value) return null;
+  const v = String(value);
+  if (v.startsWith('http')) return v;
+  if (!v.startsWith('__IMG__')) return absoluteUrl(v);
+  const file = v.slice('__IMG__'.length);
+  const stem = file.replace(/\.[^.]+$/, '');
+  const ext = path.extname(file);
+  const hit = assetFiles.find((f) => f.startsWith(`${stem}-`) && f.endsWith(ext));
+  return hit ? `${SITE_URL}/assets/${hit}` : null;
+};
+
+const staticArticles = (await loadStaticArticles()).map((a) => ({
+  slug: a.slug,
+  title: a.h1 || a.title,
+  seoTitle: a.seoTitle,
+  description: a.metaDescription,
+  date: articleDate(a),
+  image: builtImage(a.image),
+  category: a.category,
+  keywords: a.keywords,
+  sections: a.sections || [],
+  practicalTip: a.practicalTip,
+  source: a,
+}));
+
+// ─── Artigos do Supabase (backoffice e Beatriz) ───
 const SUPABASE_URL = (process.env.VITE_SUPABASE_URL || 'https://olpxtxcreseibkiwvlnc.supabase.co').replace(/\/$/, '');
 const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_jG-WP0m35Db9WvRzuCsCBQ_uTJ6oAE9';
-const escapeAttr = (s) => String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const remoteArticles = [];
-
 try {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/artigos?select=title,slug,meta_description,created_at&status=eq.Publicado&order=created_at.desc`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/artigos?select=title,slug,meta_description,category,sections,practical_tip,created_at&status=eq.Publicado&order=created_at.desc`, {
     headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
-    signal: AbortSignal.timeout(15000)
+    signal: AbortSignal.timeout(15000),
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const rows = await res.json();
-  const known = new Set(routes.map((r) => r.path));
-  for (const row of Array.isArray(rows) ? rows : []) {
-    if (!row || !row.title || !/^[a-z0-9-]+$/.test(row.slug || '')) continue;
-    const routePath = `central-de-conhecimento/${row.slug}`;
-    if (known.has(routePath)) continue;
-    known.add(routePath);
-    remoteArticles.push(row);
-    routes.push({
-      path: routePath,
-      title: escapeAttr(`${row.title} | Alex Seles`),
-      description: escapeAttr(row.meta_description || 'Artigo e orientação profissional de Alex Seles.')
+  const known = new Set(staticArticles.map((a) => a.slug));
+  for (const row of (await res.json()) || []) {
+    if (!row || !row.title || !/^[a-z0-9-]+$/.test(row.slug || '') || known.has(row.slug)) continue;
+    known.add(row.slug);
+    const sections = Array.isArray(row.sections) ? row.sections : [];
+    const img = sections[0] && sections[0].image;
+    remoteArticles.push({
+      slug: row.slug, title: row.title, description: row.meta_description, date: articleDate(row),
+      image: img && String(img).startsWith('http') ? img : null, category: row.category, keywords: [],
+      sections, practicalTip: row.practical_tip, source: { ...row, metaDescription: row.meta_description },
     });
   }
   console.log(`[ROTAS] ${remoteArticles.length} artigo(s) novo(s) do Supabase.`);
 } catch (err) {
   console.warn(`[AVISO] Não foi possível ler os artigos do Supabase (${err.message}). A construção continua sem eles.`);
 }
+const articles = [...remoteArticles, ...staticArticles].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
 
-console.log('[ROTAS] A gerar ficheiros HTML estáticos para cada rota canónica...');
+// ─── Manifesto: lido do componente (fonte única, sem o alterar) ───
+const manifestoSrc = fs.readFileSync(path.join(root, 'src/components/landing/Manifesto.jsx'), 'utf-8');
+const manifesto = [...manifestoSrc.matchAll(/\[\s*'([^']+)',\s*'([^']+)'\s*\]/g)].map((m) => ({ title: m[1], text: m[2] }));
 
-routes.forEach((route) => {
-  const targetDir = path.join(distDir, route.path);
-  if (!fs.existsSync(targetDir)) {
-    fs.mkdirSync(targetDir, { recursive: true });
-  }
-
-  // Personalizar metatags para SEO
-  let customHtml = template;
-  if (route.title) {
-    customHtml = customHtml.replace(/<title>.*?<\/title>/, `<title>${route.title}</title>`);
-    customHtml = customHtml.replace(/property="og:title"\s+content=".*?"/, `property="og:title" content="${route.title}"`);
-    customHtml = customHtml.replace(/name="twitter:title"\s+content=".*?"/, `name="twitter:title" content="${route.title}"`);
-  }
-  if (route.description) {
-    customHtml = customHtml.replace(/<meta\s+name="description"\s+content=".*?"\s*\/>/, `<meta name="description" content="${route.description}" />`);
-    customHtml = customHtml.replace(/property="og:description"\s+content=".*?"/, `property="og:description" content="${route.description}"`);
-    customHtml = customHtml.replace(/name="twitter:description"\s+content=".*?"/, `name="twitter:description" content="${route.description}"`);
-  }
-  const canonicalUrl = `https://www.alexseles.online/${route.path}`;
-  customHtml = customHtml.replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/>/, `<link rel="canonical" href="${canonicalUrl}" />`);
-  customHtml = customHtml.replace(/property="og:url"\s+content=".*?"/, `property="og:url" content="${canonicalUrl}"`);
-
-  const outputPath = path.join(targetDir, 'index.html');
-  fs.writeFileSync(outputPath, customHtml, 'utf-8');
-  console.log(`[PASS] Rota gerada: dist/${route.path}/index.html`);
+// ─── Bloco <head> de cada rota ───
+function headBlock({ title, description, url, image = OG_IMAGE, imageAlt = OG_IMAGE_ALT, type = 'website', noindex = false, jsonld = null, published = null }) {
+  const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+  const lines = [
+    `<title>${esc(title)}</title>`,
+    `<meta name="description" content="${esc(description)}" />`,
+    `<meta name="robots" content="${robots}" />`,
+    `<link rel="canonical" href="${esc(url)}" />`,
+    `<meta property="og:type" content="${type}" />`,
+    `<meta property="og:site_name" content="${esc(SITE_NAME)}" />`,
+    `<meta property="og:locale" content="${LOCALE}" />`,
+    `<meta property="og:url" content="${esc(url)}" />`,
+    `<meta property="og:title" content="${esc(title)}" />`,
+    `<meta property="og:description" content="${esc(description)}" />`,
+    `<meta property="og:image" content="${esc(image)}" />`,
+    `<meta property="og:image:alt" content="${esc(imageAlt)}" />`,
+    ...(image === OG_IMAGE ? ['<meta property="og:image:width" content="1200" />', '<meta property="og:image:height" content="630" />'] : []),
+    ...(published ? [`<meta property="article:published_time" content="${published}" />`, '<meta property="article:author" content="Alex Seles" />'] : []),
+    '<meta name="twitter:card" content="summary_large_image" />',
+    `<meta name="twitter:title" content="${esc(title)}" />`,
+    `<meta name="twitter:description" content="${esc(description)}" />`,
+    `<meta name="twitter:image" content="${esc(image)}" />`,
+    ...(jsonld ? [`<script type="application/ld+json" id="ld-route" data-url="${esc(url)}">${jsonForHtml(jsonld)}</script>`] : []),
+  ];
+  return `<!--SEO:START-->\n    ${lines.join('\n    ')}\n    <!--SEO:END-->`;
+}
+const render = (block) => template.replace(/<!--SEO:START-->[\s\S]*?<!--SEO:END-->/, () => block);
+const writeRoute = (routePath, html) => {
+  const dir = routePath ? path.join(distDir, routePath) : distDir;
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf-8');
+};
+const breadcrumb = (items) => ({
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map(([name, item], i) => ({ '@type': 'ListItem', position: i + 1, name, item })),
 });
 
-console.log(`[SUCESSO] ${routes.length} rotas estáticas pré-geradas com sucesso no dist.`);
+// Página inicial
+const homeUrl = absoluteUrl('');
+writeRoute('', render(headBlock({
+  title: PAGES[''].title, description: PAGES[''].description, url: homeUrl,
+  jsonld: {
+    '@context': 'https://schema.org',
+    '@graph': [
+      WEBSITE, ORGANIZATION, PERSON,
+      {
+        '@type': 'WebPage', '@id': `${homeUrl}#pagina`, url: homeUrl, name: PAGES[''].title, description: PAGES[''].description,
+        inLanguage: LANG, isPartOf: { '@id': WEBSITE['@id'] }, about: { '@id': ORGANIZATION['@id'] },
+        primaryImageOfPage: { '@type': 'ImageObject', url: OG_IMAGE },
+      },
+      {
+        '@type': 'ItemList', '@id': `${homeUrl}#comunidade`, name: 'Grupos da comunidade PM Unlocked',
+        description: `Comunidade gratuita com ${COMMUNITY_TOTAL} membros em grupos de WhatsApp e um podcast.`,
+        itemListElement: COMMUNITY_GROUPS.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.name, description: `${g.what} ${g.when}.`, url: g.url })),
+      },
+    ],
+  },
+})));
 
-// Sitemap: acrescenta os artigos do Supabase que ainda não estão lá (só no dist; o ficheiro em public não muda)
-const sitemapPath = path.join(distDir, 'sitemap.xml');
-if (remoteArticles.length && fs.existsSync(sitemapPath)) {
-  let sitemap = fs.readFileSync(sitemapPath, 'utf-8');
-  const entries = remoteArticles
-    .map((row) => ({ loc: `https://www.alexseles.online/central-de-conhecimento/${row.slug}`, lastmod: String(row.created_at || '').slice(0, 10) }))
-    .filter((e) => !sitemap.includes(`<loc>${e.loc}</loc>`))
-    .map((e) => `  <url>
-    <loc>${e.loc}</loc>
-${e.lastmod ? `    <lastmod>${e.lastmod}</lastmod>
-` : ''}    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-`);
-  if (entries.length) {
-    sitemap = sitemap.replace('</urlset>', `  <!-- Artigos do Supabase -->
-${entries.join(String.fromCharCode(10))}
-</urlset>`);
-    fs.writeFileSync(sitemapPath, sitemap, 'utf-8');
-    console.log(`[PASS] Sitemap: ${entries.length} artigo(s) acrescentado(s).`);
-  }
+// Central de Conhecimento
+const blogUrl = absoluteUrl('central-de-conhecimento');
+writeRoute('central-de-conhecimento', render(headBlock({
+  title: PAGES['central-de-conhecimento'].title, description: PAGES['central-de-conhecimento'].description, url: blogUrl,
+  jsonld: {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage', '@id': `${blogUrl}#pagina`, url: blogUrl, name: PAGES['central-de-conhecimento'].title,
+        description: PAGES['central-de-conhecimento'].description, inLanguage: LANG, isPartOf: { '@id': WEBSITE['@id'] },
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: articles.map((a, i) => ({ '@type': 'ListItem', position: i + 1, url: absoluteUrl(`central-de-conhecimento/${a.slug}`), name: a.title })),
+        },
+      },
+      breadcrumb([['Início', homeUrl], ['Artigos', blogUrl]]),
+    ],
+  },
+})));
+
+// Artigos
+for (const a of articles) {
+  const url = absoluteUrl(`central-de-conhecimento/${a.slug}`);
+  writeRoute(`central-de-conhecimento/${a.slug}`, render(headBlock({
+    title: articleTitle(a.title, a.seoTitle),
+    description: clampDescription(a.description || POSITIONING),
+    url, image: a.image || OG_IMAGE, imageAlt: a.image ? a.title : OG_IMAGE_ALT, type: 'article', published: a.date,
+    jsonld: articleJsonLd(a.source, a.image),
+  })));
 }
+
+// Páginas legais
+for (const key of ['politica-de-privacidade', 'termos-de-uso']) {
+  const url = absoluteUrl(key);
+  writeRoute(key, render(headBlock({
+    title: PAGES[key].title, description: PAGES[key].description, url,
+    jsonld: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        { '@type': 'WebPage', '@id': `${url}#pagina`, url, name: PAGES[key].title, description: PAGES[key].description, inLanguage: LANG, isPartOf: { '@id': WEBSITE['@id'] } },
+        breadcrumb([['Início', homeUrl], [PAGES[key].title.split(' | ')[0], url]]),
+      ],
+    },
+  })));
+}
+
+// Não indexáveis (HTML próprio com noindex; fora do sitemap)
+for (const key of ['chat', 'login']) {
+  writeRoute(key, render(headBlock({ title: PAGES[key].title, description: PAGES[key].description, url: absoluteUrl(key), noindex: true })));
+}
+console.log(`[SEO] HTML gerado: página inicial, artigos (${articles.length}), páginas legais e rotas noindex.`);
+
+// ─── sitemap.xml ───
+const mtime = (rel) => {
+  try { return fs.statSync(path.join(root, rel)).mtime.toISOString().slice(0, 10); } catch { return today; }
+};
+const latestArticle = articles.map((a) => a.date).filter(Boolean).sort().pop() || today;
+const urls = [
+  { loc: homeUrl, lastmod: today, changefreq: PAGES[''].changefreq, priority: PAGES[''].priority },
+  { loc: blogUrl, lastmod: latestArticle, changefreq: PAGES['central-de-conhecimento'].changefreq, priority: PAGES['central-de-conhecimento'].priority },
+  ...articles.map((a) => ({ loc: absoluteUrl(`central-de-conhecimento/${a.slug}`), lastmod: a.date || today, changefreq: 'monthly', priority: '0.7', image: a.image, imageTitle: a.title })),
+  { loc: absoluteUrl('politica-de-privacidade'), lastmod: mtime('src/pages/PoliticaPrivacidade.jsx'), changefreq: 'yearly', priority: '0.3' },
+  { loc: absoluteUrl('termos-de-uso'), lastmod: mtime('src/pages/TermosUso.jsx'), changefreq: 'yearly', priority: '0.3' },
+];
+const seen = new Set();
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${urls.filter((u) => !seen.has(u.loc) && seen.add(u.loc)).map((u) => `  <url>
+    <loc>${esc(u.loc)}</loc>
+    <lastmod>${u.lastmod}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>${u.image ? `
+    <image:image>
+      <image:loc>${esc(u.image)}</image:loc>
+      <image:title>${esc(u.imageTitle)}</image:title>
+    </image:image>` : ''}
+  </url>`).join('\n')}
+</urlset>
+`;
+fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap, 'utf-8');
+console.log(`[SEO] sitemap.xml com ${seen.size} URL(s).`);
+
+// ─── llms.txt e llms-full.txt (llmstxt.org) ───
+const articleUrl = (a) => absoluteUrl(`central-de-conhecimento/${a.slug}`);
+const plain = (s) => String(s || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+const socialLine = SOCIAL_LINKS.map((s) => `[${s.label}](${s.url})`).join(' · ');
+
+const llms = `# Alex Seles · Comunidade PM Unlocked (${SITE_NAME})
+
+> ${POSITIONING} Comunidade gratuita com ${COMMUNITY_TOTAL} membros em grupos de WhatsApp, um podcast e artigos práticos. Site em português europeu.
+
+Alex Seles é Engenheiro Informático e mestre em Engenharia Informática, com mais de 20 anos de experiência em gestão de projetos de software, certificações PMP®, SAFe® 6 Agilist, ITIL® 4, PSM II™, PSM I™ e PSPO I™, membro do PMI e Embaixador ITIL em Portugal.
+
+## Páginas principais
+
+- [Página inicial](${homeUrl}): comunidade PM Unlocked, sobre Alex Seles, manifesto e artigos recentes.
+- [Comunidade](${homeUrl}#comunidade): os grupos gratuitos, o que se publica em cada um e a que horas.
+- [Sobre Alex Seles](${homeUrl}#sobre): percurso, certificações e pedido de mentoria.
+- [Manifesto](${homeUrl}#manifesto): os oito princípios da comunidade.
+- [Central de Conhecimento](${blogUrl}): todos os artigos.
+- [Pré-Qualificação de mentoria](${homeUrl}?pre-qualificacao): formulário curto para pedir mentoria individual.
+
+## Artigos
+
+${articles.map((a) => `- [${a.title}](${articleUrl(a)}): ${clampDescription(a.description, 200)}`).join('\n')}
+
+## Comunidade
+
+${COMMUNITY_GROUPS.map((g) => `- [${g.name}](${g.url}): ${g.what} ${g.when}.`).join('\n')}
+
+## Optional
+
+- [Versão completa deste ficheiro](${SITE_URL}/llms-full.txt): conteúdo integral do site e dos artigos.
+- [Política de Privacidade](${absoluteUrl('politica-de-privacidade')})
+- [Termos de Utilização](${absoluteUrl('termos-de-uso')})
+- [Sitemap](${SITE_URL}/sitemap.xml)
+`;
+
+const articleFull = (a) => {
+  const parts = [`### ${a.title}`, '', `URL: ${articleUrl(a)}`];
+  if (a.date) parts.push(`Data: ${a.date}`);
+  if (a.category) parts.push(`Categoria: ${a.category}`);
+  parts.push('', plain(a.description), '');
+  for (const s of a.sections || []) {
+    const sub = plain(s.subtitle || s.title);
+    if (sub) parts.push(`#### ${sub}`, '');
+    const paras = Array.isArray(s.paragraphs) ? s.paragraphs : (typeof s.content === 'string' ? s.content.split('\n') : []);
+    for (const p of paras) if (plain(p)) parts.push(plain(p), '');
+  }
+  if (a.practicalTip) parts.push(`Dica prática: ${plain(a.practicalTip)}`, '');
+  return parts.join('\n');
+};
+
+const llmsFull = `# Alex Seles · Comunidade PM Unlocked (${SITE_NAME}): conteúdo completo
+
+> ${POSITIONING} Atualizado em ${today}.
+
+## Sobre o site
+
+${PAGES[''].description}
+
+Acreditamos em comunidades envolvidas. RP1 é um acrónimo de Refined Petroleum 1, o combustível usado nos motores dos foguetões espaciais. A nossa missão é desenhar experiências transformadoras que envolvem a comunidade de tecnologia através da educação.
+
+## Sobre Alex Seles
+
+Engenheiro Informático e mestre em Engenharia Informática, com mais de 20 anos de experiência em gestão de projetos em equipas multifuncionais em desenvolvimento de software. Experiência nos setores automóvel, telecomunicações, banca e setor público. Possui as certificações PMP®, SAFe® 6 Agilist, ITIL® 4, PSM II™, PSM I™ e PSPO I™, entre outras.
+
+Especialista em liderar transformações digitais complexas e projetos estratégicos em multinacionais e instituições de referência como Capgemini, TIVIT, ACT Digital, Ford Motor Company, Stellantis, Continental Pneus, MSX International, IEFP, Segurança Social e ARTE.
+
+Em Portugal, é membro do PMI (Project Management Institute) e Embaixador ITIL, e destaca-se também como influenciador digital, com uma rede de mais de 62 mil seguidores no LinkedIn.
+
+Mentoria individual: pedido através do formulário de Pré-Qualificação em ${homeUrl}?pre-qualificacao
+
+## Comunidade PM Unlocked
+
+Comunidade gratuita com ${COMMUNITY_TOTAL} membros. Cada grupo tem um tema e uma hora fixa:
+
+${COMMUNITY_GROUPS.map((g) => `- ${g.name}: ${g.what} Quando: ${g.when}. Ligação: ${g.url}`).join('\n')}
+
+A Beatriz, assistente digital (inteligência artificial) da comunidade, responde a dúvidas em ${SITE_URL}/chat?com=beatriz
+
+## Manifesto: o que nos une
+
+${manifesto.map((m, i) => `${i + 1}. ${m.title}: ${m.text}`).join('\n')}
+
+## Artigos
+
+${articles.map(articleFull).join('\n')}
+## Contactos e redes
+
+- Email: ${CONTACT_EMAIL}
+- ${socialLine}
+
+## Palavras-chave
+
+${[...KEYWORDS.primary, ...KEYWORDS.secondary].join(', ')}
+`;
+fs.writeFileSync(path.join(distDir, 'llms.txt'), llms, 'utf-8');
+fs.writeFileSync(path.join(distDir, 'llms-full.txt'), llmsFull, 'utf-8');
+console.log(`[SEO] llms.txt e llms-full.txt gerados (${articles.length} artigos, ${manifesto.length} princípios).`);
+console.log('[SUCESSO] SEO estático pronto no dist.');
