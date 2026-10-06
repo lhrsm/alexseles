@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TestimonialsSection } from '../components/home/TestimonialsSection';
-import { ArticlesFeed } from '../components/home/ArticlesFeed';
 import { LandingHero, Belief, CommunitySection, AboutAlex, Manifesto, ClosingCta } from '../components/landing/Landing';
 import { PreQualificationModal } from '../components/pre-qualification';
 import { MetaTags } from '../components/seo/MetaTags';
@@ -17,7 +16,7 @@ export const Home = () => {
     if (new URLSearchParams(window.location.search).has('pre-qualificacao')) setPreQualOpen(true);
   }, []);
 
-  // Chegada a partir de outra página com /#comunidade, /#sobre, /#manifesto: vai à secção
+  // Chegada a partir de outra página com /#comunidade, /#sobre, /#manifesto: vai à secção (os artigos ficam só em /central-de-conhecimento)
   useEffect(() => {
     const id = location.hash.replace('#', '');
     if (!id) return undefined;
@@ -34,9 +33,6 @@ export const Home = () => {
       <CommunitySection />
       <AboutAlex onPreQual={openPreQual} />
       <Manifesto />
-      <div id="artigos" className="scroll-mt-20">
-        <ArticlesFeed />
-      </div>
       <TestimonialsSection />
       <ClosingCta onPreQual={openPreQual} />
 

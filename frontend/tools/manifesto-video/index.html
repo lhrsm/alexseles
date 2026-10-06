@@ -424,6 +424,8 @@ for (let i = 0; i < 8; i++) {
   ringNodes.push(g);
 }
 const ringCore = el('circle', { r: 70, fill: 'rgba(255,182,39,.1)', stroke: 'rgba(255,182,39,.5)', 'stroke-width': 1.5 }, ring);
+// Logótipo da RP1 Academy (foguete) no centro do anel
+const ringLogo = el('image', { href: '../../src/assets/LOGO.png', x: -50, y: -46, width: 100, height: 88 }, ring);
 
 // Marcas na linha contínua
 const rail = document.getElementById('rail');
@@ -536,6 +538,7 @@ window.render = function render(t) {
   ringNodes.forEach((g, i) => g.setAttribute('opacity', E(o, .2 + i * .12, .6 + i * .12)));
   ringLinks.forEach((l, i) => l.setAttribute('opacity', E(o, .6 + i * .12, 1.0 + i * .12)));
   ringCore.setAttribute('opacity', E(o, 1.4, 2.2));
+  ringLogo.setAttribute('opacity', E(o, 1.8, 2.6));
 };
 
 // Pré-visualização em tempo real (a gravação usa render(t) fotograma a fotograma)
