@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TestimonialsSection } from '../components/home/TestimonialsSection';
-import { LandingHero, Belief, CommunitySection, AboutAlex, Manifesto, ClosingCta } from '../components/landing/Landing';
+import { LandingHero, CommunitySection, AboutAlex, Manifesto, ClosingCta } from '../components/landing/Landing';
 import { PreQualificationModal } from '../components/pre-qualification';
 import { MetaTags } from '../components/seo/MetaTags';
 import { PAGES } from '../config/seo';
@@ -29,7 +29,6 @@ export const Home = () => {
       <MetaTags title={PAGES[''].title} description={PAGES[''].description} canonicalPath="/" />
 
       <LandingHero onPreQual={openPreQual} />
-      <Belief />
       <CommunitySection />
       <AboutAlex onPreQual={openPreQual} />
       <Manifesto />

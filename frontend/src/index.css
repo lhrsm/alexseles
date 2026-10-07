@@ -165,6 +165,8 @@
   outline: 3px solid #1A73E8;
   outline-offset: 2px;
 }
+/* Destinos de âncora (secções com tabindex="-1") recebem foco para leitores de ecrã, mas não são interativos: sem contorno */
+[tabindex="-1"]:focus-visible { outline: none; }
 
 /* Infinite Marquee Animation for Client Logos */
 @keyframes marquee-slow {

@@ -40,7 +40,7 @@ PILLARS = [
 NUMBERS = ["Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito"]
 
 SEGMENTS = (
-    ["Manifesto. O que nos une. Oito princípios da PM Unlocked para crescer em comunidade."]
+    ["O que nos une."]
     + [f"{NUMBERS[i]}. {t}. {d}" for i, (t, d) in enumerate(PILLARS)]
     + ["Oito princípios. Uma comunidade. Gestão de projetos, carreira em TI e a vida em Portugal. "
        "Entre na comunidade em alexseles.online."]

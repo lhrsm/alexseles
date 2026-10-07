@@ -1,5 +1,6 @@
 import React from 'react';
-import { PODCAST_URL } from '../../config/social';
+import { SOCIAL_LINKS } from '../../config/social';
+import { SOCIAL_ICONS } from '../ui/SocialIcons';
 import { COMMUNITY_GROUPS, COMMUNITY_TOTAL } from '../../config/community';
 import heroPng from '../../assets/landing/introduction-visual.png';
 import heroWebp from '../../assets/landing/introduction-visual.webp';
@@ -30,22 +31,21 @@ const h2 = 'font-display text-[clamp(2.25rem,4.6vw,4rem)] font-extrabold leading
 const eyebrow = 'mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.14em]';
 const body = 'text-[1.0625rem] leading-[1.6] md:text-lg';
 
-// Os grupos vêm de config/community.js (mesma fonte do JSON-LD e do llms.txt)
+// Os grupos vêm de config/community.js (mesma fonte do JSON-LD e do llms.txt); só os de WhatsApp têm dor (pain)
 export { COMMUNITY_TOTAL };
-const CARDS = COMMUNITY_GROUPS;
+const CARDS = COMMUNITY_GROUPS.filter((g) => g.pain);
+// Outros canais, do mais útil para quem chega (o podcast) ao menos
+// Ícones na cor de cada marca (reconhecimento imediato); o nome fica escuro para manter o contraste do texto
+const CHANNEL_COLORS = { spotify: '#1DB954', youtube: '#FF0000', instagram: '#E4405F', linkedin: '#0A66C2', facebook: '#1877F2' };
+const CHANNELS = Object.keys(CHANNEL_COLORS).map((id) => SOCIAL_LINKS.find((s) => s.id === id))
+  .map((s) => ({ ...s, color: CHANNEL_COLORS[s.id], label: s.id === 'spotify' ? 'Podcast no Spotify' : s.label }));
 
 const Picture = ({ webp, png, alt, size, width, height, eager = false, className = '', frameClassName = '' }) => (
   <picture className={`block ${frameClassName}`}>
     <source srcSet={webp} type="image/webp" />
     <img src={png} alt={alt} width={width || size} height={height || size} loading={eager ? 'eager' : 'lazy'} decoding="async"
-      fetchpriority={eager ? 'high' : undefined} className={className} />
+      fetchPriority={eager ? 'high' : undefined} className={className} />
   </picture>
-);
-
-const ExternalIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
-  </svg>
 );
 
 /* 1. Hero: uma frase, duas ações e a prova social. O <title> e a meta descrição continuam a descrever o site para o Google. */
@@ -59,7 +59,7 @@ export const LandingHero = ({ onPreQual }) => (
           <span className="lg:block lg:whitespace-nowrap">experiência interativa</span>
         </h1>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <a href="#comunidade" className={btnPrimary}>Entrar na comunidade</a>
+          <a href="#grupos" className={btnPrimary}>Entrar na comunidade</a>
           <button type="button" onClick={onPreQual} className={btnGhostDark}>Pedir mentoria</button>
         </div>
         <p className="mt-6 text-base text-[#A9AFB8] md:text-[1.0625rem]">
@@ -75,51 +75,61 @@ export const LandingHero = ({ onPreQual }) => (
   </section>
 );
 
-/* 1b. Propósito (RP1) */
-export const Belief = () => (
-  <section className="bg-white pt-24 text-[#14161A] md:pt-32 lg:pt-40" aria-labelledby="proposito-titulo">
-    <div className={`${container} grid gap-12 md:grid-cols-2 md:items-end lg:gap-20`}>
-      <div className="order-2 flex justify-center md:order-1 md:justify-start md:self-end">
-        <Picture webp={aboutWebp} png={aboutPng} size={511}
-          alt="Pessoa de perfil a segurar um capacete de astronauta com as duas mãos"
-          frameClassName="w-full max-w-[640px]" className="block h-auto w-full" />
-      </div>
-      <div className="order-1 md:order-2 md:self-center md:pb-32 lg:pb-40">
-        <h2 id="proposito-titulo" className={h2}>Acreditamos em comunidades envolvidas</h2>
-        <p className={`mt-8 max-w-[65ch] text-[#4A5059] ${body}`}>
-          RP1 é um acrónimo de <span lang="en">Refined Petroleum 1</span>, o combustível usado nos motores dos foguetões espaciais.
-          A nossa missão é desenhar experiências transformadoras que envolvem a comunidade de tecnologia através da educação.
-        </p>
-      </div>
-    </div>
-  </section>
-);
-
-/* 2. Comunidade: 5 grupos e o podcast, todos no mesmo formato (reconhecer em vez de lembrar) */
+/*
+ * 2. Comunidade: título, subtítulo e os 5 grupos + podcast numa só secção.
+ * O texto assenta no fundo da coluna, junto aos cartões; a imagem assenta numa linha de chão para não flutuar.
+ * Os botões "Entrar na comunidade" levam a #grupos (título + cartões); o menu e o scroll-spy usam #comunidade.
+ */
 export const CommunitySection = () => (
   <section id="comunidade" tabIndex={-1} className={`scroll-mt-20 bg-[#F5F3EF] ${sectionY} text-[#14161A] outline-none`} aria-labelledby="comunidade-titulo">
     <div className={container}>
-      <div className="max-w-3xl">
-        <p className={`${eyebrow} text-[#8A5300]`}>Comunidade</p>
-        <h2 id="comunidade-titulo" className={h2}>Escolha o grupo do seu momento.</h2>
-        <p className={`mt-6 max-w-[65ch] text-[#4A5059] ${body}`}>Cada grupo tem um tema e uma hora fixa. Pode entrar e sair quando quiser.</p>
+      <div className="grid gap-12 md:grid-cols-2 md:items-end lg:gap-20">
+        <div className="flex justify-center border-b border-[#D9D4CA] md:justify-start">
+          <Picture webp={aboutWebp} png={aboutPng} size={511}
+            alt="Pessoa de perfil a segurar um capacete de astronauta com as duas mãos"
+            frameClassName="w-full max-w-[360px] md:max-w-[640px]" className="block h-auto w-full" />
+        </div>
+        <div id="grupos" tabIndex={-1} className="scroll-mt-24 outline-none md:pb-4">
+          <p className={`${eyebrow} text-[#8A5300]`}>Comunidade</p>
+          <h2 id="comunidade-titulo" className={h2}>Acreditamos em comunidades envolvidas</h2>
+          <p className={`mt-6 max-w-[65ch] text-[#4A5059] ${body}`}>
+            <strong className="font-semibold text-[#14161A]">Escolha o grupo do seu momento.</strong>{' '}
+            Cada grupo tem um tema e uma hora fixa. Pode entrar e sair quando quiser.
+          </p>
+        </div>
       </div>
 
-      <ul className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8" role="list">
+      {/* 5 grupos em 3 + 2 centrados (grelha de 6 colunas, cada cartão ocupa 2) */}
+      <ul className="mt-12 grid gap-6 sm:grid-cols-2 md:mt-16 lg:grid-cols-6 lg:gap-8" role="list" aria-label="Grupos de WhatsApp da comunidade">
         {CARDS.map((c) => (
-          <li key={c.name} className="flex flex-col rounded-3xl border border-[#E2DED6] bg-white p-8 lg:p-9">
-            <h3 className="font-display text-[1.5rem] font-bold leading-tight">{c.name}</h3>
-            <p className={`mt-3 flex-1 text-[#4A5059] ${body}`}>{c.what}</p>
-            <p className="mt-6 text-base font-medium text-[#4A5059]">
-              <span className="sr-only">{c.url === PODCAST_URL ? 'Ritmo: ' : 'Publicações: '}</span>{c.when}
+          <li key={c.name} style={{ containerType: 'inline-size' }} className="flex flex-col rounded-3xl border border-[#E2DED6] bg-white p-8 lg:col-span-2 lg:p-9 lg:[&:nth-child(4)]:col-start-2">
+            <h3 className="font-display text-[clamp(1.25rem,9cqi,1.75rem)] font-bold leading-tight tracking-tight">{c.pain}</h3>
+            <p className="mt-3 flex-1 text-base leading-[1.6] text-[#4A5059]">
+              No grupo <strong className="font-semibold text-[#14161A]">{c.name}</strong>, {c.lead}
             </p>
             <a href={c.url} target="_blank" rel="noopener noreferrer"
-              className={`mt-6 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-[#14161A] px-6 text-base font-semibold text-[#14161A] transition-colors hover:bg-[#14161A] hover:text-white ${focusRingLight}`}>
-              {c.action} <span className="sr-only">{c.name} (abre {c.where} numa nova janela)</span><ExternalIcon />
+              className={`mt-6 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border-2 border-[#15803D] px-6 text-base font-semibold text-[#15803D] transition-colors hover:bg-[#15803D] hover:text-white ${focusRingLight}`}>
+              {SOCIAL_ICONS.whatsapp}{c.action} <span className="sr-only">{c.name} (abre {c.where} numa nova janela)</span>
             </a>
           </li>
         ))}
       </ul>
+
+      {/* Ação secundária: os mesmos conteúdos noutros canais, com ícone e nome (o logótipo sozinho não chega) */}
+      <div className="mt-12 flex flex-col gap-4 border-t border-[#D9D4CA] pt-10 md:mt-16 md:flex-row md:items-center md:gap-8">
+        <p id="canais-titulo" className="text-base font-semibold text-[#14161A] md:shrink-0">Acompanhe também em</p>
+        <ul className="flex flex-wrap gap-3" role="list" aria-labelledby="canais-titulo">
+          {CHANNELS.map((ch) => (
+            <li key={ch.id}>
+              <a href={ch.url} target="_blank" rel="noopener noreferrer"
+                style={{ '--brand': ch.color }}
+                className={`inline-flex min-h-[48px] items-center gap-2 rounded-full border border-[#D9D4CA] bg-white px-5 text-base font-semibold text-[#14161A] transition-colors hover:border-[var(--brand)] ${focusRingLight}`}>
+                <span className="inline-flex text-[var(--brand)]">{SOCIAL_ICONS[ch.id]}</span>{ch.label}<span className="sr-only"> (abre numa nova janela)</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 );
@@ -172,7 +182,7 @@ export const ClosingCta = ({ onPreQual }) => (
         <h2 id="fecho-titulo" className={h2}>O próximo passo é pequeno.</h2>
         <p className={`mt-6 max-w-[65ch] text-[#A9AFB8] ${body}`}>Entre num grupo e faça a primeira pergunta.</p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <a href="#comunidade" className={btnPrimary}>Entrar na comunidade</a>
+          <a href="#grupos" className={btnPrimary}>Entrar na comunidade</a>
           <button type="button" onClick={onPreQual} className={btnGhostDark}>Pedir mentoria</button>
         </div>
       </div>
